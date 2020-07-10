@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="الرئيسية"/>
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_profile"
+            android:title="الملف الشخصي" />
+        <item
+            android:id="@+id/nav_favorite"
+            android:icon="@drawable/ic_favorite"
+            android:title="المفضلة" />
+        <item
+            android:id="@+id/nav_water"
+            android:icon="@drawable/ic_water"
+            android:title="المياه" />
+        <item
+            android:id="@+id/nav_fruits_and_vegetables"
+            android:icon="@drawable/ic_fruits_and_vegetables"
+            android:title="الفواكة و الخضراوات" />
+        <item
+            android:id="@+id/nav_seeds"
+            android:icon="@drawable/ic_seeds"
+            android:title="البذور" />
+        <item
+            android:id="@+id/nav_tools"
+            android:icon="@drawable/ic_tools"
+            android:title="المواد" />
+        <item
+            android:id="@+id/nav_worker"
+            android:icon="@drawable/ic_worker"
+            android:title="إطلب موظف" />
+
+    </group>
+
+
+</menu>
