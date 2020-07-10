@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     View HomeView;
+    TextView loginNavHeaderTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,5 +111,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         HomeView = navigationView.getHeaderView(0);
         drawerLayout = findViewById(R.id.drawerLayout);
+        loginNavHeaderTextView = HomeView.findViewById(R.id.loginNavHeaderTextView);
+    }
+
+    public void loginNavHeaderTextViewClicked(View view) {
+        Intent toLoginActivity = new Intent(this, LoginActivity.class);
+        startActivity(toLoginActivity);
     }
 }

@@ -148,6 +148,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:background="@drawable/login_button_background"
+                        android:onClick="SignUpButtonClicked"
                         android:text="إنشاء حساب"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"
