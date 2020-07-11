@@ -101,6 +101,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             new WorkerFragment()).commit();
                     toolbar.setTitle(R.string.app_name);
                     break;
+                case R.id.nav_about_us:
+                    Intent toAboutUsActivity = new Intent(this, AboutUsActivity.class);
+                    startActivity(toAboutUsActivity);
+                    break;
             }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

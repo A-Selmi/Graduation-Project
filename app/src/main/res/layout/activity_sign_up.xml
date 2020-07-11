@@ -7,281 +7,258 @@
     android:background="@drawable/image"
     tools:context=".SignUpActivity">
 
-    <TextView
-        android:id="@+id/SignInTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="إنشاء حساب"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SignInTextView">
+        app:layout_constraintTop_toTopOf="parent" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/SignInTextView"
+                android:layout_width="215dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="إنشاء الحساب"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/FirstNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:orientation="vertical"
+                android:text="الإسم الأول"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/SignInTextView"
+                app:layout_constraintTop_toBottomOf="@+id/SignInTextView" />
+
+            <EditText
+                android:id="@+id/FirstNameEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:hint="الإسم الأول"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/FirstNameTextView"
+                app:layout_constraintTop_toBottomOf="@+id/FirstNameTextView" />
+
+            <TextView
+                android:id="@+id/LastNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:shadowColor="@android:color/white"
+                android:text="الإسم الأخير"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/FirstNameTextView"
+                app:layout_constraintTop_toBottomOf="@+id/FirstNameEditText" />
+
+            <EditText
+                android:id="@+id/LastNameEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:hint="الإسم الأخير"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/LastNameTextView"
+                app:layout_constraintTop_toBottomOf="@+id/LastNameTextView" />
+
+            <TextView
+                android:id="@+id/LocationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="الموقع"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/LastNameTextView"
+                app:layout_constraintTop_toBottomOf="@+id/LastNameEditText" />
+
+            <Spinner
+                android:id="@+id/Spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:entries="@android:array/phoneTypes"
+                android:spinnerMode="dialog"
+                app:layout_constraintBottom_toBottomOf="@+id/LocationTextView"
+                app:layout_constraintStart_toEndOf="@+id/LocationTextView"
+                app:layout_constraintTop_toTopOf="@+id/LocationTextView" />
+
+            <TextView
+                android:id="@+id/PasswordTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="كلمة المرور"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/LocationTextView"
+                app:layout_constraintTop_toBottomOf="@+id/LocationTextView" />
+
+            <EditText
+                android:id="@+id/PasswordEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:hint="كلمة المرور"
+                android:inputType="textPassword"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/PasswordTextView"
+                app:layout_constraintTop_toBottomOf="@+id/PasswordTextView" />
+
+            <TextView
+                android:id="@+id/DoubleCheckPasswordTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="التحقق من كلمة المرور"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/PasswordTextView"
+                app:layout_constraintTop_toBottomOf="@+id/PasswordEditText" />
+
+            <EditText
+                android:id="@+id/DoubleCheckPasswordEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:hint="كلمة المرور"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/DoubleCheckPasswordTextView"
+                app:layout_constraintTop_toBottomOf="@id/DoubleCheckPasswordTextView" />
+
+            <TextView
+                android:id="@+id/EmailTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="البري الإلكتروني"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@id/DoubleCheckPasswordTextView"
+                app:layout_constraintTop_toBottomOf="@+id/DoubleCheckPasswordEditText" />
+
+            <EditText
+                android:id="@+id/EmailEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:hint="البريد الإلكتروني"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/EmailTextView"
+                app:layout_constraintTop_toBottomOf="@+id/EmailTextView" />
+
+            <TextView
+                android:id="@+id/PhoneNumberTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="رقم الهاتف"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/EmailTextView"
+                app:layout_constraintTop_toBottomOf="@+id/EmailEditText" />
+
+            <EditText
+                android:id="@+id/PhoneNumberEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:hint="رقم الهاتف"
+                android:inputType="phone"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/PhoneNumberTextView"
+                app:layout_constraintTop_toBottomOf="@+id/PhoneNumberTextView" />
+
+            <TextView
+                android:id="@+id/RoleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="الدخول ك:"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/PhoneNumberTextView"
+                app:layout_constraintTop_toBottomOf="@+id/PhoneNumberEditText" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:entries="@android:array/postalAddressTypes"
+                app:layout_constraintBottom_toBottomOf="@+id/RoleTextView"
+                app:layout_constraintStart_toEndOf="@+id/RoleTextView"
+                app:layout_constraintTop_toTopOf="@+id/RoleTextView" />
+
+            <Button
+                android:id="@+id/SignUpButton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/login_button_background"
+                android:text="إنشاءالحساب"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/FirstNameTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="الإسم الأول"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <EditText
-                        android:id="@+id/FirstNameEditText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/rounded_background"
-                        android:ems="10"
-                        android:hint="الإسم الأول"
-                        android:inputType="textPersonName"
-                        android:padding="5dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="@+id/FirstNameTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/FirstNameTextView" />
-
-                    <TextView
-                        android:id="@+id/LastNameTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:shadowColor="@android:color/white"
-                        android:text="الإسم الأخير"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="@+id/FirstNameTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/FirstNameEditText" />
-
-                    <EditText
-                        android:id="@+id/LastNameEditText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/rounded_background"
-                        android:ems="10"
-                        android:hint="الإسم الأخير"
-                        android:inputType="textPersonName"
-                        android:padding="5dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/LastNameTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/LastNameTextView" />
-
-                    <TextView
-                        android:id="@+id/LocationTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="الموقع"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="@+id/LastNameTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/LastNameEditText" />
-
-                    <Spinner
-                        android:id="@+id/Spinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:entries="@android:array/phoneTypes"
-                        android:spinnerMode="dialog"
-                        app:layout_constraintBottom_toBottomOf="@+id/LocationTextView"
-                        app:layout_constraintStart_toEndOf="@+id/LocationTextView"
-                        app:layout_constraintTop_toTopOf="@+id/LocationTextView" />
-
-                    <TextView
-                        android:id="@+id/PasswordTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="كلمة المرور"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="@+id/LocationTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/LocationTextView" />
-
-                    <EditText
-                        android:id="@+id/PasswordEditText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/rounded_background"
-                        android:ems="10"
-                        android:hint="كلمة المرور"
-                        android:inputType="textPassword"
-                        android:padding="5dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="@+id/PasswordTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/PasswordTextView" />
-
-                    <TextView
-                        android:id="@+id/DoubleCheckPasswordTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="التحقق من كلمة المرور"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="@+id/PasswordTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/PasswordEditText" />
-
-                    <EditText
-                        android:id="@+id/DoubleCheckPasswordEditText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/rounded_background"
-                        android:ems="10"
-                        android:hint="كلمة المرور"
-                        android:inputType="textPersonName"
-                        android:padding="5dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="@id/DoubleCheckPasswordTextView"
-                        app:layout_constraintTop_toBottomOf="@id/DoubleCheckPasswordTextView" />
-
-                    <TextView
-                        android:id="@+id/EmailTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="البري الإلكتروني"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="@id/DoubleCheckPasswordTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/DoubleCheckPasswordEditText" />
-
-                    <EditText
-                        android:id="@+id/EmailEditText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/rounded_background"
-                        android:ems="10"
-                        android:hint="البريد الإلكتروني"
-                        android:inputType="textPersonName"
-                        android:padding="5dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="@+id/EmailTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/EmailTextView" />
-
-                    <TextView
-                        android:id="@+id/PhoneNumberTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="رقم الهاتف"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="@+id/EmailTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/EmailEditText" />
-
-                    <EditText
-                        android:id="@+id/PhoneNumberEditText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/rounded_background"
-                        android:ems="10"
-                        android:hint="رقم الهاتف"
-                        android:inputType="phone"
-                        android:padding="5dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="@+id/PhoneNumberTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/PhoneNumberTextView" />
-
-                    <TextView
-                        android:id="@+id/RoleTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="الدخول ك:"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintStart_toStartOf="@+id/PhoneNumberTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/PhoneNumberEditText" />
-
-                    <Spinner
-                        android:id="@+id/spinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:entries="@android:array/postalAddressTypes"
-                        app:layout_constraintBottom_toBottomOf="@+id/RoleTextView"
-                        app:layout_constraintStart_toEndOf="@+id/RoleTextView"
-                        app:layout_constraintTop_toTopOf="@+id/RoleTextView" />
-
-                    <Button
-                        android:id="@+id/SignUpButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginTop="32dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginRight="4dp"
-                        android:background="@drawable/login_button_background"
-                        android:text="إنشاءالحساب"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@+id/spinner" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

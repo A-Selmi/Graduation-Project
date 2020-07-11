@@ -22,7 +22,7 @@
             android:title="المياه" />
         <item
             android:id="@+id/nav_fruits_and_vegetables"
-            android:icon="@drawable/ic_fruits_and_vegetables"
+            android:icon="@drawable/ic_f_and_v"
             android:title="الفواكة و الخضراوات" />
         <item
             android:id="@+id/nav_seeds"
@@ -36,6 +36,14 @@
             android:id="@+id/nav_worker"
             android:icon="@drawable/ic_worker"
             android:title="إطلب موظف" />
+        <item
+            android:id="@+id/nav_contact_us"
+            android:icon="@drawable/ic_contact_us"
+            android:title="تواصل معنا" />
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_about_us"
+            android:title="من نحن" />
 
     </group>
 
