@@ -116,14 +116,72 @@
                 app:layout_constraintTop_toTopOf="@+id/LocationTextView" />
 
             <TextView
+                android:id="@+id/DateOfBirthTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="تاريخ الميلاد"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/LocationTextView"
+                app:layout_constraintTop_toBottomOf="@+id/LocationTextView" />
+
+            <EditText
+                android:id="@+id/DayEditText"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:hint="اليوم"
+                android:inputType="number"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/DateOfBirthTextView"
+                app:layout_constraintTop_toBottomOf="@+id/DateOfBirthTextView" />
+
+            <EditText
+                android:id="@+id/MonthEditText"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:hint="الشهر"
+                android:inputType="number"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/DayEditText"
+                app:layout_constraintStart_toEndOf="@+id/DayEditText"
+                app:layout_constraintTop_toTopOf="@+id/DayEditText" />
+
+            <EditText
+                android:id="@+id/editTextTextPersonName3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:hint="السنة"
+                android:inputType="number"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/MonthEditText"
+                app:layout_constraintStart_toEndOf="@+id/MonthEditText"
+                app:layout_constraintTop_toTopOf="@+id/MonthEditText" />
+
+            <TextView
                 android:id="@+id/PasswordTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="كلمة المرور"
                 android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="@+id/LocationTextView"
-                app:layout_constraintTop_toBottomOf="@+id/LocationTextView" />
+                app:layout_constraintStart_toStartOf="@+id/DateOfBirthTextView"
+                app:layout_constraintTop_toBottomOf="@+id/DayEditText" />
 
             <EditText
                 android:id="@+id/PasswordEditText"
@@ -170,41 +228,14 @@
                 app:layout_constraintTop_toBottomOf="@id/DoubleCheckPasswordTextView" />
 
             <TextView
-                android:id="@+id/EmailTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="البري الإلكتروني"
-                android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="@id/DoubleCheckPasswordTextView"
-                app:layout_constraintTop_toBottomOf="@+id/DoubleCheckPasswordEditText" />
-
-            <EditText
-                android:id="@+id/EmailEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_background"
-                android:ems="10"
-                android:hint="البريد الإلكتروني"
-                android:inputType="textPersonName"
-                android:padding="5dp"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/EmailTextView"
-                app:layout_constraintTop_toBottomOf="@+id/EmailTextView" />
-
-            <TextView
                 android:id="@+id/PhoneNumberTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="رقم الهاتف"
                 android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="@+id/EmailTextView"
-                app:layout_constraintTop_toBottomOf="@+id/EmailEditText" />
+                app:layout_constraintStart_toStartOf="@+id/DoubleCheckPasswordEditText"
+                app:layout_constraintTop_toBottomOf="@+id/DoubleCheckPasswordEditText" />
 
             <EditText
                 android:id="@+id/PhoneNumberEditText"
@@ -250,7 +281,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/login_button_background"
+                android:background="@drawable/button_background"
                 android:text="إنشاءالحساب"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"

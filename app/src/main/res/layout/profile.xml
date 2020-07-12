@@ -2,17 +2,206 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/AddPictureImageView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="profile Fragment"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/TitleProfileTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="الملف الشخصي" />
+
+            <TextView
+                android:id="@+id/AdviserTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/duskYellow"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextView"
+                app:layout_constraintStart_toStartOf="@+id/TitleProfileTextView"
+                app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextView"
+                tools:text="(مستشار زراعي)" />
+
+            <ImageView
+                android:id="@+id/ProfileImageView"
+                android:layout_width="225dp"
+                android:layout_height="225dp"
+                android:layout_marginTop="50dp"
+                android:padding="5dp"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextView"
+                app:layout_constraintStart_toStartOf="@+id/AdviserTextView"
+                app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextView"
+                tools:srcCompat="@drawable/profiledefault" />
+
+            <TextView
+                android:id="@+id/NameTextViewProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="30dp"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ProfileImageView"
+                tools:text="الإسم : طلال ريالات" />
+
+            <TextView
+                android:id="@+id/LocationTextViewProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfile"
+                tools:text="الموقع : السلط" />
+
+            <TextView
+                android:id="@+id/DateOfBirthTextViewProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
+                app:layout_constraintTop_toBottomOf="@+id/ProfileImageView"
+                tools:text="العمر : 24 سنة" />
+
+            <TextView
+                android:id="@+id/PhoneNumberTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/LocationTextViewProfile"
+                tools:text="الهاتف : 0798988517" />
+
+            <RatingBar
+                android:id="@+id/ratingBar1Profile"
+                style="?android:attr/ratingBarStyleIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:numStars="1"
+                android:rating="1"
+                android:theme="@style/RatingBar"
+                app:layout_constraintEnd_toEndOf="@+id/DateOfBirthTextViewProfile"
+                app:layout_constraintTop_toBottomOf="@+id/DateOfBirthTextViewProfile" />
+
+            <Button
+                android:id="@+id/AddPostButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/button_background"
+                android:text="إضافة منشور"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toStartOf="@+id/DeletePostButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ratingBar2Profile" />
+
+            <RatingBar
+                android:id="@+id/ratingBar2Profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:theme="@style/RatingBarDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/PhoneNumberTextView" />
+
+            <TextView
+                android:id="@+id/RatingtextViewProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ratingBar1Profile"
+                app:layout_constraintEnd_toStartOf="@+id/ratingBar1Profile"
+                app:layout_constraintTop_toTopOf="@+id/ratingBar1Profile"
+                tools:text="3.7" />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/AddPostButton" />
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
+                app:layout_constraintStart_toStartOf="@+id/ProfileImageView"
+                app:srcCompat="@drawable/ic_camera" />
+
+            <Button
+                android:id="@+id/DeletePostButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/delete_button_background"
+                android:text="حذف منشور"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/AddPostButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/AddPostButton"
+                app:layout_constraintTop_toTopOf="@+id/AddPostButton" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

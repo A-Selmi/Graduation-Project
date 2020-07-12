@@ -5,5 +5,7 @@
     <color name="colorAccent">#2b94f0</color>
     <color name="my_desired_colour">#00000000</color>
     <color name="duskYellow">#FFDF00</color>
-    <color name="lightGrey">#778899</color>
+    <color name="DarkGrey">#778899</color>
+    <color name="lightGrey">#E0E6EC</color>
+    <color name="Green">#395D33</color>
 </resources>
