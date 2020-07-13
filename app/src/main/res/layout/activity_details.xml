@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textColor="@color/Green"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toStartOf="@+id/ItemImageViewDetails"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/ItemImageViewDetails"
@@ -86,7 +86,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/PersonNameTextViewDetails"
-                tools:text="لولولولولولولولولولولولولولولولولولولليش" />
+                tools:text="التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل " />
 
             <RatingBar
                 android:id="@+id/RatingBarDetails"
@@ -126,6 +126,7 @@
                 android:ems="10"
                 android:hint="إكتب هنا..."
                 android:inputType="textMultiLine|textPersonName"
+                android:padding="5dp"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -138,6 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/button_background"
+                android:onClick="AddReviewButtonClicked"
                 android:text="إضافة التعليق"
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -157,7 +159,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ReviewButton" >
+                app:layout_constraintTop_toBottomOf="@id/ReviewButton">
 
             </ListView>
 

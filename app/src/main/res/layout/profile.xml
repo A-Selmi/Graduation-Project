@@ -28,6 +28,7 @@
                 android:layout_marginTop="8dp"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +36,7 @@
                 tools:text="الملف الشخصي" />
 
             <TextView
-                android:id="@+id/AdviserTextView"
+                android:id="@+id/AdviserLocationTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -55,7 +56,7 @@
                 android:padding="5dp"
                 android:scaleType="fitXY"
                 app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextView"
-                app:layout_constraintStart_toStartOf="@+id/AdviserTextView"
+                app:layout_constraintStart_toStartOf="@+id/TitleProfileTextView"
                 app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextView"
                 tools:srcCompat="@drawable/profiledefault" />
 
@@ -105,7 +106,8 @@
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/LocationTextViewProfile"
-                tools:text="الهاتف : 0798988517" />
+                tools:text="الهاتف : 0798988517"
+                android:layout_marginLeft="24dp" />
 
             <RatingBar
                 android:id="@+id/ratingBar1Profile"
@@ -129,6 +131,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/button_background"
+                android:onClick="AddPostButtonClicked"
                 android:text="إضافة منشور"
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toStartOf="@+id/DeletePostButton"
@@ -194,8 +197,8 @@
                 android:layout_marginRight="8dp"
                 android:background="@drawable/delete_button_background"
                 android:text="حذف منشور"
+                android:onClick="DeletePostButtonClicked"
                 android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/AddPostButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/AddPostButton"

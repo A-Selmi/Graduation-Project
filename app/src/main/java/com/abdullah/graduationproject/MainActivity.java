@@ -64,42 +64,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case R.id.nav_home:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new HomeFragment()).commit();
-                    toolbar.setTitle(R.string.app_name);
                     break;
                 case R.id.nav_profile:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new ProfileFragment()).commit();
-                    toolbar.setTitle(R.string.app_name);
                     break;
                 case R.id.nav_favorite:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new FavoriteFragment()).commit();
-                    toolbar.setTitle(R.string.app_name);
                     break;
                 case R.id.nav_water:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new WaterFragment()).commit();
-                    toolbar.setTitle(R.string.app_name);
                     break;
                 case R.id.nav_fruits_and_vegetables:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new FruitsAndVegetablesFragment()).commit();
-                    toolbar.setTitle(R.string.app_name);
                     break;
                 case R.id.nav_seeds:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new SeedsFragment()).commit();
-                    toolbar.setTitle(R.string.app_name);
                     break;
                 case R.id.nav_tools:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new ToolsFragment()).commit();
-                    toolbar.setTitle(R.string.app_name);
                     break;
                 case R.id.nav_worker:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new WorkerFragment()).commit();
-                    toolbar.setTitle(R.string.app_name);
+                    break;
+                case R.id.nav_Adviser:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new AdviserFragment()).commit();
+                    break;
+                case R.id.nav_contact_us:
+                    Toast.makeText(this, "Go to Contact Us web page", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.nav_about_us:
                     Intent toAboutUsActivity = new Intent(this, AboutUsActivity.class);
@@ -119,7 +118,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void loginNavHeaderTextViewClicked(View view) {
+        // check if it is تسجيل الدخول or تسجيل الخروج
         Intent toLoginActivity = new Intent(this, LoginActivity.class);
         startActivity(toLoginActivity);
+    }
+
+    public void AddPostButtonClicked(View view) {
+        Intent toAddPostActivity = new Intent(this, AddPostActivity.class);
+        startActivity(toAddPostActivity);
+    }
+
+    public void DeletePostButtonClicked(View view) {
+        Intent toDeletePostActivity = new Intent(this, DeleteActivity.class);
+        startActivity(toDeletePostActivity);
+    }
+
+    public void UserProfilePictureImageViewClicked(View view) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new ProfileFragment()).commit();
+        drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    public void WorkerButtonClicked(View view) {
+        Toast.makeText(this, "the worker has been requested successfully", Toast.LENGTH_SHORT).show();
     }
 }

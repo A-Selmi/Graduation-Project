@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,16 +9,17 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/WorkerImageView"
+        android:id="@+id/AdviserImageView"
+        tools:srcCompat="@drawable/image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/image" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/WorkerNameTextView"
+        android:id="@+id/AdviserNameTextView"
+        tools:text="Talal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -25,24 +27,23 @@
         android:layout_marginTop="8dp"
         android:textColor="@android:color/black"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/WorkerImageView"
-        app:layout_constraintTop_toTopOf="@+id/WorkerImageView"
-        tools:text="Talal" />
+        app:layout_constraintStart_toEndOf="@+id/AdviserImageView"
+        app:layout_constraintTop_toTopOf="@+id/AdviserImageView" />
 
     <TextView
-        android:id="@+id/LocationTextView"
+        android:id="@+id/AdviserLocationTextView"
+        tools:text="As-Salt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:textColor="@android:color/black"
-        app:layout_constraintStart_toEndOf="@+id/WorkerImageView"
-        app:layout_constraintTop_toBottomOf="@+id/WorkerNameTextView"
-        tools:text="As-Salt" />
+        app:layout_constraintStart_toEndOf="@+id/AdviserImageView"
+        app:layout_constraintTop_toBottomOf="@+id/AdviserNameTextView" />
 
     <RatingBar
-        android:id="@+id/ratingBarWorker"
+        android:id="@+id/ratingBarAdviser"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,11 +53,11 @@
         android:numStars="1"
         android:rating="1"
         android:theme="@style/RatingBar"
-        app:layout_constraintStart_toEndOf="@+id/WorkerImageView"
-        app:layout_constraintTop_toBottomOf="@+id/LocationTextView" />
+        app:layout_constraintStart_toEndOf="@+id/AdviserImageView"
+        app:layout_constraintTop_toBottomOf="@+id/AdviserLocationTextView" />
 
     <TextView
-        android:id="@+id/RatingTextViewWorker"
+        android:id="@+id/ratingTextViewAdviser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -64,20 +65,8 @@
         android:text="4.2"
         android:textColor="@android:color/black"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ratingBarWorker"
-        app:layout_constraintStart_toEndOf="@+id/ratingBarWorker"
-        app:layout_constraintTop_toTopOf="@+id/ratingBarWorker" />
-
-    <Button
-        android:id="@+id/WorkerButton"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_background"
-        android:onClick="WorkerButtonClicked"
-        android:text="إطلب موظف"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/WorkerImageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/WorkerImageView" />
+        app:layout_constraintBottom_toBottomOf="@+id/ratingBarAdviser"
+        app:layout_constraintStart_toEndOf="@+id/ratingBarAdviser"
+        app:layout_constraintTop_toTopOf="@+id/ratingBarAdviser" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
