@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="إنشاء الحساب"
+                android:text="@string/SignUp"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="الإسم الأول"
+                android:text="@string/FirstName"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/SignInTextView"
                 app:layout_constraintTop_toBottomOf="@+id/SignInTextView" />
@@ -56,7 +56,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_background"
                 android:ems="10"
-                android:hint="الإسم الأول"
+                android:hint="@string/FirstName"
                 android:inputType="textPersonName"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:shadowColor="@android:color/white"
-                android:text="الإسم الأخير"
+                android:text="@string/LastName"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/FirstNameTextView"
                 app:layout_constraintTop_toBottomOf="@+id/FirstNameEditText" />
@@ -84,7 +84,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_background"
                 android:ems="10"
-                android:hint="الإسم الأخير"
+                android:hint="@string/LastName"
                 android:inputType="textPersonName"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
@@ -99,13 +99,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="الموقع"
+                android:text="@string/Location"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/LastNameTextView"
                 app:layout_constraintTop_toBottomOf="@+id/LastNameEditText" />
 
             <Spinner
-                android:id="@+id/Spinner"
+                android:id="@+id/LocationSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="تاريخ الميلاد"
+                android:text="@string/DateOfBirth"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/LocationTextView"
                 app:layout_constraintTop_toBottomOf="@+id/LocationTextView" />
@@ -135,7 +135,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_background"
                 android:ems="10"
-                android:hint="اليوم"
+                android:hint="@string/Day"
                 android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
@@ -150,7 +150,7 @@
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/rounded_background"
                 android:ems="10"
-                android:hint="الشهر"
+                android:hint="@string/Month"
                 android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
@@ -159,14 +159,14 @@
                 app:layout_constraintTop_toTopOf="@+id/DayEditText" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName3"
+                android:id="@+id/YearEditText"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/rounded_background"
                 android:ems="10"
-                android:hint="السنة"
+                android:hint="@string/Year"
                 android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
@@ -179,7 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="كلمة المرور"
+                android:text="@string/Password"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/DateOfBirthTextView"
                 app:layout_constraintTop_toBottomOf="@+id/DayEditText" />
@@ -193,7 +193,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_background"
                 android:ems="10"
-                android:hint="كلمة المرور"
+                android:hint="@string/Password"
                 android:inputType="textPassword"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
@@ -206,7 +206,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="التحقق من كلمة المرور"
+                android:text="@string/CheckPassword"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/PasswordTextView"
                 app:layout_constraintTop_toBottomOf="@+id/PasswordEditText" />
@@ -220,7 +220,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_background"
                 android:ems="10"
-                android:hint="كلمة المرور"
+                android:hint="@string/Password"
                 android:inputType="textPersonName"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
@@ -233,7 +233,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="رقم الهاتف"
+                android:text="@string/PhoneNumber"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/DoubleCheckPasswordEditText"
                 app:layout_constraintTop_toBottomOf="@+id/DoubleCheckPasswordEditText" />
@@ -247,7 +247,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_background"
                 android:ems="10"
-                android:hint="رقم الهاتف"
+                android:hint="@string/PhoneNumber"
                 android:inputType="phone"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
@@ -266,7 +266,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/PhoneNumberEditText" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/RoleSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -281,17 +281,55 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:layout_marginBottom="8dp"
                 android:background="@drawable/button_background"
                 android:onClick="SignUpActivityButtonClicked"
-                android:text="إنشاءالحساب"
+                android:text="@string/SignUp"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinner" />
+                app:layout_constraintTop_toBottomOf="@+id/RoleSpinner" />
+
+            <Button
+                android:id="@+id/SaveButtonSignUp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/button_background"
+                android:onClick="SaveButtonSignUpClicked"
+                android:text="@string/Save"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/CancleButtonSignUp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/CancleButtonSignUp"
+                app:layout_constraintTop_toTopOf="@+id/CancleButtonSignUp" />
+
+            <Button
+                android:id="@+id/CancleButtonSignUp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/delete_button_background"
+                android:onClick="CancleButtonSignUpClicked"
+                android:text="@string/Cancle"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/SaveButtonSignUp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/RoleTextView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

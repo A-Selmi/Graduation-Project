@@ -60,51 +60,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 //        if (SaveSharedPreference.getUserName(MainActivity.this).equals("")) {
-            switch (item.getItemId()) {
-                case R.id.nav_home:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new HomeFragment()).commit();
-                    break;
-                case R.id.nav_profile:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new ProfileFragment()).commit();
-                    break;
-                case R.id.nav_favorite:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new FavoriteFragment()).commit();
-                    break;
-                case R.id.nav_water:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new WaterFragment()).commit();
-                    break;
-                case R.id.nav_fruits_and_vegetables:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new FruitsAndVegetablesFragment()).commit();
-                    break;
-                case R.id.nav_seeds:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new SeedsFragment()).commit();
-                    break;
-                case R.id.nav_tools:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new ToolsFragment()).commit();
-                    break;
-                case R.id.nav_worker:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new WorkerFragment()).commit();
-                    break;
-                case R.id.nav_Adviser:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new AdviserFragment()).commit();
-                    break;
-                case R.id.nav_contact_us:
-                    Toast.makeText(this, "Go to Contact Us web page", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.nav_about_us:
-                    Intent toAboutUsActivity = new Intent(this, AboutUsActivity.class);
-                    startActivity(toAboutUsActivity);
-                    break;
-            }
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new HomeFragment()).commit();
+                break;
+            case R.id.nav_profile:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new ProfileFragment()).commit();
+                break;
+            case R.id.nav_favorite:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new FavoriteFragment()).commit();
+                break;
+            case R.id.nav_water:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new WaterFragment()).commit();
+                break;
+            case R.id.nav_fruits_and_vegetables:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new FruitsAndVegetablesFragment()).commit();
+                break;
+            case R.id.nav_seeds:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new SeedsFragment()).commit();
+                break;
+            case R.id.nav_tools:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new ToolsFragment()).commit();
+                break;
+            case R.id.nav_worker:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new WorkerFragment()).commit();
+                break;
+            case R.id.nav_Adviser:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new AdviserFragment()).commit();
+                break;
+            case R.id.nav_contact_us:
+                Toast.makeText(this, "Go to Contact Us web page", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_about_us:
+                Intent toAboutUsActivity = new Intent(this, AboutUsActivity.class);
+                startActivity(toAboutUsActivity);
+                break;
+        }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -141,5 +141,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void WorkerButtonClicked(View view) {
         Toast.makeText(this, "the worker has been requested successfully", Toast.LENGTH_SHORT).show();
+    }
+
+    public void AboutWorkerTextViewProfileActivity(View view) {
+        Intent toWorkerDetailsActivity = new Intent(this, WorkerDetailsActivity.class);
+        startActivity(toWorkerDetailsActivity);
+    }
+
+    public void ReviewButtonProfileActivityClicked(View view) {
+        Toast.makeText(this, "Review Added!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void EditProfileProfileActivityClicked(View view) {
+        Intent toSignUpActivity = new Intent(this, SignUpActivity.class);
+        startActivity(toSignUpActivity);
+    }
+
+    public void UploadPictureProfileActivityClicked(View view) {
+        Toast.makeText(this, "Upload A Picture", Toast.LENGTH_SHORT).show();
     }
 }

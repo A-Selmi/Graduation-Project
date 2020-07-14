@@ -30,7 +30,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/ItemImageViewDetails"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="البذور" />
+                tools:text="@string/Seeds" />
 
             <ImageView
                 android:id="@+id/ItemImageViewDetails"
@@ -56,6 +56,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:textColor="@android:color/black"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ItemImageViewDetails"
                 tools:text="Seeds" />
@@ -68,9 +69,23 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:textColor="@android:color/black"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ItemNameTextViewDetails"
                 tools:text="Abdullah" />
+
+            <TextView
+                android:id="@+id/LocationTextViewDetailsActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/PersonNameTextViewDetails"
+                tools:text="عمان" />
 
             <TextView
                 android:id="@+id/DiscriptionTextViewDetails"
@@ -83,9 +98,10 @@
                 android:layout_marginRight="16dp"
                 android:gravity="start"
                 android:textColor="@android:color/black"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/PersonNameTextViewDetails"
+                app:layout_constraintTop_toBottomOf="@+id/LocationTextViewDetailsActivity"
                 tools:text="التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل " />
 
             <RatingBar
@@ -107,9 +123,9 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:text="رأيك :"
+                android:text="@string/YourOpenion"
                 android:textColor="@android:color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/DiscriptionTextViewDetails" />
 
@@ -124,7 +140,7 @@
                 android:layout_marginRight="16dp"
                 android:background="@drawable/rounded_background_white"
                 android:ems="10"
-                android:hint="إكتب هنا..."
+                android:hint="@string/WriteHere"
                 android:inputType="textMultiLine|textPersonName"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
@@ -139,8 +155,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/button_background"
-                android:onClick="AddReviewButtonClicked"
-                android:text="إضافة التعليق"
+                android:onClick="ReviewButtonClicked"
+                android:text="@string/AddComment"
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -170,6 +186,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:textColor="@android:color/black"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/ItemImageViewDetails"
                 app:layout_constraintTop_toTopOf="@+id/ItemNameTextViewDetails"
                 tools:text="15$" />
@@ -180,6 +197,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textColor="@android:color/black"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/PriceTextViewDetails"
                 app:layout_constraintTop_toBottomOf="@+id/PriceTextViewDetails"
                 tools:text="0798988517" />

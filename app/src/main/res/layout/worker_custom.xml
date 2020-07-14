@@ -61,12 +61,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
-        android:text="4.2"
         android:textColor="@android:color/black"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/ratingBarWorker"
         app:layout_constraintStart_toEndOf="@+id/ratingBarWorker"
-        app:layout_constraintTop_toTopOf="@+id/ratingBarWorker" />
+        app:layout_constraintTop_toTopOf="@+id/ratingBarWorker"
+        tools:text="4.2" />
 
     <Button
         android:id="@+id/WorkerButton"
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/button_background"
         android:onClick="WorkerButtonClicked"
-        android:text="إطلب موظف"
+        android:text="@string/OrderWorker"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/WorkerImageView"
         app:layout_constraintEnd_toEndOf="parent"

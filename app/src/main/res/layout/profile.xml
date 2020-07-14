@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/AddPictureImageView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
@@ -26,14 +25,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:text="@string/ProfilePage"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="الملف الشخصي" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/AdviserLocationTextView"
@@ -102,24 +101,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
                 android:layout_marginTop="16dp"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/LocationTextViewProfile"
-                tools:text="الهاتف : 0798988517"
-                android:layout_marginLeft="24dp" />
+                tools:text="الهاتف : 0798988517" />
 
             <RatingBar
                 android:id="@+id/ratingBar1Profile"
                 style="?android:attr/ratingBarStyleIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:numStars="1"
                 android:rating="1"
                 android:theme="@style/RatingBar"
-                app:layout_constraintEnd_toEndOf="@+id/DateOfBirthTextViewProfile"
-                app:layout_constraintTop_toBottomOf="@+id/DateOfBirthTextViewProfile" />
+                app:layout_constraintBottom_toBottomOf="@+id/LocationTextViewProfile"
+                app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
+                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfile" />
 
             <Button
                 android:id="@+id/AddPostButton"
@@ -132,24 +132,54 @@
                 android:layout_marginRight="8dp"
                 android:background="@drawable/button_background"
                 android:onClick="AddPostButtonClicked"
-                android:text="إضافة منشور"
+                android:text="@string/AddPost"
                 android:textColor="@android:color/white"
+                android:visibility="visible"
                 app:layout_constraintEnd_toStartOf="@+id/DeletePostButton"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ratingBar2Profile" />
 
+            <TextView
+                android:id="@+id/AboutWorkerTextViewProfileActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="AboutWorkerTextViewProfileActivity"
+                android:text="@string/AboutWorker"
+                android:textColor="@android:color/holo_blue_bright"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/PhoneNumberTextView"
+                app:layout_constraintEnd_toEndOf="@+id/ratingBar1Profile"
+                app:layout_constraintStart_toStartOf="@+id/RatingtextViewProfile"
+                app:layout_constraintTop_toTopOf="@+id/PhoneNumberTextView" />
+
             <RatingBar
                 android:id="@+id/ratingBar2Profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:theme="@style/RatingBarDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/PhoneNumberTextView" />
+
+            <Button
+                android:id="@+id/ReviewButtonProfileActivity"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_background"
+                android:onClick="ReviewButtonProfileActivityClicked"
+                android:text="@string/Review"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/ratingBar2Profile"
+                app:layout_constraintStart_toStartOf="@+id/ratingBar2Profile"
+                app:layout_constraintTop_toBottomOf="@+id/ratingBar2Profile" />
 
             <TextView
                 android:id="@+id/RatingtextViewProfile"
@@ -166,6 +196,7 @@
                 tools:text="3.7" />
 
             <ListView
+                android:id="@+id/ProfileListViewProfileActivity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -181,8 +212,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/AddPostButton" />
 
             <ImageView
+                android:id="@+id/UploadPictureProfileActivity"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:onClick="UploadPictureProfileActivityClicked"
                 app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
                 app:layout_constraintStart_toStartOf="@+id/ProfileImageView"
                 app:srcCompat="@drawable/ic_camera" />
@@ -196,13 +229,23 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/delete_button_background"
-                android:text="حذف منشور"
                 android:onClick="DeletePostButtonClicked"
+                android:text="@string/DeletePost"
                 android:textColor="@android:color/white"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/AddPostButton"
                 app:layout_constraintTop_toTopOf="@+id/AddPostButton" />
+
+            <ImageView
+                android:id="@+id/EditProfileProfileActivity"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:onClick="EditProfileProfileActivityClicked"
+                app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
+                app:layout_constraintStart_toStartOf="@+id/NameTextViewProfile"
+                app:srcCompat="@drawable/ic_edit" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

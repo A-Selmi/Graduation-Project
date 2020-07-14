@@ -17,4 +17,12 @@ public class SignUpActivity extends AppCompatActivity {
     public void SignUpActivityButtonClicked(View view) {
         Toast.makeText(this, "Check the Information to Sign Up", Toast.LENGTH_SHORT).show();
     }
+
+    public void SaveButtonSignUpClicked(View view) {
+        Toast.makeText(this, "Save!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void CancleButtonSignUpClicked(View view) {
+        Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
+    }
 }

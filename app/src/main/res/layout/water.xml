@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="المياه"
+                android:text="@string/Water"
                 android:textColor="@color/Green"
                 android:textSize="24sp"
                 android:textStyle="bold"

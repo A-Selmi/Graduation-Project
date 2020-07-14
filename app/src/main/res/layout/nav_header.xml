@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/UserProfilePictureImageView"
@@ -25,7 +24,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:onClick="loginNavHeaderTextViewClicked"
-        android:text="تسجيل الدخول"
+        android:text="@string/LogIn"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +37,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:onClick="UserProfilePictureImageViewClicked"
-        android:text="Talal"
+        android:text=""
         android:textColor="@android:color/white"
         android:textSize="24sp"
         android:visibility="gone"

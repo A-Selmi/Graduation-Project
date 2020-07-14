@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="الفئة" />
+        tools:text="@string/Category" />
 
     <Button
         android:id="@+id/WaterButton"
@@ -28,7 +28,7 @@
         android:background="@drawable/background_category"
         android:onClick="CategoryNameButtonClicked"
         android:padding="25dp"
-        android:text="المياه"
+        android:text="@string/Water"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
         android:background="@drawable/background_category"
         android:onClick="CategoryNameButtonClicked"
         android:padding="25dp"
-        android:text="البذور"
+        android:text="@string/Seeds"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
         android:background="@drawable/background_category"
         android:onClick="CategoryNameButtonClicked"
         android:padding="25dp"
-        android:text="الفواكة و الخضراوات"
+        android:text="@string/FAndV"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,7 @@
         android:background="@drawable/background_category"
         android:onClick="CategoryNameButtonClicked"
         android:padding="25dp"
-        android:text="المواد"
+        android:text="@string/Tools"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

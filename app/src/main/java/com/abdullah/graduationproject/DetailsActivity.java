@@ -14,7 +14,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
     }
 
-    public void AddReviewButtonClicked(View view) {
+    public void ReviewButtonClicked(View view) {
         Toast.makeText(this, "the review added successfully", Toast.LENGTH_SHORT).show();
     }
 }

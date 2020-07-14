@@ -15,7 +15,8 @@ public class AddPostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_post);
     }
 
-    public void ConfirmAddPostButtonClicked(View view) {
+
+    public void ReviewButtonClicked(View view) {
         Intent toProfileActivity = new Intent(this, ProfileFragment.class);
         finish();
         Toast.makeText(this, "The post added successfully", Toast.LENGTH_SHORT).show();
