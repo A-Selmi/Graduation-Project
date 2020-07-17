@@ -7,8 +7,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -59,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        if (SaveSharedPreference.getUserName(MainActivity.this).equals("")) {
         switch (item.getItemId()) {
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -159,5 +161,67 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void UploadPictureProfileActivityClicked(View view) {
         Toast.makeText(this, "Upload A Picture", Toast.LENGTH_SHORT).show();
+    }
+
+    public static class SaveSharedPreference {
+        static final String PREF_USERNAME = "UserName";
+        static final String PREF_LOCATION = "Location";
+        static final String PREF_Age = "Age";
+        static final String PREF_PHONE_NUMBER = "PhoneNumber";
+        static final String PREF_ROLE = "Role";
+
+        static SharedPreferences getSharedPreferences(Context ctx) {
+            return PreferenceManager.getDefaultSharedPreferences(ctx);
+        }
+
+        public static void setUserName(Context ctx, String username) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_USERNAME, username);
+            editor.apply();
+        }
+
+        public static String getUserNmae(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_USERNAME, "");
+        }
+
+        public static void setLocation(Context ctx, String location) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_LOCATION, location);
+            editor.apply();
+        }
+
+        public static String getLocation(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_LOCATION, "");
+        }
+
+        public static void setAge(Context ctx, String age) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_Age, age);
+            editor.apply();
+        }
+
+        public static String getAge(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_Age, "");
+        }
+
+        public static void setPhoneNumber(Context ctx, String phonenumber) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_PHONE_NUMBER, phonenumber);
+            editor.apply();
+        }
+
+        public static String getPhoneNumber(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_PHONE_NUMBER, "");
+        }
+
+        public static void setRole(Context ctx, String role) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_ROLE, role);
+            editor.apply();
+        }
+
+        public static String getRole(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_ROLE, "");
+        }
     }
 }

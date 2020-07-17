@@ -68,16 +68,4 @@
         app:layout_constraintTop_toTopOf="@+id/ratingBarWorker"
         tools:text="4.2" />
 
-    <Button
-        android:id="@+id/WorkerButton"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_background"
-        android:onClick="WorkerButtonClicked"
-        android:text="@string/OrderWorker"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/WorkerImageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/WorkerImageView" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

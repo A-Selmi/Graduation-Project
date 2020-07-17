@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/image"
-    tools:context=".SignUpActivity">
+    tools:context=".SignUpActivity"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -49,7 +51,7 @@
 
             <EditText
                 android:id="@+id/FirstNameEditText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
@@ -89,8 +91,6 @@
                 android:padding="5dp"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/LastNameTextView"
                 app:layout_constraintTop_toBottomOf="@+id/LastNameTextView" />
 
@@ -110,69 +110,39 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:entries="@android:array/phoneTypes"
+                android:entries="@array/location_array"
                 android:spinnerMode="dialog"
                 app:layout_constraintBottom_toBottomOf="@+id/LocationTextView"
                 app:layout_constraintStart_toEndOf="@+id/LocationTextView"
-                app:layout_constraintTop_toTopOf="@+id/LocationTextView" />
+                app:layout_constraintTop_toTopOf="@+id/LocationTextView"
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/DateOfBirthTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/DateOfBirth"
+                android:text="@string/Age"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/LocationTextView"
                 app:layout_constraintTop_toBottomOf="@+id/LocationTextView" />
 
             <EditText
-                android:id="@+id/DayEditText"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/AgeEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_background"
                 android:ems="10"
-                android:hint="@string/Day"
+                android:hint="@string/Age"
                 android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/DateOfBirthTextView"
                 app:layout_constraintTop_toBottomOf="@+id/DateOfBirthTextView" />
-
-            <EditText
-                android:id="@+id/MonthEditText"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/rounded_background"
-                android:ems="10"
-                android:hint="@string/Month"
-                android:inputType="number"
-                android:padding="5dp"
-                android:textColor="@android:color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/DayEditText"
-                app:layout_constraintStart_toEndOf="@+id/DayEditText"
-                app:layout_constraintTop_toTopOf="@+id/DayEditText" />
-
-            <EditText
-                android:id="@+id/YearEditText"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/rounded_background"
-                android:ems="10"
-                android:hint="@string/Year"
-                android:inputType="number"
-                android:padding="5dp"
-                android:textColor="@android:color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/MonthEditText"
-                app:layout_constraintStart_toEndOf="@+id/MonthEditText"
-                app:layout_constraintTop_toTopOf="@+id/MonthEditText" />
 
             <TextView
                 android:id="@+id/PasswordTextView"
@@ -182,7 +152,7 @@
                 android:text="@string/Password"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/DateOfBirthTextView"
-                app:layout_constraintTop_toBottomOf="@+id/DayEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/AgeEditText" />
 
             <EditText
                 android:id="@+id/PasswordEditText"
@@ -193,6 +163,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_background"
                 android:ems="10"
+                android:gravity="start"
                 android:hint="@string/Password"
                 android:inputType="textPassword"
                 android:padding="5dp"
@@ -221,7 +192,7 @@
                 android:background="@drawable/rounded_background"
                 android:ems="10"
                 android:hint="@string/Password"
-                android:inputType="textPersonName"
+                android:inputType="textPassword"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
@@ -260,7 +231,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="الدخول ك:"
+                android:text="@string/RoleTextView"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/PhoneNumberTextView"
                 app:layout_constraintTop_toBottomOf="@+id/PhoneNumberEditText" />
@@ -271,10 +242,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:entries="@android:array/postalAddressTypes"
+                android:entries="@array/role_array"
+                android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="@+id/RoleTextView"
                 app:layout_constraintStart_toEndOf="@+id/RoleTextView"
-                app:layout_constraintTop_toTopOf="@+id/RoleTextView" />
+                app:layout_constraintTop_toTopOf="@+id/RoleTextView"
+                app:layout_constraintVertical_bias="1.0" />
 
             <Button
                 android:id="@+id/SignUpButton"
@@ -286,7 +259,7 @@
                 android:text="@string/SignUp"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -303,14 +276,15 @@
                 android:text="@string/Save"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/CancleButtonSignUp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/CancelButtonSignUp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/CancleButtonSignUp"
-                app:layout_constraintTop_toTopOf="@+id/CancleButtonSignUp" />
+                app:layout_constraintStart_toEndOf="@+id/CancelButtonSignUp"
+                app:layout_constraintTop_toTopOf="@+id/CancelButtonSignUp" />
 
             <Button
-                android:id="@+id/CancleButtonSignUp"
+                android:id="@+id/CancelButtonSignUp"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -320,10 +294,11 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/delete_button_background"
-                android:onClick="CancleButtonSignUpClicked"
+                android:onClick="CancelButtonSignUpClicked"
                 android:text="@string/Cancle"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/SaveButtonSignUp"
                 app:layout_constraintHorizontal_bias="0.5"

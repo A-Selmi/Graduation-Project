@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.abdullah.graduationproject">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_icon"
@@ -9,7 +12,7 @@
         android:roundIcon="@mipmap/ic_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WorkerDetailsActivity"></activity>
+        <activity android:name=".WorkerDetailsActivity"/>
         <activity android:name=".AdviserCvActivity" />
         <activity android:name=".SplashScreen">
             <intent-filter>

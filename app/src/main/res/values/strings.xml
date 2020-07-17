@@ -39,8 +39,7 @@
     <string name="FirstName">الإسم الأول</string>
     <string name="LastName">الإسم الأخير</string>
     <string name="Location">الموقع</string>
-    <string name="DateOfBirth">تاريخ الميلاد</string>
-    <string name="Day">اليوم</string>
+    <string name="Age">العمر</string>
     <string name="Month">الشهر</string>
     <string name="Year">السنة</string>
     <string name="CheckPassword">التحقق من كلمة المرور</string>
@@ -61,4 +60,27 @@
     <string name="Workers">المزارعين</string>
     <string name="AboutWorker">عن الموظف</string>
     <string name="Review">تقييم</string>
+    <string name="RoleTextView">الدور</string>
+    <string name="FailToSignUpMessage">حدث خلل خلال إنشاء الحساب, يرجى المحاولة مرة أخرى</string>
+    <string name="InternetConnectionMessage">يرجى التحقق من الإتصال بالإنترنت</string>
+    <string-array name="role_array">
+        <item>مستخدم</item>
+        <item>صاحب عمل</item>
+        <item>مزارع عامل</item>
+        <item>مهندس زراعي</item>
+    </string-array>
+    <string-array name="location_array">
+        <item>عمان</item>
+        <item>السلط</item>
+        <item>إربد</item>
+        <item>جرش</item>
+        <item>عجلون</item>
+        <item>الزرقاء</item>
+        <item>المفرق</item>
+        <item>مأدبا</item>
+        <item>الكرك</item>
+        <item>الطفيلة</item>
+        <item>معان</item>
+        <item>العقبة</item>
+    </string-array>
 </resources>
