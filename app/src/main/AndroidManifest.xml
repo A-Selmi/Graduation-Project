@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WorkerDetailsActivity"/>
+        <activity android:name=".VerificationActivity"></activity>
+        <activity android:name=".PhoneNumberActivity" />
+        <activity android:name=".WorkerDetailsActivity" />
         <activity android:name=".AdviserCvActivity" />
         <activity android:name=".SplashScreen">
             <intent-filter>

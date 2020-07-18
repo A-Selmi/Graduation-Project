@@ -7,10 +7,11 @@
 
     <ImageView
         android:id="@+id/UserProfilePictureImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_marginTop="8dp"
         android:onClick="UserProfilePictureImageViewClicked"
+        android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="@+id/loginNavHeaderTextView"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/profiledefault" />
@@ -25,7 +26,7 @@
         android:layout_marginBottom="8dp"
         android:onClick="loginNavHeaderTextViewClicked"
         android:text="@string/LogIn"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/UserProfilePictureImageView" />
@@ -37,11 +38,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:onClick="UserProfilePictureImageViewClicked"
-        android:text=""
         android:textColor="@android:color/white"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/UserProfilePictureImageView"
-        app:layout_constraintStart_toEndOf="@+id/UserProfilePictureImageView" />
+        app:layout_constraintStart_toEndOf="@+id/UserProfilePictureImageView"
+        app:layout_constraintTop_toTopOf="@+id/UserProfilePictureImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

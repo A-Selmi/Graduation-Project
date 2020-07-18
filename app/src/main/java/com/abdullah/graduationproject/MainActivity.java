@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle toggle;
     View HomeView;
     TextView loginNavHeaderTextView;
+    Context context;
+    ImageView UserProfilePictureImageView;
+    TextView UserNameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         findHomeViews();
         ReadyForDrawer(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        findHomeViews();
+        if(SaveSharedPreference.getLogIn(context).equals("true")) {
+            loginNavHeaderTextView.setText("تسجيل الخروج");
+            loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.Red));
+            UserNameTextView.setText(SaveSharedPreference.getFirstName(context) + " " + SaveSharedPreference.getLastName(context));
+            UserNameTextView.setVisibility(View.VISIBLE);
+            //TODO Check The Photo
+            UserProfilePictureImageView.setImageResource(R.drawable.image);
+        }else {
+            loginNavHeaderTextView.setText("تسجيل الدخول");
+            loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
+            UserProfilePictureImageView.setImageResource(R.drawable.profiledefault);
+            UserNameTextView.setText("");
+            UserNameTextView.setVisibility(View.GONE);
+        }
     }
 
     private void ReadyForDrawer(Bundle savedInstanceState) {
@@ -114,15 +139,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void findHomeViews() {
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_view);
+        context = this;
         HomeView = navigationView.getHeaderView(0);
         drawerLayout = findViewById(R.id.drawerLayout);
         loginNavHeaderTextView = HomeView.findViewById(R.id.loginNavHeaderTextView);
+        UserProfilePictureImageView = HomeView.findViewById(R.id.UserProfilePictureImageView);
+        UserNameTextView = HomeView.findViewById(R.id.UserNameTextView);
     }
 
     public void loginNavHeaderTextViewClicked(View view) {
-        // check if it is تسجيل الدخول or تسجيل الخروج
-        Intent toLoginActivity = new Intent(this, LoginActivity.class);
-        startActivity(toLoginActivity);
+        drawerLayout.closeDrawer(GravityCompat.START);
+        if(SaveSharedPreference.getLogIn(context).equals("true")) {
+            SaveSharedPreference.setLogIn(context, "false");
+            SaveSharedPreference.setFirstName(context, "");
+            SaveSharedPreference.setLastName(context, "");
+            SaveSharedPreference.setLocation(context, "");
+            SaveSharedPreference.setAge(context, "");
+            SaveSharedPreference.setRole(context, "");
+            SaveSharedPreference.setPassword(context, "");
+            loginNavHeaderTextView.setText("تسجيل الدخول");
+            loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
+            UserProfilePictureImageView.setImageResource(R.drawable.profiledefault);
+            UserNameTextView.setText("");
+            UserNameTextView.setVisibility(View.GONE);
+
+        }else {
+            Intent toLoginActivity = new Intent(this, LoginActivity.class);
+            startActivity(toLoginActivity);
+        }
     }
 
     public void AddPostButtonClicked(View view) {
@@ -139,10 +183,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new ProfileFragment()).commit();
         drawerLayout.closeDrawer(GravityCompat.START);
-    }
-
-    public void WorkerButtonClicked(View view) {
-        Toast.makeText(this, "the worker has been requested successfully", Toast.LENGTH_SHORT).show();
     }
 
     public void AboutWorkerTextViewProfileActivity(View view) {
@@ -164,24 +204,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public static class SaveSharedPreference {
-        static final String PREF_USERNAME = "UserName";
+        static final String PREF_LOGIN = "LogIn";
+        static final String PREF_FIRSTNAME = "FirstName";
+        static final String PREF_LASTTNAME = "LastName";
         static final String PREF_LOCATION = "Location";
         static final String PREF_Age = "Age";
         static final String PREF_PHONE_NUMBER = "PhoneNumber";
         static final String PREF_ROLE = "Role";
+        static final String PREF_PASSWORD = "Password";
+        static final String PREF_PE = "PE";
+        static final String PREF_PP = "PP";
+        static final String PREF_SKILLS = "Skills";
+        static final String PREF_ABOUT = "About";
 
         static SharedPreferences getSharedPreferences(Context ctx) {
             return PreferenceManager.getDefaultSharedPreferences(ctx);
         }
 
-        public static void setUserName(Context ctx, String username) {
+        public static void setLogIn(Context ctx, String login) {
             SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-            editor.putString(PREF_USERNAME, username);
+            editor.putString(PREF_LOGIN, login);
             editor.apply();
         }
 
-        public static String getUserNmae(Context ctx) {
-            return getSharedPreferences(ctx).getString(PREF_USERNAME, "");
+        public static String getLogIn(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_LOGIN, "");
+        }
+
+        public static void setFirstName(Context ctx, String firstname) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_FIRSTNAME, firstname);
+            editor.apply();
+        }
+
+        public static String getFirstName(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_FIRSTNAME, "");
+        }
+
+        public static void setLastName(Context ctx, String lastname) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_LASTTNAME, lastname);
+            editor.apply();
+        }
+
+        public static String getLastName(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_LASTTNAME, "");
         }
 
         public static void setLocation(Context ctx, String location) {
@@ -222,6 +289,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         public static String getRole(Context ctx) {
             return getSharedPreferences(ctx).getString(PREF_ROLE, "");
+        }
+
+        public static void setPassword(Context ctx, String password) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_PASSWORD, password);
+            editor.apply();
+        }
+
+        public static String getPassword(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_PASSWORD, "");
+        }
+
+        public static void setPE(Context ctx, String PE) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_PE, PE);
+            editor.apply();
+        }
+
+        public static String getPE(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_PE, "");
+        }
+
+        public static void setPP(Context ctx, String PP) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_PP, PP);
+            editor.apply();
+        }
+
+        public static String getPP(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_PP, "");
+        }
+
+        public static void setSkills(Context ctx, String skills) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_SKILLS, skills);
+            editor.apply();
+        }
+
+        public static String getSkills(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_SKILLS, "");
+        }
+
+        public static void setAbout(Context ctx, String about) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_ABOUT, about);
+            editor.apply();
+        }
+
+        public static String getAbout(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_ABOUT, "");
         }
     }
 }

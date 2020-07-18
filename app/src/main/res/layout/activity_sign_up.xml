@@ -200,41 +200,16 @@
                 app:layout_constraintTop_toBottomOf="@id/DoubleCheckPasswordTextView" />
 
             <TextView
-                android:id="@+id/PhoneNumberTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/PhoneNumber"
-                android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="@+id/DoubleCheckPasswordEditText"
-                app:layout_constraintTop_toBottomOf="@+id/DoubleCheckPasswordEditText" />
-
-            <EditText
-                android:id="@+id/PhoneNumberEditText"
+                android:id="@+id/RoleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_background"
-                android:ems="10"
-                android:hint="@string/PhoneNumber"
-                android:inputType="phone"
-                android:padding="5dp"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/PhoneNumberTextView"
-                app:layout_constraintTop_toBottomOf="@+id/PhoneNumberTextView" />
-
-            <TextView
-                android:id="@+id/RoleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/RoleTextView"
                 android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="@+id/PhoneNumberTextView"
-                app:layout_constraintTop_toBottomOf="@+id/PhoneNumberEditText" />
+                app:layout_constraintStart_toStartOf="@+id/DoubleCheckPasswordTextView"
+                app:layout_constraintTop_toBottomOf="@+id/DoubleCheckPasswordEditText" />
 
             <Spinner
                 android:id="@+id/RoleSpinner"
@@ -250,13 +225,13 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <Button
-                android:id="@+id/SignUpButton"
+                android:id="@+id/NextButton"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:background="@drawable/button_background"
-                android:onClick="SignUpActivityButtonClicked"
-                android:text="@string/SignUp"
+                android:onClick="NextButtonButtonClicked"
+                android:text="@string/Next"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:visibility="visible"

@@ -63,6 +63,14 @@
     <string name="RoleTextView">الدور</string>
     <string name="FailToSignUpMessage">حدث خلل خلال إنشاء الحساب, يرجى المحاولة مرة أخرى</string>
     <string name="InternetConnectionMessage">يرجى التحقق من الإتصال بالإنترنت</string>
+    <string name="Next">التالي</string>
+    <string name="PhoneNumberVerificationButtonText">تأكيد رقم الهاتف</string>
+    <string name="VerificationTextView">أدخل رمز التحقق</string>
+    <string name="VerificationEditTextText">رمز التحقق</string>
+    <string name="SendTheCode">أرسل الرمز</string>
+    <string name="OurFarmer">مُزارعنا</string>
+    <string name="AreaCodeText">962+</string>
+    <string name="ResendVerificationCode">إعادة إرسال رمز التحقق ؟</string>
     <string-array name="role_array">
         <item>مستخدم</item>
         <item>صاحب عمل</item>
