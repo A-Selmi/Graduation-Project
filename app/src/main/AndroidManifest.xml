@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -12,7 +13,8 @@
         android:roundIcon="@mipmap/ic_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VerificationActivity"></activity>
+        <activity android:name=".ProfileOthorUsersActivity"></activity>
+        <activity android:name=".VerificationActivity" />
         <activity android:name=".PhoneNumberActivity" />
         <activity android:name=".WorkerDetailsActivity" />
         <activity android:name=".AdviserCvActivity" />

@@ -80,8 +80,6 @@ public class LoginActivity extends AppCompatActivity {
                                             MainActivity.SaveSharedPreference.setRole(context, document.getData().get("Role").toString());
                                             MainActivity.SaveSharedPreference.setPassword(context, document.getData().get("Password").toString());
                                             if (document.getData().get("Role").toString().equals("4")) {
-                                                Toast.makeText(context, "dd", Toast.LENGTH_SHORT).show();
-                                                Toast.makeText(context, document.getData().get("Role").toString(), Toast.LENGTH_SHORT).show();
                                                 MainActivity.SaveSharedPreference.setPE(context, document.getData().get("PE").toString());
                                                 MainActivity.SaveSharedPreference.setPP(context, document.getData().get("PP").toString());
                                                 MainActivity.SaveSharedPreference.setSkills(context, document.getData().get("Skills").toString());

@@ -84,6 +84,19 @@
                 app:layout_constraintStart_toStartOf="@+id/CheckPhoneNumberButton"
                 app:layout_constraintTop_toBottomOf="@+id/CheckPhoneNumberButton" />
 
+            <TextView
+                android:id="@+id/ResendVerificationCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:onClick="ResendVerificationCodeClicked"
+                android:text="إعادة إرسال الرمز"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/VerificayioncodeEditText"
+                app:layout_constraintTop_toBottomOf="@+id/VerificayioncodeEditText" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

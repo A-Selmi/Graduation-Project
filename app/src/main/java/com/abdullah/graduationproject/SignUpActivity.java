@@ -107,10 +107,13 @@ public class SignUpActivity extends AppCompatActivity {
                 MainActivity.SaveSharedPreference.setRole(context, "4");
             }
             MainActivity.SaveSharedPreference.setPassword(context, PasswordEditText.getText().toString().trim());
-            if (RoleSpinner.getSelectedItem().toString().equals("مزارع عامل") ||
-                    RoleSpinner.getSelectedItem().toString().equals("مهندس زراعي")) {
+            if (RoleSpinner.getSelectedItem().toString().equals("مزارع عامل")) {
                 Intent toAdviserCvActivity = new Intent(this, AdviserCvActivity.class);
-                toAdviserCvActivity.putExtra("Role", RoleSpinner.getSelectedItem().toString());
+                toAdviserCvActivity.putExtra("Role", "1");
+                startActivity(toAdviserCvActivity);
+            }else if (RoleSpinner.getSelectedItem().toString().equals("مهندس زراعي")) {
+                Intent toAdviserCvActivity = new Intent(this, AdviserCvActivity.class);
+                toAdviserCvActivity.putExtra("Role", "2");
                 startActivity(toAdviserCvActivity);
             } else {
                 Intent toPhoneNumberActivity = new Intent(this, PhoneNumberActivity.class);

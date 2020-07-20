@@ -7,19 +7,28 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Context context;
     ImageView UserProfilePictureImageView;
     TextView UserNameTextView;
+    Intent toLoginActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,26 +49,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         findHomeViews();
         ReadyForDrawer(savedInstanceState);
+        if (SaveSharedPreference.getLogIn(context).equals("true")) {
+            Toast.makeText(context, "مرحبًا " + SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new HomeFragment()).commit();
+        navigationView.setCheckedItem(R.id.nav_home);
+        setAppLocale("ar");
         findHomeViews();
-        if(SaveSharedPreference.getLogIn(context).equals("true")) {
+        if (SaveSharedPreference.getLogIn(context).equals("true")) {
             loginNavHeaderTextView.setText("تسجيل الخروج");
             loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.Red));
             UserNameTextView.setText(SaveSharedPreference.getFirstName(context) + " " + SaveSharedPreference.getLastName(context));
             UserNameTextView.setVisibility(View.VISIBLE);
             //TODO Check The Photo
             UserProfilePictureImageView.setImageResource(R.drawable.image);
-        }else {
+            Toast.makeText(context, "مرحبًا " + SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
+        } else {
             loginNavHeaderTextView.setText("تسجيل الدخول");
             loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
             UserProfilePictureImageView.setImageResource(R.drawable.profiledefault);
             UserNameTextView.setText("");
             UserNameTextView.setVisibility(View.GONE);
         }
+    }
+
+    public void setAppLocale(String localCode) {
+        Resources resources = getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(new Locale(localCode.toLowerCase()));
+        } else {
+            configuration.locale = new Locale(localCode.toLowerCase());
+        }
+        resources.updateConfiguration(configuration, metrics);
     }
 
     private void ReadyForDrawer(Bundle savedInstanceState) {
@@ -87,18 +117,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (SaveSharedPreference.getLogIn(context).equals("true")) {
+            switch (item.getItemId()) {
+                case R.id.nav_profile:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new ProfileFragment()).commit();
+                    break;
+                case R.id.nav_favorite:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new FavoriteFragment()).commit();
+                    break;
+            }
+        } else {
+            switch (item.getItemId()) {
+                case R.id.nav_profile:
+                    startActivity(toLoginActivity);
+                    break;
+                case R.id.nav_favorite:
+                    startActivity(toLoginActivity);
+                    break;
+            }
+        }
         switch (item.getItemId()) {
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new HomeFragment()).commit();
-                break;
-            case R.id.nav_profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ProfileFragment()).commit();
-                break;
-            case R.id.nav_favorite:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new FavoriteFragment()).commit();
                 break;
             case R.id.nav_water:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -145,62 +188,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loginNavHeaderTextView = HomeView.findViewById(R.id.loginNavHeaderTextView);
         UserProfilePictureImageView = HomeView.findViewById(R.id.UserProfilePictureImageView);
         UserNameTextView = HomeView.findViewById(R.id.UserNameTextView);
+        toLoginActivity = new Intent(MainActivity.this, LoginActivity.class);
     }
 
     public void loginNavHeaderTextViewClicked(View view) {
         drawerLayout.closeDrawer(GravityCompat.START);
-        if(SaveSharedPreference.getLogIn(context).equals("true")) {
-            SaveSharedPreference.setLogIn(context, "false");
-            SaveSharedPreference.setFirstName(context, "");
-            SaveSharedPreference.setLastName(context, "");
-            SaveSharedPreference.setLocation(context, "");
-            SaveSharedPreference.setAge(context, "");
-            SaveSharedPreference.setRole(context, "");
-            SaveSharedPreference.setPassword(context, "");
-            loginNavHeaderTextView.setText("تسجيل الدخول");
-            loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
-            UserProfilePictureImageView.setImageResource(R.drawable.profiledefault);
-            UserNameTextView.setText("");
-            UserNameTextView.setVisibility(View.GONE);
-
-        }else {
+        if (SaveSharedPreference.getLogIn(context).equals("true")) {
+            AlertDialog dialog = LogoutDialog();
+            dialog.show();
+        } else {
             Intent toLoginActivity = new Intent(this, LoginActivity.class);
             startActivity(toLoginActivity);
         }
     }
 
-    public void AddPostButtonClicked(View view) {
-        Intent toAddPostActivity = new Intent(this, AddPostActivity.class);
-        startActivity(toAddPostActivity);
-    }
-
-    public void DeletePostButtonClicked(View view) {
-        Intent toDeletePostActivity = new Intent(this, DeleteActivity.class);
-        startActivity(toDeletePostActivity);
-    }
-
     public void UserProfilePictureImageViewClicked(View view) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new ProfileFragment()).commit();
+        if (SaveSharedPreference.getLogIn(context).equals("true")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new ProfileFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_profile);
+        } else {
+            startActivity(toLoginActivity);
+        }
         drawerLayout.closeDrawer(GravityCompat.START);
-    }
-
-    public void AboutWorkerTextViewProfileActivity(View view) {
-        Intent toWorkerDetailsActivity = new Intent(this, WorkerDetailsActivity.class);
-        startActivity(toWorkerDetailsActivity);
-    }
-
-    public void ReviewButtonProfileActivityClicked(View view) {
-        Toast.makeText(this, "Review Added!", Toast.LENGTH_SHORT).show();
-    }
-
-    public void EditProfileProfileActivityClicked(View view) {
-        Intent toSignUpActivity = new Intent(this, SignUpActivity.class);
-        startActivity(toSignUpActivity);
-    }
-
-    public void UploadPictureProfileActivityClicked(View view) {
-        Toast.makeText(this, "Upload A Picture", Toast.LENGTH_SHORT).show();
     }
 
     public static class SaveSharedPreference {
@@ -340,5 +350,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public static String getAbout(Context ctx) {
             return getSharedPreferences(ctx).getString(PREF_ABOUT, "");
         }
+    }
+
+    private AlertDialog LogoutDialog() {
+        final AlertDialog LogoutDialog = new AlertDialog.Builder(this)
+                .setTitle("تسجيل الخروج")
+                .setMessage("هل تريد إكمال تسجيل الخروج ؟")
+                .setIcon(R.drawable.ic_log_out)
+                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                        SaveSharedPreference.setLogIn(context, "false");
+                        SaveSharedPreference.setFirstName(context, "");
+                        SaveSharedPreference.setLastName(context, "");
+                        SaveSharedPreference.setLocation(context, "");
+                        SaveSharedPreference.setAge(context, "");
+                        SaveSharedPreference.setRole(context, "");
+                        SaveSharedPreference.setPassword(context, "");
+                        loginNavHeaderTextView.setText("تسجيل الدخول");
+                        loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
+                        UserProfilePictureImageView.setImageResource(R.drawable.profiledefault);
+                        UserNameTextView.setText("");
+                        UserNameTextView.setVisibility(View.GONE);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                new HomeFragment()).commit();
+                        navigationView.setCheckedItem(R.id.nav_home);
+                    }
+                })
+                .setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        LogoutDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                LogoutDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.Red));
+            }
+        });
+
+        return LogoutDialog;
     }
 }

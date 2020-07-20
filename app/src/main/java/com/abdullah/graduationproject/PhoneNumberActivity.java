@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,10 +21,18 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class PhoneNumberActivity extends AppCompatActivity {
 
@@ -118,6 +128,7 @@ public class PhoneNumberActivity extends AppCompatActivity {
                         progressBarPhoneNumber.setVisibility(View.GONE);
                         Intent toVerificationActivity = new Intent(PhoneNumberActivity.this, VerificationActivity.class);
                         toVerificationActivity.putExtra("phoneNumber", VerificayioncodeEditText.getText().toString().trim());
+                        toVerificationActivity.putExtra("uri", getIntent().getStringExtra("uri"));
                         startActivity(toVerificationActivity);
                     }
                 })
@@ -163,4 +174,6 @@ public class PhoneNumberActivity extends AppCompatActivity {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+
 }

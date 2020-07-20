@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,9 +28,15 @@ import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +52,11 @@ public class VerificationActivity extends AppCompatActivity {
     Context context;
     FirebaseFirestore db;
     Map<String, Object> user;
+    PhoneAuthProvider.ForceResendingToken resendingToken;
+    FirebaseStorage storage;
+    FirebaseDatabase database;
+    ProgressDialog progressDialog;
+    Uri pdfUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +70,7 @@ public class VerificationActivity extends AppCompatActivity {
         findView();
         progressBarVerification.setVisibility(View.GONE);
         sendVerificationCode(phoneNumber);
+        Toast.makeText(context, "جاري إرسال الرمز", Toast.LENGTH_SHORT).show();
     }
 
     private void findView() {
@@ -66,12 +80,20 @@ public class VerificationActivity extends AppCompatActivity {
         progressBarVerification = findViewById(R.id.progressBarVerification);
         phoneNumber = "+962" + getIntent().getStringExtra("phoneNumber");
         context = this;
+        if (MainActivity.SaveSharedPreference.getRole(context).equals("3")) {
+            pdfUri = Uri.parse(getIntent().getStringExtra("uri"));
+        }
+        storage = FirebaseStorage.getInstance();
+        database = FirebaseDatabase.getInstance();
     }
 
     public void CheckPhoneNumberButtonClicked(View view) {
         hideKeyboard(this);
         if (VerificayioncodeEditText.getText().toString().trim().length() == 0) {
             VerificayioncodeEditText.setError("هذا الحقل مطلوب !");
+            VerificayioncodeEditText.requestFocus();
+        } else if (VerificayioncodeEditText.getText().toString().trim().length() < 6) {
+            VerificayioncodeEditText.setError("الرمز غير صالح ");
             VerificayioncodeEditText.requestFocus();
         } else {
             verifyCode(VerificayioncodeEditText.getText().toString().trim());
@@ -93,21 +115,28 @@ public class VerificationActivity extends AppCompatActivity {
         if (Connected()) {
             progressBarVerification.setVisibility(View.VISIBLE);
             Clickable(false);
+            UploadThePDFFile();
             user = new HashMap<>();
             user.put("First Name", MainActivity.SaveSharedPreference.getFirstName(context));
             user.put("Last Name", MainActivity.SaveSharedPreference.getLastName(context));
-            user.put("Location ", MainActivity.SaveSharedPreference.getLocation(context));
+            user.put("Location", MainActivity.SaveSharedPreference.getLocation(context));
             user.put("Age", MainActivity.SaveSharedPreference.getAge(context));
             user.put("Role", MainActivity.SaveSharedPreference.getRole(context));
             user.put("Password", MainActivity.SaveSharedPreference.getPassword(context));
 
             if (MainActivity.SaveSharedPreference.getRole(context).equals("4")) {
-                user.put("PE ", MainActivity.SaveSharedPreference.getPE(context));
+                user.put("PE", MainActivity.SaveSharedPreference.getPE(context));
                 user.put("PP", MainActivity.SaveSharedPreference.getPP(context));
                 user.put("Skills", MainActivity.SaveSharedPreference.getSkills(context));
                 user.put("About", MainActivity.SaveSharedPreference.getAbout(context));
             } else if (MainActivity.SaveSharedPreference.getRole(context).equals("3")) {
-                // TODO Upload CV
+                try {
+                } catch (Exception e) {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
 
             db.collection("Users").document(phoneNumber)
@@ -156,14 +185,29 @@ public class VerificationActivity extends AppCompatActivity {
     private void sendVerificationCode(String phoneNumber) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,
-                5,
+                3,
                 TimeUnit.SECONDS,
                 TaskExecutors.MAIN_THREAD,
                 callbacks
         );
     }
 
+    private void resendVerificationCode(String phoneNumber, PhoneAuthProvider.ForceResendingToken token) {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNumber,
+                3,
+                TimeUnit.SECONDS,
+                this,
+                callbacks,
+                token);
+    }
+
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+        @Override
+        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            resendingToken = forceResendingToken;
+        }
 
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
@@ -176,7 +220,7 @@ public class VerificationActivity extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
-            Toast.makeText(VerificationActivity.this, "حدث خطأ, يرجى المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
+            Toast.makeText(VerificationActivity.this, "حدث خطأ, يرجى المحاولة لاحقًا", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -189,4 +233,54 @@ public class VerificationActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    public void ResendVerificationCodeClicked(View view) {
+        resendVerificationCode(phoneNumber, resendingToken);
+        Toast.makeText(context, "جاري إعادة إرسال الرمز", Toast.LENGTH_SHORT).show();
+    }
+
+    public void UploadThePDFFile() {
+        if (pdfUri != null) {
+            uploudFile(pdfUri);
+        } else {
+            Toast.makeText(this, "اختار الملف ", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void uploudFile(Uri pdfUri) {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setTitle("تحميل الملف ");
+        progressDialog.setProgress(0);
+        progressDialog.show();
+        final String fileName = System.currentTimeMillis() + "";
+        StorageReference storageReference = storage.getReference();
+        storageReference.child("Uploads").child(fileName).putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String url = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                DatabaseReference reference = database.getReference();
+                reference.child(fileName).setValue(url).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(context, "تم تحميل الملف", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, "حدث خطأ أثناء تحميل الملف", Toast.LENGTH_SHORT).show();
+                Intent backMainActivity = new Intent(VerificationActivity.this, MainActivity.class);
+                backMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(backMainActivity);
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                int currentProgress = (int) (100 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                progressDialog.setProgress(currentProgress);
+            }
+        });
+    }
 }

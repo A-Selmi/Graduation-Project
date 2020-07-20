@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ProfileOthorUsersActivity"
     android:background="@drawable/background">
 
     <ScrollView
@@ -21,7 +22,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/TitleProfileTextView"
+                android:id="@+id/TitleProfileTextViewOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -35,32 +36,32 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/AdviserLocationTextView"
+                android:id="@+id/AdviserLocationTextViewOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="(مستشار زراعي)"
                 android:textColor="@color/duskYellow"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextView"
-                app:layout_constraintStart_toStartOf="@+id/TitleProfileTextView"
-                app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextView" />
+                app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextViewOther"
+                app:layout_constraintStart_toStartOf="@+id/TitleProfileTextViewOther"
+                app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextViewOther"
+                tools:text="(مستشار زراعي)" />
 
             <ImageView
-                android:id="@+id/ProfileImageView"
+                android:id="@+id/ProfileImageViewOther"
                 android:layout_width="225dp"
                 android:layout_height="225dp"
                 android:layout_marginTop="50dp"
                 android:padding="5dp"
                 android:scaleType="fitXY"
-                app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextView"
-                app:layout_constraintStart_toStartOf="@+id/TitleProfileTextView"
-                app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextView"
-                app:srcCompat="@drawable/profiledefault" />
+                app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextViewOther"
+                app:layout_constraintStart_toStartOf="@+id/TitleProfileTextViewOther"
+                app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextViewOther"
+                tools:srcCompat="@drawable/profiledefault" />
 
             <TextView
-                android:id="@+id/NameTextViewProfile"
+                android:id="@+id/NameTextViewProfileOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -69,11 +70,11 @@
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ProfileImageView"
+                app:layout_constraintTop_toBottomOf="@+id/ProfileImageViewOther"
                 tools:text="الإسم : طلال ريالات" />
 
             <TextView
-                android:id="@+id/LocationTextViewProfile"
+                android:id="@+id/LocationTextViewProfileOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -82,22 +83,22 @@
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfile"
+                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfileOther"
                 tools:text="الموقع : السلط" />
 
             <TextView
-                android:id="@+id/DateOfBirthTextViewProfile"
+                android:id="@+id/DateOfBirthTextViewProfileOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
-                app:layout_constraintTop_toBottomOf="@+id/ProfileImageView"
+                app:layout_constraintEnd_toEndOf="@+id/ProfileImageViewOther"
+                app:layout_constraintTop_toBottomOf="@+id/ProfileImageViewOther"
                 tools:text="العمر : 24 سنة" />
 
             <TextView
-                android:id="@+id/PhoneNumberTextView"
+                android:id="@+id/PhoneNumberTextViewOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -105,11 +106,11 @@
                 android:layout_marginTop="16dp"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/LocationTextViewProfile"
+                app:layout_constraintTop_toBottomOf="@+id/LocationTextViewProfileOther"
                 tools:text="الهاتف : 0798988517" />
 
             <RatingBar
-                android:id="@+id/ratingBar1Profile"
+                android:id="@+id/ratingBar1ProfileOther"
                 style="?android:attr/ratingBarStyleIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -117,43 +118,50 @@
                 android:numStars="1"
                 android:rating="1"
                 android:theme="@style/RatingBar"
-                app:layout_constraintBottom_toBottomOf="@+id/LocationTextViewProfile"
-                app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
-                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfile" />
-
-            <Button
-                android:id="@+id/AddPostButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/button_background"
-                android:text="@string/AddPost"
-                android:textColor="@android:color/white"
-                android:visibility="visible"
-                app:layout_constraintEnd_toStartOf="@+id/DeletePostButton"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/PhoneNumberTextView" />
+                app:layout_constraintBottom_toBottomOf="@+id/LocationTextViewProfileOther"
+                app:layout_constraintEnd_toEndOf="@+id/ProfileImageViewOther"
+                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfileOther" />
 
             <TextView
-                android:id="@+id/AboutWorkerTextViewProfileActivity"
+                android:id="@+id/AboutWorkerTextViewProfileActivityOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/AboutWorker"
                 android:textColor="@android:color/holo_blue_bright"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/PhoneNumberTextView"
-                app:layout_constraintEnd_toEndOf="@+id/ratingBar1Profile"
-                app:layout_constraintStart_toStartOf="@+id/RatingtextViewProfile"
-                app:layout_constraintTop_toTopOf="@+id/PhoneNumberTextView" />
+                app:layout_constraintBottom_toBottomOf="@+id/PhoneNumberTextViewOther"
+                app:layout_constraintEnd_toEndOf="@+id/ratingBar1ProfileOther"
+                app:layout_constraintStart_toStartOf="@+id/RatingtextViewProfileOther"
+                app:layout_constraintTop_toTopOf="@+id/PhoneNumberTextViewOther" />
+
+            <RatingBar
+                android:id="@+id/ratingBar2ProfileOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:theme="@style/RatingBarDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/PhoneNumberTextViewOther" />
+
+            <Button
+                android:id="@+id/ReviewButtonProfileActivityOther"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_background"
+                android:text="@string/Review"
+                android:textColor="@android:color/white"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/ratingBar2ProfileOther"
+                app:layout_constraintStart_toStartOf="@+id/ratingBar2ProfileOther"
+                app:layout_constraintTop_toBottomOf="@+id/ratingBar2ProfileOther" />
 
             <TextView
-                android:id="@+id/RatingtextViewProfile"
+                android:id="@+id/RatingtextViewProfileOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
@@ -161,18 +169,18 @@
                 android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/ratingBar1Profile"
-                app:layout_constraintEnd_toStartOf="@+id/ratingBar1Profile"
-                app:layout_constraintTop_toTopOf="@+id/ratingBar1Profile"
+                app:layout_constraintBottom_toBottomOf="@+id/ratingBar1ProfileOther"
+                app:layout_constraintEnd_toStartOf="@+id/ratingBar1ProfileOther"
+                app:layout_constraintTop_toTopOf="@+id/ratingBar1ProfileOther"
                 tools:text="3.7" />
 
             <ListView
-                android:id="@+id/ProfileListViewProfileActivity"
+                android:id="@+id/ProfileListViewProfileActivityOther"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
@@ -180,39 +188,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/AddPostButton" />
-
-            <ImageView
-                android:id="@+id/UploadPictureProfileActivity"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
-                app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
-                app:srcCompat="@drawable/ic_camera" />
-
-            <Button
-                android:id="@+id/DeletePostButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/delete_button_background"
-                android:text="@string/DeletePost"
-                android:textColor="@android:color/white"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/AddPostButton"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/AddPostButton"
-                app:layout_constraintTop_toTopOf="@+id/AddPostButton" />
-
-            <ImageView
-                android:id="@+id/EditProfileProfileActivity"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
-                app:layout_constraintStart_toStartOf="@+id/NameTextViewProfile"
-                app:srcCompat="@drawable/ic_edit" />
+                app:layout_constraintTop_toBottomOf="@+id/ReviewButtonProfileActivityOther" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
