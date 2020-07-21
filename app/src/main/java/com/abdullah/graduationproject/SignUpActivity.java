@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -21,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -41,6 +46,19 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         findView();
+        setAppLocale("ar");
+    }
+
+    public void setAppLocale(String localCode) {
+        Resources resources = getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(new Locale(localCode.toLowerCase()));
+        } else {
+            configuration.locale = new Locale(localCode.toLowerCase());
+        }
+        resources.updateConfiguration(configuration, metrics);
     }
 
     private boolean CheckState() {

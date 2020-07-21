@@ -8,10 +8,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -34,6 +38,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Locale;
+
 public class PhoneNumberActivity extends AppCompatActivity {
 
     EditText VerificayioncodeEditText;
@@ -48,6 +54,26 @@ public class PhoneNumberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_phone_number);
         findView();
         progressBarPhoneNumber.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        findView();
+        setAppLocale("ar");
+        progressBarPhoneNumber.setVisibility(View.GONE);
+    }
+
+    public void setAppLocale(String localCode) {
+        Resources resources = getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(new Locale(localCode.toLowerCase()));
+        } else {
+            configuration.locale = new Locale(localCode.toLowerCase());
+        }
+        resources.updateConfiguration(configuration, metrics);
     }
 
     public void PhoneNumberVerificationButtonClicked(View view) {

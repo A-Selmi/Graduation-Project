@@ -50,18 +50,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         findHomeViews();
         ReadyForDrawer(savedInstanceState);
         if (SaveSharedPreference.getLogIn(context).equals("true")) {
-            Toast.makeText(context, "مرحبًا " + SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "مرحباً " + SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        findHomeViews();
+        setAppLocale("ar");
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HomeFragment()).commit();
         navigationView.setCheckedItem(R.id.nav_home);
-        setAppLocale("ar");
-        findHomeViews();
         if (SaveSharedPreference.getLogIn(context).equals("true")) {
             loginNavHeaderTextView.setText("تسجيل الخروج");
             loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.Red));
@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             UserNameTextView.setVisibility(View.VISIBLE);
             //TODO Check The Photo
             UserProfilePictureImageView.setImageResource(R.drawable.image);
-            Toast.makeText(context, "مرحبًا " + SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
         } else {
             loginNavHeaderTextView.setText("تسجيل الدخول");
             loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -375,6 +374,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                 new HomeFragment()).commit();
                         navigationView.setCheckedItem(R.id.nav_home);
+                        Toast.makeText(context, "تم تسجيل الخروج", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("لا", new DialogInterface.OnClickListener() {

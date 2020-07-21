@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -20,6 +24,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,8 +45,21 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         findview();
+        setAppLocale("ar");
         Clickable(true);
         progressBarLogin.setVisibility(View.GONE);
+    }
+
+    public void setAppLocale(String localCode) {
+        Resources resources = getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(new Locale(localCode.toLowerCase()));
+        } else {
+            configuration.locale = new Locale(localCode.toLowerCase());
+        }
+        resources.updateConfiguration(configuration, metrics);
     }
 
     private void findview() {
@@ -87,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                                             }
                                             Clickable(true);
                                             progressBarLogin.setVisibility(View.GONE);
+                                            Toast.makeText(context, "مرحباً " + MainActivity.SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
                                             finish();
                                             return;
                                         }

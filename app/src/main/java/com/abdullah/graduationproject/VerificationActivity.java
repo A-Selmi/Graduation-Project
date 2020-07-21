@@ -7,10 +7,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -39,6 +43,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -68,9 +73,22 @@ public class VerificationActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         findView();
+        setAppLocale("ar");
         progressBarVerification.setVisibility(View.GONE);
         sendVerificationCode(phoneNumber);
         Toast.makeText(context, "جاري إرسال الرمز", Toast.LENGTH_SHORT).show();
+    }
+
+    public void setAppLocale(String localCode) {
+        Resources resources = getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(new Locale(localCode.toLowerCase()));
+        } else {
+            configuration.locale = new Locale(localCode.toLowerCase());
+        }
+        resources.updateConfiguration(configuration, metrics);
     }
 
     private void findView() {
@@ -148,6 +166,7 @@ public class VerificationActivity extends AppCompatActivity {
                             MainActivity.SaveSharedPreference.setPhoneNumber(context, phoneNumber);
                             Clickable(true);
                             progressBarVerification.setVisibility(View.GONE);
+                            Toast.makeText(context, "مرحباً " + MainActivity.SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
                             Intent backMainActivity = new Intent(VerificationActivity.this, MainActivity.class);
                             backMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(backMainActivity);
@@ -202,10 +221,11 @@ public class VerificationActivity extends AppCompatActivity {
                 token);
     }
 
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks()   {
 
         @Override
         public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            super.onCodeSent(s, forceResendingToken);
             resendingToken = forceResendingToken;
         }
 

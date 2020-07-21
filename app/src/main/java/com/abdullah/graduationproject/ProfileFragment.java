@@ -89,7 +89,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private void CheckVisibility() {
-        //TODO Check Visibility
         if (MainActivity.SaveSharedPreference.getRole(getActivity()).equals("1")) {
             AdviserLocationTextView.setVisibility(View.GONE);
             RatingtextViewProfile.setVisibility(View.GONE);

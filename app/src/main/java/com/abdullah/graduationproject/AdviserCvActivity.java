@@ -12,8 +12,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -32,6 +36,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.Locale;
 
 public class AdviserCvActivity extends AppCompatActivity {
 
@@ -54,6 +60,7 @@ public class AdviserCvActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         findView();
+        setAppLocale("ar");
         if (Role.equals("1")) {
             CVScrollView.setVisibility(View.GONE);
             WorkerDetailsScrollView.setVisibility(View.VISIBLE);
@@ -61,6 +68,18 @@ public class AdviserCvActivity extends AppCompatActivity {
             CVScrollView.setVisibility(View.VISIBLE);
             WorkerDetailsScrollView.setVisibility(View.GONE);
         }
+    }
+
+    public void setAppLocale(String localCode) {
+        Resources resources = getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(new Locale(localCode.toLowerCase()));
+        } else {
+            configuration.locale = new Locale(localCode.toLowerCase());
+        }
+        resources.updateConfiguration(configuration, metrics);
     }
 
     private void findView() {
