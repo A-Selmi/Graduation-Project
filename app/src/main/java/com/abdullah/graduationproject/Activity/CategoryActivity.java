@@ -1,10 +1,12 @@
-package com.abdullah.graduationproject;
+package com.abdullah.graduationproject.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.abdullah.graduationproject.R;
 
 public class CategoryActivity extends AppCompatActivity {
 

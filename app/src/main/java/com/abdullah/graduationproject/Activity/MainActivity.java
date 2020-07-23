@@ -1,4 +1,4 @@
-package com.abdullah.graduationproject;
+package com.abdullah.graduationproject.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -14,19 +14,36 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.abdullah.graduationproject.Fragments.AdviserFragment;
+import com.abdullah.graduationproject.Fragments.FavoriteFragment;
+import com.abdullah.graduationproject.Fragments.FruitsAndVegetablesFragment;
+import com.abdullah.graduationproject.Fragments.HomeFragment;
+import com.abdullah.graduationproject.Fragments.ProfileFragment;
+import com.abdullah.graduationproject.Fragments.SeedsFragment;
+import com.abdullah.graduationproject.Fragments.ToolsFragment;
+import com.abdullah.graduationproject.Fragments.WaterFragment;
+import com.abdullah.graduationproject.Fragments.WorkerFragment;
+import com.abdullah.graduationproject.LogInActivities.LoginActivity;
+import com.abdullah.graduationproject.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Locale;
 
@@ -42,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView UserProfilePictureImageView;
     TextView UserNameTextView;
     Intent toLoginActivity;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +77,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         findHomeViews();
         setAppLocale("ar");
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
-        navigationView.setCheckedItem(R.id.nav_home);
+        CheckTheFragment();
+        CheckTheState();
+        if(SaveSharedPreference.getLogIn(context).equals("true")) {
+            navigationView = findViewById(R.id.nav_view);
+            Menu menu = navigationView.getMenu();
+            menu.findItem(R.id.nav_delete_account).setVisible(true);
+        }else {
+            navigationView = findViewById(R.id.nav_view);
+            Menu menu = navigationView.getMenu();
+            menu.findItem(R.id.nav_delete_account).setVisible(false);
+        }
+    }
+
+    private void CheckTheState() {
         if (SaveSharedPreference.getLogIn(context).equals("true")) {
             loginNavHeaderTextView.setText("تسجيل الخروج");
             loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.Red));
@@ -78,11 +107,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    private void CheckTheFragment() {
+        if (MainActivity.SaveSharedPreference.getFragment(this).equals("1")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new ProfileFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_profile);
+        } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
+        }
+    }
+
     public void setAppLocale(String localCode) {
         Resources resources = getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         Configuration configuration = resources.getConfiguration();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             configuration.setLocale(new Locale(localCode.toLowerCase()));
         } else {
             configuration.locale = new Locale(localCode.toLowerCase());
@@ -173,12 +214,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent toAboutUsActivity = new Intent(this, AboutUsActivity.class);
                 startActivity(toAboutUsActivity);
                 break;
+            case R.id.nav_delete_account:
+                AlertDialog dialog = DeleteAccountDialog();
+                dialog.show();
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void findHomeViews() {
+        db = FirebaseFirestore.getInstance();
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_view);
         context = this;
@@ -214,6 +260,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static class SaveSharedPreference {
         static final String PREF_LOGIN = "LogIn";
+        static final String PREF_FRAGMENT = "Fragment";
         static final String PREF_FIRSTNAME = "FirstName";
         static final String PREF_LASTTNAME = "LastName";
         static final String PREF_LOCATION = "Location";
@@ -238,6 +285,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         public static String getLogIn(Context ctx) {
             return getSharedPreferences(ctx).getString(PREF_LOGIN, "");
+        }
+
+        public static void setFragment(Context ctx, String fragment) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_FRAGMENT, fragment);
+            editor.apply();
+        }
+
+        public static String getFragment(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_FRAGMENT, "");
         }
 
         public static void setFirstName(Context ctx, String firstname) {
@@ -359,21 +416,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.dismiss();
-                        SaveSharedPreference.setLogIn(context, "false");
-                        SaveSharedPreference.setFirstName(context, "");
-                        SaveSharedPreference.setLastName(context, "");
-                        SaveSharedPreference.setLocation(context, "");
-                        SaveSharedPreference.setAge(context, "");
-                        SaveSharedPreference.setRole(context, "");
-                        SaveSharedPreference.setPassword(context, "");
-                        loginNavHeaderTextView.setText("تسجيل الدخول");
-                        loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
-                        UserProfilePictureImageView.setImageResource(R.drawable.profiledefault);
-                        UserNameTextView.setText("");
-                        UserNameTextView.setVisibility(View.GONE);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new HomeFragment()).commit();
-                        navigationView.setCheckedItem(R.id.nav_home);
+                        Logout();
+                        navigationView = findViewById(R.id.nav_view);
+                        Menu menu = navigationView.getMenu();
+                        menu.findItem(R.id.nav_delete_account).setVisible(false);
                         Toast.makeText(context, "تم تسجيل الخروج", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -391,5 +437,134 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         return LogoutDialog;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // if the kyboard open
+                 // close it
+                 // close the search bar
+            drawerLayout.closeDrawer(GravityCompat.START);
+            AlertDialog dialog = ExitDialog();
+            dialog.show();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private AlertDialog ExitDialog() {
+        final AlertDialog LogoutDialog = new AlertDialog.Builder(this)
+                .setTitle("خروج")
+                .setMessage("هل تريد الخروج من التطبيق ؟")
+                .setIcon(R.drawable.ic_log_out)
+                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                })
+                .setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        LogoutDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                LogoutDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.Red));
+            }
+        });
+        return LogoutDialog;
+    }
+
+    private AlertDialog DeleteAccountDialog() {
+        final AlertDialog LogoutDialog = new AlertDialog.Builder(this)
+                .setTitle("حذف الحساب")
+                .setMessage("عند حذفك للحساب سوف يتم حذف جميع البيانات المرتبطة بذلك الحساب\n هل تريد المتابعة ؟")
+                .setIcon(R.drawable.ic_delete_account)
+                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                        if(Connected()) {
+                            DeleteAccount();
+                        }else {
+                            Toast.makeText(context, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        LogoutDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                LogoutDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.Red));
+            }
+        });
+        return LogoutDialog;
+    }
+
+    private void DeleteAccount() {
+        Clickable(false);
+        db.collection("Users").document(SaveSharedPreference.getPhoneNumber(this))
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Logout();
+                        navigationView = findViewById(R.id.nav_view);
+                        Menu menu = navigationView.getMenu();
+                        menu.findItem(R.id.nav_delete_account).setVisible(false);
+                        Clickable(true);
+                        Toast.makeText(MainActivity.this, "تم حذف الحساب بنجاح!", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, "حدث خطأ أثناء حذف الحساب", Toast.LENGTH_SHORT).show();
+                Clickable(true);
+
+            }
+        });
+    }
+
+    private void Logout() {
+        SaveSharedPreference.setLogIn(context, "false");
+        SaveSharedPreference.setFirstName(context, "");
+        SaveSharedPreference.setLastName(context, "");
+        SaveSharedPreference.setLocation(context, "");
+        SaveSharedPreference.setAge(context, "");
+        SaveSharedPreference.setRole(context, "");
+        SaveSharedPreference.setPassword(context, "");
+        SaveSharedPreference.setPhoneNumber(context, "");
+        loginNavHeaderTextView.setText("تسجيل الدخول");
+        loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
+        UserProfilePictureImageView.setImageResource(R.drawable.profiledefault);
+        UserNameTextView.setText("");
+        UserNameTextView.setVisibility(View.GONE);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new HomeFragment()).commit();
+        navigationView.setCheckedItem(R.id.nav_home);
+    }
+
+    public void Clickable(boolean b) {
+        if (b) {
+            this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        } else {
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }
+    }
+
+    public boolean Connected() {
+        ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        if (info != null && info.isConnected()) {
+            return true;
+        }
+        return false;
     }
 }

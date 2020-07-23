@@ -22,9 +22,10 @@
 
             <TextView
                 android:id="@+id/TitleProfileTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:text="@string/ProfilePage"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
@@ -39,6 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:text="(مستشار زراعي)"
                 android:textColor="@color/duskYellow"
                 android:textSize="20sp"
@@ -63,12 +65,10 @@
                 android:id="@+id/NameTextViewProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
                 android:layout_marginTop="30dp"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/TitleProfileTextView"
                 app:layout_constraintTop_toBottomOf="@+id/ProfileImageView"
                 tools:text="الإسم : طلال ريالات" />
 
@@ -76,36 +76,31 @@
                 android:id="@+id/LocationTextViewProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="16dp"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfile"
+                app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextView"
+                app:layout_constraintTop_toTopOf="@+id/NameTextViewProfile"
                 tools:text="الموقع : السلط" />
 
             <TextView
                 android:id="@+id/DateOfBirthTextViewProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="16dp"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
-                app:layout_constraintTop_toBottomOf="@+id/ProfileImageView"
+                app:layout_constraintStart_toStartOf="@+id/LocationTextViewProfile"
+                app:layout_constraintTop_toBottomOf="@+id/LocationTextViewProfile"
                 tools:text="العمر : 24 سنة" />
 
             <TextView
                 android:id="@+id/PhoneNumberTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
                 android:layout_marginTop="16dp"
                 android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/LocationTextViewProfile"
+                app:layout_constraintStart_toStartOf="@+id/NameTextViewProfile"
+                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfile"
                 tools:text="الهاتف : 0798988517" />
 
             <RatingBar
@@ -113,13 +108,13 @@
                 style="?android:attr/ratingBarStyleIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:numStars="1"
                 android:rating="1"
                 android:theme="@style/RatingBar"
-                app:layout_constraintBottom_toBottomOf="@+id/LocationTextViewProfile"
-                app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
-                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfile" />
+                app:layout_constraintStart_toEndOf="@+id/RatingtextViewProfile"
+                app:layout_constraintTop_toBottomOf="@+id/DateOfBirthTextViewProfile" />
 
             <Button
                 android:id="@+id/AddPostButton"
@@ -127,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="60dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/button_background"
@@ -138,32 +133,30 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/PhoneNumberTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/AboutWorkerTextViewProfileActivity" />
 
             <TextView
                 android:id="@+id/AboutWorkerTextViewProfileActivity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="@string/AboutWorker"
                 android:textColor="@android:color/holo_blue_bright"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/PhoneNumberTextView"
-                app:layout_constraintEnd_toEndOf="@+id/ratingBar1Profile"
-                app:layout_constraintStart_toStartOf="@+id/RatingtextViewProfile"
-                app:layout_constraintTop_toTopOf="@+id/PhoneNumberTextView" />
+                app:layout_constraintStart_toStartOf="@+id/PhoneNumberTextView"
+                app:layout_constraintTop_toBottomOf="@+id/PhoneNumberTextView" />
 
             <TextView
                 android:id="@+id/RatingtextViewProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
                 android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ratingBar1Profile"
-                app:layout_constraintEnd_toStartOf="@+id/ratingBar1Profile"
+                app:layout_constraintStart_toStartOf="@+id/DateOfBirthTextViewProfile"
                 app:layout_constraintTop_toTopOf="@+id/ratingBar1Profile"
+                app:layout_constraintVertical_bias="1.0"
                 tools:text="3.7" />
 
             <ListView

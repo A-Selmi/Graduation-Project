@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/image"
-    tools:context=".WorkerDetailsActivity">
+    tools:context=".Activity.WorkerDetailsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -136,14 +136,29 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/OtherTextView"
                 app:layout_constraintTop_toBottomOf="@+id/OtherTextView"
                 tools:text="تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل " />
+
+            <Button
+                android:id="@+id/EditButton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/button_background"
+                android:onClick="EditButtonClicked"
+                android:text="@string/Edit"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/otherTextView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

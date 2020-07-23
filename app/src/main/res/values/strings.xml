@@ -50,7 +50,6 @@
     <string name="HomePage">الرئيسية</string>
     <string name="ProfilePage">الملف الشخصي</string>
     <string name="Favorite">المفضلة</string>
-    <string name="OrderWorker">إطلب موظف</string>
     <string name="Adviser">المستشارين</string>
     <string name="ContactUs">تواصل معنا</string>
     <string name="AboutUsDrawer">من نحن</string>
@@ -71,6 +70,9 @@
     <string name="OurFarmer">مُزارعنا</string>
     <string name="AreaCodeText">962+</string>
     <string name="ResendVerificationCode">إعادة إرسال رمز التحقق ؟</string>
+    <string name="DeleteItem">حذف منتج</string>
+    <string name="DeleteAccount">حذف الحساب</string>
+    <string name="Edit">تعديل</string>
     <string-array name="role_array">
         <item>مستخدم</item>
         <item>صاحب عمل</item>

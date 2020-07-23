@@ -5,7 +5,7 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".Activity.MainActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -46,5 +46,6 @@
         app:itemIconTint="@color/my_desired_colour"
         app:itemTextColor="@android:color/white"
         app:menu="@menu/drawer_menu" />
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

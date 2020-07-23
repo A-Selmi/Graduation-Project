@@ -1,10 +1,12 @@
-package com.abdullah.graduationproject;
+package com.abdullah.graduationproject.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.abdullah.graduationproject.R;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -17,8 +19,9 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent toSplashActivity = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(toSplashActivity);
+                Intent toMainActivity = new Intent(SplashScreen.this, MainActivity.class);
+                MainActivity.SaveSharedPreference.setFragment(SplashScreen.this, "0");
+                startActivity(toMainActivity);
                 finish();
             }
         }, SPLASH_TIME_OUT);

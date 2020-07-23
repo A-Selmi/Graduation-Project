@@ -1,4 +1,4 @@
-package com.abdullah.graduationproject;
+package com.abdullah.graduationproject.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import com.abdullah.graduationproject.Fragments.ProfileFragment;
+import com.abdullah.graduationproject.R;
 
 public class AddPostActivity extends AppCompatActivity {
 

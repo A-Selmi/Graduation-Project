@@ -1,10 +1,12 @@
-package com.abdullah.graduationproject;
+package com.abdullah.graduationproject.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import com.abdullah.graduationproject.R;
 
 public class DetailsActivity extends AppCompatActivity {
 

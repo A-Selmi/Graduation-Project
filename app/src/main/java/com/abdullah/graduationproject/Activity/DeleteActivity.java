@@ -1,14 +1,16 @@
-package com.abdullah.graduationproject;
+package com.abdullah.graduationproject.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class WorkerDetailsActivity extends AppCompatActivity {
+import com.abdullah.graduationproject.R;
+
+public class DeleteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_worker_details);
+        setContentView(R.layout.activity_delete);
     }
 }

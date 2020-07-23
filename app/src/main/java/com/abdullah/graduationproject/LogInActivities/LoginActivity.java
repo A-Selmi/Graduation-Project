@@ -1,4 +1,4 @@
-package com.abdullah.graduationproject;
+package com.abdullah.graduationproject.LogInActivities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -19,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.abdullah.graduationproject.Activity.MainActivity;
+import com.abdullah.graduationproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         Resources resources = getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         Configuration configuration = resources.getConfiguration();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             configuration.setLocale(new Locale(localCode.toLowerCase()));
         } else {
             configuration.locale = new Locale(localCode.toLowerCase());
@@ -73,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     public void SignUpButtonClicked(View view) {
         hideKeyboard(this);
         Intent toSignUpActivity = new Intent(this, SignUpActivity.class);
+        toSignUpActivity.putExtra("state", "");
         startActivity(toSignUpActivity);
     }
 
@@ -83,48 +87,54 @@ public class LoginActivity extends AppCompatActivity {
                 Clickable(false);
                 progressBarLogin.setVisibility(View.VISIBLE);
                 phoneNumber = "+962" + EmailEditText.getText().toString().trim().substring(1);
-                db.collection("Users")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        if (document.getId().equals(phoneNumber) && document.getData().get("Password").equals(PasswordEditText.getText().toString().trim())) {
-                                            MainActivity.SaveSharedPreference.setLogIn(context, "true");
-                                            MainActivity.SaveSharedPreference.setFirstName(context, document.getData().get("First Name").toString());
-                                            MainActivity.SaveSharedPreference.setLastName(context, document.getData().get("Last Name").toString());
-                                            MainActivity.SaveSharedPreference.setLocation(context, document.getData().get("Location").toString());
-                                            MainActivity.SaveSharedPreference.setAge(context, document.getData().get("Age").toString());
-                                            MainActivity.SaveSharedPreference.setRole(context, document.getData().get("Role").toString());
-                                            MainActivity.SaveSharedPreference.setPassword(context, document.getData().get("Password").toString());
-                                            if (document.getData().get("Role").toString().equals("4")) {
-                                                MainActivity.SaveSharedPreference.setPE(context, document.getData().get("PE").toString());
-                                                MainActivity.SaveSharedPreference.setPP(context, document.getData().get("PP").toString());
-                                                MainActivity.SaveSharedPreference.setSkills(context, document.getData().get("Skills").toString());
-                                                MainActivity.SaveSharedPreference.setAbout(context, document.getData().get("About").toString());
-                                            }
-                                            Clickable(true);
-                                            progressBarLogin.setVisibility(View.GONE);
-                                            Toast.makeText(context, "مرحباً " + MainActivity.SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
-                                            finish();
-                                            return;
-                                        }
-                                    }
-                                    Clickable(true);
-                                    progressBarLogin.setVisibility(View.GONE);
-                                    Toast.makeText(LoginActivity.this, "هذا المستخدم غير موجود", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Clickable(true);
-                                    progressBarLogin.setVisibility(View.GONE);
-                                    Toast.makeText(LoginActivity.this, "حدث خطأ خلال تسجيل الدخول", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                DataBase();
             } else {
                 Toast.makeText(this, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void DataBase() {
+        db.collection("Users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (document.getId().equals(phoneNumber) && document.getData().get("Password").equals(PasswordEditText.getText().toString().trim())) {
+                                    MainActivity.SaveSharedPreference.setPhoneNumber(context, document.getId());
+                                    MainActivity.SaveSharedPreference.setLogIn(context, "true");
+                                    MainActivity.SaveSharedPreference.setFirstName(context, document.getData().get("First Name").toString());
+                                    MainActivity.SaveSharedPreference.setLastName(context, document.getData().get("Last Name").toString());
+                                    MainActivity.SaveSharedPreference.setLocation(context, document.getData().get("Location").toString());
+                                    MainActivity.SaveSharedPreference.setAge(context, document.getData().get("Age").toString());
+                                    MainActivity.SaveSharedPreference.setRole(context, document.getData().get("Role").toString());
+                                    MainActivity.SaveSharedPreference.setPassword(context, document.getData().get("Password").toString());
+                                    if (document.getData().get("Role").toString().equals("4")) {
+                                        MainActivity.SaveSharedPreference.setPE(context, document.getData().get("PE").toString());
+                                        MainActivity.SaveSharedPreference.setPP(context, document.getData().get("PP").toString());
+                                        MainActivity.SaveSharedPreference.setSkills(context, document.getData().get("Skills").toString());
+                                        MainActivity.SaveSharedPreference.setAbout(context, document.getData().get("About").toString());
+                                    }
+                                    Clickable(true);
+                                    progressBarLogin.setVisibility(View.GONE);
+                                    Toast.makeText(context, "مرحباً " + MainActivity.SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
+                                    MainActivity.SaveSharedPreference.setFragment(LoginActivity.this, "");
+                                    finish();
+                                    return;
+                                }
+                            }
+                            Clickable(true);
+                            progressBarLogin.setVisibility(View.GONE);
+                            Toast.makeText(LoginActivity.this, "هذا المستخدم غير موجود", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Clickable(true);
+                            progressBarLogin.setVisibility(View.GONE);
+                            Toast.makeText(LoginActivity.this, "حدث خطأ خلال تسجيل الدخول", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private boolean CheckState() {
@@ -179,5 +189,13 @@ public class LoginActivity extends AppCompatActivity {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            MainActivity.SaveSharedPreference.setFragment(this, "0");
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

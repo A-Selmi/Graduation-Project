@@ -1,7 +1,11 @@
-package com.abdullah.graduationproject;
+package com.abdullah.graduationproject.Fragments;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +14,19 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.abdullah.graduationproject.Activity.AddPostActivity;
+import com.abdullah.graduationproject.Activity.DeleteActivity;
+import com.abdullah.graduationproject.Activity.MainActivity;
+import com.abdullah.graduationproject.R;
+import com.abdullah.graduationproject.LogInActivities.SignUpActivity;
+import com.abdullah.graduationproject.Activity.WorkerDetailsActivity;
+
+import java.util.Locale;
 
 public class ProfileFragment extends Fragment {
 
@@ -51,21 +63,24 @@ public class ProfileFragment extends Fragment {
         AboutWorkerTextViewProfileActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent toWorkerDetailsActivity = new Intent(getActivity(), WorkerDetailsActivity.class);
+                startActivity(toWorkerDetailsActivity);
             }
         });
 
         UploadPictureProfileActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //TODO Upload picture
             }
         });
 
         EditProfileProfileActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent toSignUpActivity = new Intent(getActivity(), SignUpActivity.class);
+                toSignUpActivity.putExtra("state", "Edit");
+                startActivity(toSignUpActivity);
             }
         });
 
@@ -77,15 +92,49 @@ public class ProfileFragment extends Fragment {
         super.onResume();
         findview();
         CheckState();
+        setAppLocale("ar");
     }
 
     private void CheckState() {
+        //TODO the photo
         CheckVisibility();
         CheckData();
     }
 
     private void CheckData() {
-
+        if (MainActivity.SaveSharedPreference.getRole(getActivity()).equals("1")) {
+            NameTextViewProfile.setText("الإسم :" + MainActivity.SaveSharedPreference.getFirstName(getActivity()) + " " +
+                    MainActivity.SaveSharedPreference.getLastName(getActivity()));
+            LocationTextViewProfile.setText("الموقع :" + MainActivity.SaveSharedPreference.getLocation(getActivity()));
+            PhoneNumberTextView.setText("الهاتف :0" + MainActivity.SaveSharedPreference.getPhoneNumber(getActivity()).substring(4));
+            DateOfBirthTextViewProfile.setText("العمر :" + MainActivity.SaveSharedPreference.getAge(getActivity()));
+        } else if (MainActivity.SaveSharedPreference.getRole(getActivity()).equals("2")) {
+            NameTextViewProfile.setText("الإسم :" + MainActivity.SaveSharedPreference.getFirstName(getActivity()) + " " +
+                    MainActivity.SaveSharedPreference.getLastName(getActivity()));
+            LocationTextViewProfile.setText("الموقع :" + MainActivity.SaveSharedPreference.getLocation(getActivity()));
+            PhoneNumberTextView.setText("الهاتف :0" + MainActivity.SaveSharedPreference.getPhoneNumber(getActivity()).substring(4));
+            DateOfBirthTextViewProfile.setText("العمر :" + MainActivity.SaveSharedPreference.getAge(getActivity()));
+            AddPostButton.setText(R.string.AddItem);
+            DeletePostButton.setText(R.string.DeleteItem);
+        } else if (MainActivity.SaveSharedPreference.getRole(getActivity()).equals("3")) {
+            NameTextViewProfile.setText("الإسم :" + MainActivity.SaveSharedPreference.getFirstName(getActivity()) + " " +
+                    MainActivity.SaveSharedPreference.getLastName(getActivity()));
+            LocationTextViewProfile.setText("الموقع :" + MainActivity.SaveSharedPreference.getLocation(getActivity()));
+            PhoneNumberTextView.setText("الهاتف :0" + MainActivity.SaveSharedPreference.getPhoneNumber(getActivity()).substring(4));
+            DateOfBirthTextViewProfile.setText("العمر :" + MainActivity.SaveSharedPreference.getAge(getActivity()));
+            AddPostButton.setText(R.string.AddPost);
+            DeletePostButton.setText(R.string.DeletePost);
+            //TODO Read Reviews And add them to the list and calculate the reviews and add them to the text view
+            RatingtextViewProfile.setText("4.7");
+        } else {
+            NameTextViewProfile.setText("الإسم :" + MainActivity.SaveSharedPreference.getFirstName(getActivity()) + " " +
+                    MainActivity.SaveSharedPreference.getLastName(getActivity()));
+            LocationTextViewProfile.setText("الموقع :" + MainActivity.SaveSharedPreference.getLocation(getActivity()));
+            PhoneNumberTextView.setText("الهاتف :0" + MainActivity.SaveSharedPreference.getPhoneNumber(getActivity()).substring(4));
+            DateOfBirthTextViewProfile.setText("العمر :" + MainActivity.SaveSharedPreference.getAge(getActivity()));
+            //TODO Calculate the reviews and add them to the text view
+            RatingtextViewProfile.setText("4.7");
+        }
     }
 
     private void CheckVisibility() {
@@ -146,6 +195,18 @@ public class ProfileFragment extends Fragment {
         AboutWorkerTextViewProfileActivity = view.findViewById(R.id.AboutWorkerTextViewProfileActivity);
         UploadPictureProfileActivity = view.findViewById(R.id.UploadPictureProfileActivity);
         EditProfileProfileActivity = view.findViewById(R.id.EditProfileProfileActivity);
+    }
+
+    public void setAppLocale(String localCode) {
+        Resources resources = getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(new Locale(localCode.toLowerCase()));
+        } else {
+            configuration.locale = new Locale(localCode.toLowerCase());
+        }
+        resources.updateConfiguration(configuration, metrics);
     }
 
 }

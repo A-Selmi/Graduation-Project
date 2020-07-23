@@ -7,7 +7,7 @@
     android:background="@drawable/image"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context=".PhoneNumberActivity">
+    tools:context=".LogInActivities.PhoneNumberActivity">
 
     <ScrollView
         android:id="@+id/scrollView2"

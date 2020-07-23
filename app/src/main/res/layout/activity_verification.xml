@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/image"
-    tools:context=".VerificationActivity"
+    tools:context=".LogInActivities.VerificationActivity"
     android:focusableInTouchMode="true"
     android:descendantFocusability="beforeDescendants">
 
@@ -80,7 +80,6 @@
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/CheckPhoneNumberButton"
-                app:layout_constraintStart_toEndOf="@+id/CheckPhoneNumberButton"
                 app:layout_constraintStart_toStartOf="@+id/CheckPhoneNumberButton"
                 app:layout_constraintTop_toBottomOf="@+id/CheckPhoneNumberButton" />
 

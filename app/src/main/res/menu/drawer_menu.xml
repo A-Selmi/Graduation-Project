@@ -35,7 +35,7 @@
         <item
             android:id="@+id/nav_worker"
             android:icon="@drawable/ic_worker"
-            android:title="@string/OrderWorker" />
+            android:title="@string/Workers" />
         <item
             android:id="@+id/nav_Adviser"
             android:icon="@drawable/ic_profile_adviser"
@@ -48,6 +48,10 @@
             android:id="@+id/nav_about_us"
             android:icon="@drawable/ic_about_us"
             android:title="@string/AboutUsDrawer" />
+        <item
+            android:id="@+id/nav_delete_account"
+            android:icon="@drawable/ic_delete_account"
+            android:title="@string/DeleteAccount" />
 
     </group>
 

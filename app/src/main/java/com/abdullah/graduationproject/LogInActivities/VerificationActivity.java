@@ -1,9 +1,8 @@
-package com.abdullah.graduationproject;
+package com.abdullah.graduationproject.LogInActivities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,13 +20,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.abdullah.graduationproject.Activity.MainActivity;
+import com.abdullah.graduationproject.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -35,8 +33,6 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -67,11 +63,6 @@ public class VerificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         findView();
         setAppLocale("ar");
         progressBarVerification.setVisibility(View.GONE);
@@ -119,7 +110,7 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     private void verifyCode(String verificationcode) {
-        if (verificationcode.equals(code)) {
+        if (code.equals(verificationcode)) {
             UploadToDateBase();
         } else {
             Toast.makeText(this, "رمز التحقق خاطئ", Toast.LENGTH_SHORT).show();
@@ -147,14 +138,6 @@ public class VerificationActivity extends AppCompatActivity {
                 user.put("PP", MainActivity.SaveSharedPreference.getPP(context));
                 user.put("Skills", MainActivity.SaveSharedPreference.getSkills(context));
                 user.put("About", MainActivity.SaveSharedPreference.getAbout(context));
-            } else if (MainActivity.SaveSharedPreference.getRole(context).equals("3")) {
-                try {
-                } catch (Exception e) {
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
             }
 
             db.collection("Users").document(phoneNumber)
@@ -166,7 +149,6 @@ public class VerificationActivity extends AppCompatActivity {
                             MainActivity.SaveSharedPreference.setPhoneNumber(context, phoneNumber);
                             Clickable(true);
                             progressBarVerification.setVisibility(View.GONE);
-                            Toast.makeText(context, "مرحباً " + MainActivity.SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
                             Intent backMainActivity = new Intent(VerificationActivity.this, MainActivity.class);
                             backMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(backMainActivity);
@@ -181,6 +163,8 @@ public class VerificationActivity extends AppCompatActivity {
                             Toast.makeText(VerificationActivity.this, R.string.FailToSignUpMessage, Toast.LENGTH_SHORT).show();
                         }
                     });
+        }else {
+            Toast.makeText(context, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -232,10 +216,6 @@ public class VerificationActivity extends AppCompatActivity {
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
             code = phoneAuthCredential.getSmsCode();
-            if (code != null) {
-                VerificayioncodeEditText.setText(code);
-                verifyCode(code);
-            }
         }
 
         @Override
@@ -259,10 +239,12 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     public void UploadThePDFFile() {
-        if (pdfUri != null) {
-            uploudFile(pdfUri);
-        } else {
-            Toast.makeText(this, "اختار الملف ", Toast.LENGTH_SHORT).show();
+        if(MainActivity.SaveSharedPreference.getRole(context).equals("3")) {
+            if (pdfUri != null) {
+                uploudFile(pdfUri);
+            } else {
+                Toast.makeText(this, "اختار الملف ", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
