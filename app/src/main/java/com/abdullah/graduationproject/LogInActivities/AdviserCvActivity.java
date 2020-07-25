@@ -165,7 +165,6 @@ public class AdviserCvActivity extends AppCompatActivity {
             pdfUri = data.getData();
             UploadTextView.setText(data.getData().getLastPathSegment());
             True = true;
-//            UploadThePDFFile();
         } else {
             True = false;
             Toast.makeText(AdviserCvActivity.this, "الرجاء اختيار الملف ", Toast.LENGTH_LONG).show();

@@ -38,6 +38,9 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -49,7 +52,6 @@ public class VerificationActivity extends AppCompatActivity {
     Button CheckPhoneNumberButton;
     ProgressBar progressBarVerification;
     String phoneNumber;
-    String code;
     Context context;
     FirebaseFirestore db;
     Map<String, Object> user;
@@ -58,6 +60,7 @@ public class VerificationActivity extends AppCompatActivity {
     FirebaseDatabase database;
     ProgressDialog progressDialog;
     Uri pdfUri;
+    String string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +77,7 @@ public class VerificationActivity extends AppCompatActivity {
         Resources resources = getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         Configuration configuration = resources.getConfiguration();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             configuration.setLocale(new Locale(localCode.toLowerCase()));
         } else {
             configuration.locale = new Locale(localCode.toLowerCase());
@@ -105,19 +108,18 @@ public class VerificationActivity extends AppCompatActivity {
             VerificayioncodeEditText.setError("الرمز غير صالح ");
             VerificayioncodeEditText.requestFocus();
         } else {
-            verifyCode(VerificayioncodeEditText.getText().toString().trim());
+            verifyCode();
         }
     }
 
-    private void verifyCode(String verificationcode) {
-        if (code.equals(verificationcode)) {
+    private void verifyCode() {
+        if (MainActivity.SaveSharedPreference.getCode(this).equals(VerificayioncodeEditText.getText().toString().trim())) {
             UploadToDateBase();
         } else {
             Toast.makeText(this, "رمز التحقق خاطئ", Toast.LENGTH_SHORT).show();
             progressBarVerification.setVisibility(View.GONE);
             Clickable(true);
         }
-
     }
 
     private void UploadToDateBase() {
@@ -163,7 +165,7 @@ public class VerificationActivity extends AppCompatActivity {
                             Toast.makeText(VerificationActivity.this, R.string.FailToSignUpMessage, Toast.LENGTH_SHORT).show();
                         }
                     });
-        }else {
+        } else {
             Toast.makeText(context, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
         }
     }
@@ -205,7 +207,7 @@ public class VerificationActivity extends AppCompatActivity {
                 token);
     }
 
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks()   {
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         @Override
         public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
@@ -215,7 +217,9 @@ public class VerificationActivity extends AppCompatActivity {
 
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-            code = phoneAuthCredential.getSmsCode();
+            if (phoneAuthCredential.getSmsCode() != null) {
+                MainActivity.SaveSharedPreference.setCode(VerificationActivity.this, phoneAuthCredential.getSmsCode());
+            }
         }
 
         @Override
@@ -239,7 +243,7 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     public void UploadThePDFFile() {
-        if(MainActivity.SaveSharedPreference.getRole(context).equals("3")) {
+        if (MainActivity.SaveSharedPreference.getRole(context).equals("3")) {
             if (pdfUri != null) {
                 uploudFile(pdfUri);
             } else {
@@ -249,7 +253,6 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     public void uploudFile(Uri pdfUri) {
-
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setTitle("تحميل الملف ");

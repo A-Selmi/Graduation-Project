@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                                     MainActivity.SaveSharedPreference.setAge(context, document.getData().get("Age").toString());
                                     MainActivity.SaveSharedPreference.setRole(context, document.getData().get("Role").toString());
                                     MainActivity.SaveSharedPreference.setPassword(context, document.getData().get("Password").toString());
+                                    MainActivity.SaveSharedPreference.setImage(context, "true");
                                     if (document.getData().get("Role").toString().equals("4")) {
                                         MainActivity.SaveSharedPreference.setPE(context, document.getData().get("PE").toString());
                                         MainActivity.SaveSharedPreference.setPP(context, document.getData().get("PP").toString());
@@ -120,7 +121,6 @@ public class LoginActivity extends AppCompatActivity {
                                     Clickable(true);
                                     progressBarLogin.setVisibility(View.GONE);
                                     Toast.makeText(context, "مرحباً " + MainActivity.SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
-                                    MainActivity.SaveSharedPreference.setFragment(LoginActivity.this, "");
                                     finish();
                                     return;
                                 }
@@ -189,13 +189,5 @@ public class LoginActivity extends AppCompatActivity {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            MainActivity.SaveSharedPreference.setFragment(this, "0");
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }

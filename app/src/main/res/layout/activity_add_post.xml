@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     tools:context=".Activity.AddPostActivity">
 
     <ScrollView
@@ -71,7 +73,7 @@
                 android:ems="10"
                 android:gravity="start"
                 android:hint="@string/WriteHere"
-                android:inputType="textPersonName"
+                android:inputType="textMultiLine|textPersonName"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="@+id/TitleAddPostEditText"
@@ -79,13 +81,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/TitleAddPostEditText" />
 
             <Button
-                android:id="@+id/ReviewButton"
+                android:id="@+id/AddPostButton"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/button_background"
-                android:onClick="ReviewButtonClicked"
+                android:onClick="AddPostButtonClicked"
                 android:text="@string/AddPost"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -93,6 +95,18 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/DetailsAddPostEditText" />
+
+            <ProgressBar
+                android:id="@+id/progressBarAddPostActivity"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

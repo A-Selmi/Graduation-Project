@@ -33,7 +33,6 @@ import com.abdullah.graduationproject.Fragments.AdviserFragment;
 import com.abdullah.graduationproject.Fragments.FavoriteFragment;
 import com.abdullah.graduationproject.Fragments.FruitsAndVegetablesFragment;
 import com.abdullah.graduationproject.Fragments.HomeFragment;
-import com.abdullah.graduationproject.Fragments.ProfileFragment;
 import com.abdullah.graduationproject.Fragments.SeedsFragment;
 import com.abdullah.graduationproject.Fragments.ToolsFragment;
 import com.abdullah.graduationproject.Fragments.WaterFragment;
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Context context;
     ImageView UserProfilePictureImageView;
     TextView UserNameTextView;
-    Intent toLoginActivity;
+    Intent toLoginActivity, toProfileActivity;
     FirebaseFirestore db;
 
     @Override
@@ -77,13 +76,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         findHomeViews();
         setAppLocale("ar");
-        CheckTheFragment();
         CheckTheState();
-        if(SaveSharedPreference.getLogIn(context).equals("true")) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new HomeFragment()).commit();
+        navigationView.setCheckedItem(R.id.nav_home);
+        if (SaveSharedPreference.getLogIn(context).equals("true")) {
             navigationView = findViewById(R.id.nav_view);
             Menu menu = navigationView.getMenu();
             menu.findItem(R.id.nav_delete_account).setVisible(true);
-        }else {
+        } else {
             navigationView = findViewById(R.id.nav_view);
             Menu menu = navigationView.getMenu();
             menu.findItem(R.id.nav_delete_account).setVisible(false);
@@ -99,23 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //TODO Check The Photo
             UserProfilePictureImageView.setImageResource(R.drawable.image);
         } else {
-            loginNavHeaderTextView.setText("تسجيل الدخول");
-            loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
-            UserProfilePictureImageView.setImageResource(R.drawable.profiledefault);
-            UserNameTextView.setText("");
-            UserNameTextView.setVisibility(View.GONE);
-        }
-    }
-
-    private void CheckTheFragment() {
-        if (MainActivity.SaveSharedPreference.getFragment(this).equals("1")) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ProfileFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_profile);
-        } else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
+            Logout();
         }
     }
 
@@ -160,8 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (SaveSharedPreference.getLogIn(context).equals("true")) {
             switch (item.getItemId()) {
                 case R.id.nav_profile:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new ProfileFragment()).commit();
+                    startActivity(toProfileActivity);
                     break;
                 case R.id.nav_favorite:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -234,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         UserProfilePictureImageView = HomeView.findViewById(R.id.UserProfilePictureImageView);
         UserNameTextView = HomeView.findViewById(R.id.UserNameTextView);
         toLoginActivity = new Intent(MainActivity.this, LoginActivity.class);
+        toProfileActivity = new Intent(MainActivity.this, ProfileActivity.class);
     }
 
     public void loginNavHeaderTextViewClicked(View view) {
@@ -249,8 +234,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void UserProfilePictureImageViewClicked(View view) {
         if (SaveSharedPreference.getLogIn(context).equals("true")) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ProfileFragment()).commit();
+            startActivity(toProfileActivity);
             navigationView.setCheckedItem(R.id.nav_profile);
         } else {
             startActivity(toLoginActivity);
@@ -260,7 +244,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static class SaveSharedPreference {
         static final String PREF_LOGIN = "LogIn";
-        static final String PREF_FRAGMENT = "Fragment";
         static final String PREF_FIRSTNAME = "FirstName";
         static final String PREF_LASTTNAME = "LastName";
         static final String PREF_LOCATION = "Location";
@@ -272,6 +255,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         static final String PREF_PP = "PP";
         static final String PREF_SKILLS = "Skills";
         static final String PREF_ABOUT = "About";
+        static final String PREF_CODE = "Code";
+        static final String PREF_IMAGE = "Image";
 
         static SharedPreferences getSharedPreferences(Context ctx) {
             return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -285,16 +270,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         public static String getLogIn(Context ctx) {
             return getSharedPreferences(ctx).getString(PREF_LOGIN, "");
-        }
-
-        public static void setFragment(Context ctx, String fragment) {
-            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-            editor.putString(PREF_FRAGMENT, fragment);
-            editor.apply();
-        }
-
-        public static String getFragment(Context ctx) {
-            return getSharedPreferences(ctx).getString(PREF_FRAGMENT, "");
         }
 
         public static void setFirstName(Context ctx, String firstname) {
@@ -406,6 +381,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public static String getAbout(Context ctx) {
             return getSharedPreferences(ctx).getString(PREF_ABOUT, "");
         }
+
+        public static void setCode(Context ctx, String code) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_CODE, code);
+            editor.apply();
+        }
+
+        public static String getCode(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_CODE, "");
+        }
+
+        public static void setImage(Context ctx, String image) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_IMAGE, image);
+            editor.apply();
+        }
+
+        public static String getImage(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_IMAGE, "");
+        }
     }
 
     private AlertDialog LogoutDialog() {
@@ -443,8 +438,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // if the kyboard open
-                 // close it
-                 // close the search bar
+            // close it
+            // close the search bar
             drawerLayout.closeDrawer(GravityCompat.START);
             AlertDialog dialog = ExitDialog();
             dialog.show();
@@ -486,9 +481,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.dismiss();
-                        if(Connected()) {
+                        if (Connected()) {
                             DeleteAccount();
-                        }else {
+                        } else {
                             Toast.makeText(context, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -541,6 +536,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SaveSharedPreference.setRole(context, "");
         SaveSharedPreference.setPassword(context, "");
         SaveSharedPreference.setPhoneNumber(context, "");
+        SaveSharedPreference.setImage(context, "");
         loginNavHeaderTextView.setText("تسجيل الدخول");
         loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
         UserProfilePictureImageView.setImageResource(R.drawable.profiledefault);

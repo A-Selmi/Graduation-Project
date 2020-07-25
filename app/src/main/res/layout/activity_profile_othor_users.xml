@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.ProfileOthorUsersActivity"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    tools:context=".Activity.ProfileOthorUsersActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -189,6 +189,15 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ReviewButtonProfileActivityOther" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/ProfileImageViewOther"
+                app:layout_constraintStart_toStartOf="@+id/ProfileImageViewOther"
+                tools:layout_editor_absoluteY="199dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

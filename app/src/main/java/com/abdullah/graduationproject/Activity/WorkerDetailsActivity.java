@@ -73,12 +73,4 @@ public class WorkerDetailsActivity extends AppCompatActivity {
         toAdviserCvActivity.putExtra("S", "E");
         startActivity(toAdviserCvActivity);
     }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            MainActivity.SaveSharedPreference.setFragment(this, "1");
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }

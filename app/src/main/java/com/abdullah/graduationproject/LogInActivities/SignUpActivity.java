@@ -181,6 +181,7 @@ public class SignUpActivity extends AppCompatActivity {
             MainActivity.SaveSharedPreference.setLastName(context, LastNameEditText.getText().toString().trim());
             MainActivity.SaveSharedPreference.setLocation(context, LocationSpinner.getSelectedItem().toString().trim());
             MainActivity.SaveSharedPreference.setAge(context, AgeEditText.getText().toString().trim());
+            MainActivity.SaveSharedPreference.setImage(context, "");
             if (RoleSpinner.getSelectedItem().toString().trim().equals("مستخدم")) {
                 MainActivity.SaveSharedPreference.setRole(context, "1");
             } else if (RoleSpinner.getSelectedItem().toString().trim().equals("صاحب عمل")) {
@@ -216,7 +217,6 @@ public class SignUpActivity extends AppCompatActivity {
                 dialog.show();
             }
         } else {
-            MainActivity.SaveSharedPreference.setFragment(SignUpActivity.this, "1");
             finish();
         }
     }
@@ -244,7 +244,6 @@ public class SignUpActivity extends AppCompatActivity {
             AlertDialog dialog = CancelDialog();
             dialog.show();
         } else {
-            MainActivity.SaveSharedPreference.setFragment(SignUpActivity.this, "1");
             finish();
         }
     }
@@ -262,7 +261,6 @@ public class SignUpActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (getIntent().getStringExtra("state").equals("Edit")) {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                MainActivity.SaveSharedPreference.setFragment(this, "1");
             }
         }
         return super.onKeyDown(keyCode, event);
@@ -276,7 +274,6 @@ public class SignUpActivity extends AppCompatActivity {
                 .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.dismiss();
-                        MainActivity.SaveSharedPreference.setFragment(SignUpActivity.this, "1");
                         finish();
                     }
                 })
@@ -341,7 +338,6 @@ public class SignUpActivity extends AppCompatActivity {
                                             ChangeSaveSharedPreference();
                                             Clickable(true);
                                             progressBarSignUpActivity.setVisibility(View.GONE);
-                                            MainActivity.SaveSharedPreference.setFragment(SignUpActivity.this, "1");
                                             finish();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {

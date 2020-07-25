@@ -109,6 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
                 android:layout_marginTop="8dp"
                 android:numStars="1"
                 android:rating="1"
@@ -126,6 +127,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/button_background"
+                android:onClick="AddPostButtonClicked"
                 android:text="@string/AddPost"
                 android:textColor="@android:color/white"
                 android:visibility="visible"
@@ -140,6 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:onClick="AboutWorkerTextViewProfileActivityClicked"
                 android:text="@string/AboutWorker"
                 android:textColor="@android:color/holo_blue_bright"
                 android:textSize="16sp"
@@ -179,6 +182,7 @@
                 android:id="@+id/UploadPictureProfileActivity"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:onClick="UploadPictureProfileActivityClicked"
                 app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
                 app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
                 app:srcCompat="@drawable/ic_camera" />
@@ -190,6 +194,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/delete_button_background"
+                android:onClick="DeletePostButtonClicked"
                 android:text="@string/DeletePost"
                 android:textColor="@android:color/white"
                 android:visibility="visible"
@@ -203,9 +208,42 @@
                 android:id="@+id/EditProfileProfileActivity"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
+                android:onClick="EditProfileProfileActivityClicked"
                 app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
                 app:layout_constraintStart_toStartOf="@+id/NameTextViewProfile"
                 app:srcCompat="@drawable/ic_edit" />
+
+            <ProgressBar
+                android:id="@+id/ProgressBarHorizontal"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="200dp"
+                android:layout_height="25dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
+                app:layout_constraintStart_toStartOf="@+id/ProfileImageView"
+                app:layout_constraintTop_toBottomOf="@+id/ProfileImageView" />
+
+            <ImageView
+                android:id="@+id/UploadPictureImageView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:onClick="UploadPictureImageViewClicked"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
+                app:layout_constraintStart_toStartOf="@+id/ProfileImageView"
+                app:srcCompat="@drawable/ic_check" />
+
+            <ProgressBar
+                android:id="@+id/progressBarProfileActivity"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

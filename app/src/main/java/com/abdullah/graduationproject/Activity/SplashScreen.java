@@ -20,7 +20,6 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 Intent toMainActivity = new Intent(SplashScreen.this, MainActivity.class);
-                MainActivity.SaveSharedPreference.setFragment(SplashScreen.this, "0");
                 startActivity(toMainActivity);
                 finish();
             }
