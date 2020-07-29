@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
-    android:background="@drawable/button_background">
+    android:background="@drawable/rounded_background">
 
     <TextView
         android:id="@+id/TitleTextViewPost"
@@ -14,7 +14,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +30,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="12dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimary"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/TitleTextViewPost"
         app:layout_constraintStart_toEndOf="@+id/TitleTextViewPost"

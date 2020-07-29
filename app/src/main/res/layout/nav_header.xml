@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/UserProfilePictureImageView"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_marginTop="8dp"
         android:onClick="UserProfilePictureImageViewClicked"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="@+id/loginNavHeaderTextView"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/profiledefault" />

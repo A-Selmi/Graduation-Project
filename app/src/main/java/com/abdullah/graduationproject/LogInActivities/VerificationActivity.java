@@ -22,10 +22,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.abdullah.graduationproject.Activity.MainActivity;
+import com.abdullah.graduationproject.Activities.MainActivity;
 import com.abdullah.graduationproject.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -33,14 +35,12 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -60,7 +60,6 @@ public class VerificationActivity extends AppCompatActivity {
     FirebaseDatabase database;
     ProgressDialog progressDialog;
     Uri pdfUri;
-    String string;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +125,6 @@ public class VerificationActivity extends AppCompatActivity {
         if (Connected()) {
             progressBarVerification.setVisibility(View.VISIBLE);
             Clickable(false);
-            UploadThePDFFile();
             user = new HashMap<>();
             user.put("First Name", MainActivity.SaveSharedPreference.getFirstName(context));
             user.put("Last Name", MainActivity.SaveSharedPreference.getLastName(context));
@@ -134,6 +132,7 @@ public class VerificationActivity extends AppCompatActivity {
             user.put("Age", MainActivity.SaveSharedPreference.getAge(context));
             user.put("Role", MainActivity.SaveSharedPreference.getRole(context));
             user.put("Password", MainActivity.SaveSharedPreference.getPassword(context));
+            user.put("Image Url", "");
 
             if (MainActivity.SaveSharedPreference.getRole(context).equals("4")) {
                 user.put("PE", MainActivity.SaveSharedPreference.getPE(context));
@@ -151,9 +150,7 @@ public class VerificationActivity extends AppCompatActivity {
                             MainActivity.SaveSharedPreference.setPhoneNumber(context, phoneNumber);
                             Clickable(true);
                             progressBarVerification.setVisibility(View.GONE);
-                            Intent backMainActivity = new Intent(VerificationActivity.this, MainActivity.class);
-                            backMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(backMainActivity);
+                            UploadThePDFFile();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -243,7 +240,11 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     public void UploadThePDFFile() {
-        if (MainActivity.SaveSharedPreference.getRole(context).equals("3")) {
+        if (!MainActivity.SaveSharedPreference.getRole(context).equals("3")) {
+            Intent backMainActivity = new Intent(VerificationActivity.this, MainActivity.class);
+            backMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(backMainActivity);
+        }else if(MainActivity.SaveSharedPreference.getRole(context).equals("3")) {
             if (pdfUri != null) {
                 uploudFile(pdfUri);
             } else {
@@ -260,15 +261,19 @@ public class VerificationActivity extends AppCompatActivity {
         progressDialog.show();
         final String fileName = System.currentTimeMillis() + "";
         StorageReference storageReference = storage.getReference();
-        storageReference.child("Uploads").child(fileName).putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        storageReference.child(getString(R.string.CVCollection)).child(fileName).putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 String url = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
                 DatabaseReference reference = database.getReference();
+                MainActivity.SaveSharedPreference.setCV(VerificationActivity.this, fileName);
                 reference.child(fileName).setValue(url).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(context, "تم تحميل الملف", Toast.LENGTH_SHORT).show();
+                        Intent backMainActivity = new Intent(VerificationActivity.this, MainActivity.class);
+                        backMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(backMainActivity);
                     }
                 });
             }

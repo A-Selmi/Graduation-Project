@@ -73,6 +73,15 @@
     <string name="DeleteItem">حذف منتج</string>
     <string name="DeleteAccount">حذف الحساب</string>
     <string name="Edit">تعديل</string>
+    <string name="NoData">لا يوجد بيانات</string>
+    <string name="UsersCollection">Users</string>
+    <string name="FavoriteCollection">Favorite</string>
+    <string name="ItemsCollection">Items</string>
+    <string name="ReviewCollection">Review</string>
+    <string name="PostsCollection">Posts</string>
+    <string name="RatingCollection">Rating</string>
+    <string name="CVCollection">CVs</string>
+    <string name="UploadsCollection">uploads</string>
     <string-array name="role_array">
         <item>مستخدم</item>
         <item>صاحب عمل</item>

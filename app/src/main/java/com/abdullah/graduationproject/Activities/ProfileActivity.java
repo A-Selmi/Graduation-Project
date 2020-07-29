@@ -1,10 +1,12 @@
-package com.abdullah.graduationproject.Activity;
+package com.abdullah.graduationproject.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -13,15 +15,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
@@ -33,6 +33,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.abdullah.graduationproject.Adapters.DeletePostsProfileAdapter;
+import com.abdullah.graduationproject.Classes.Items;
+import com.abdullah.graduationproject.Classes.Posts;
 import com.abdullah.graduationproject.LogInActivities.SignUpActivity;
 import com.abdullah.graduationproject.R;
 import com.google.android.gms.tasks.Continuation;
@@ -40,31 +43,38 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
-public class ProfileActivity extends AppCompatActivity {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class ProfileActivity extends AppCompatActivity implements DeletePostsProfileAdapter.OnPostClickListener {
 
     TextView AdviserLocationTextView, NameTextViewProfile, LocationTextViewProfile,
             PhoneNumberTextView, DateOfBirthTextViewProfile, RatingtextViewProfile, AboutWorkerTextViewProfileActivity;
     RatingBar ratingBar1Profile;
-    ImageView ProfileImageView, UploadPictureProfileActivity, EditProfileProfileActivity, UploadPictureImageView;
-    ListView ProfileListViewProfileActivity;
+    CircleImageView ProfileImageView;
+    ImageView UploadPictureProfileActivity, EditProfileProfileActivity, UploadPictureImageView;
+    RecyclerView ProfileRecyceViewProfileActivity;
     Button AddPostButton, DeletePostButton;
     private static final int PICK_IMAGE_REQUEST = 1;
     private int STORAGE_PERMISSION_CODE = 1;
     private Uri mImageUri;
     private FirebaseFirestore db;
     private StorageReference mStorageRef;
-    private DocumentReference documentReference;
-    ProgressBar ProgressBarHorizontal, progressBarProfileActivity;
+    ProgressBar progressBarProfileActivity, progressBarPosts;
+    DeletePostsProfileAdapter adapterPosts;
+    List<Posts> posts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
             if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                     && data != null && data.getData() != null) {
                 mImageUri = data.getData();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
-                ProfileImageView.setImageBitmap(bitmap);
+                Picasso.get().load(mImageUri.toString()).into(ProfileImageView);
                 UploadPictureImageView.setVisibility(View.VISIBLE);
             }
         } catch (Exception e) {
@@ -116,20 +125,13 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private String getFileExtension(Uri uri) {
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
-
     private void UploadPicture() {
         if (mImageUri != null) {
             if (Connected()) {
                 Toast.makeText(this, "تحميل...", Toast.LENGTH_SHORT).show();
                 Clickable(false);
-                ProgressBarHorizontal.setVisibility(View.VISIBLE);
-                final StorageReference reference = mStorageRef.child(MainActivity.SaveSharedPreference.getPhoneNumber(this)
-                        + "." + getFileExtension(mImageUri));
+                progressBarProfileActivity.setVisibility(View.VISIBLE);
+                final StorageReference reference = mStorageRef.child(MainActivity.SaveSharedPreference.getPhoneNumber(this));
                 UploadTask task = reference.putFile(mImageUri);
                 task.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
@@ -137,24 +139,24 @@ public class ProfileActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             Toast.makeText(ProfileActivity.this, "لم يتم تحميل الصورة", Toast.LENGTH_SHORT).show();
                             Clickable(true);
-                            ProgressBarHorizontal.setVisibility(View.GONE);
+                            progressBarProfileActivity.setVisibility(View.GONE);
                         }
                         return reference.getDownloadUrl();
                     }
                 }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
+                    public void onComplete(@NonNull final Task<Uri> task) {
                         if (task.isSuccessful()) {
-                            db.collection("Users")
+                            db.collection(getString(R.string.UsersCollection))
                                     .document(MainActivity.SaveSharedPreference.getPhoneNumber(ProfileActivity.this))
                                     .update("Image Url", task.getResult().toString())
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            MainActivity.SaveSharedPreference.setImage(ProfileActivity.this, "true");
+                                            MainActivity.SaveSharedPreference.setImage(ProfileActivity.this, task.getResult().toString());
                                             Toast.makeText(ProfileActivity.this, "تم تحميل الصورة", Toast.LENGTH_SHORT).show();
                                             Clickable(true);
-                                            ProgressBarHorizontal.setVisibility(View.GONE);
+                                            progressBarProfileActivity.setVisibility(View.GONE);
                                             UploadPictureImageView.setVisibility(View.GONE);
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
@@ -162,27 +164,27 @@ public class ProfileActivity extends AppCompatActivity {
                                 public void onFailure(@NonNull Exception e) {
                                     Toast.makeText(ProfileActivity.this, "حدث خطأ, يرجى المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
                                     Clickable(true);
-                                    ProgressBarHorizontal.setVisibility(View.GONE);
+                                    progressBarProfileActivity.setVisibility(View.GONE);
                                     UploadPictureImageView.setVisibility(View.GONE);
                                 }
                             });
                         } else {
                             Toast.makeText(ProfileActivity.this, "لم يتم تحميل الصورة", Toast.LENGTH_SHORT).show();
                             Clickable(true);
-                            ProgressBarHorizontal.setVisibility(View.GONE);
+                            progressBarProfileActivity.setVisibility(View.GONE);
                             UploadPictureImageView.setVisibility(View.GONE);
                         }
                     }
                 });
             } else {
                 Clickable(true);
-                ProgressBarHorizontal.setVisibility(View.GONE);
+                progressBarProfileActivity.setVisibility(View.GONE);
                 UploadPictureImageView.setVisibility(View.GONE);
                 Toast.makeText(this, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
             }
         } else {
             Clickable(true);
-            ProgressBarHorizontal.setVisibility(View.GONE);
+            progressBarProfileActivity.setVisibility(View.GONE);
             UploadPictureImageView.setVisibility(View.GONE);
             Toast.makeText(this, "لم يتم إختيار صورة", Toast.LENGTH_SHORT).show();
         }
@@ -190,42 +192,16 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void CheckState() {
         CheckVisibility();
-        if (!MainActivity.SaveSharedPreference.getImage(ProfileActivity.this).equals("")) {
-            CheckPicture();
-        }else {
-            ProfileImageView.setImageDrawable(getResources().getDrawable(R.drawable.profiledefault));
-        }
+        CheckPicture();
         CheckData();
     }
 
     private void CheckPicture() {
-        Clickable(false);
-        progressBarProfileActivity.setVisibility(View.VISIBLE);
-        documentReference = db.collection("Users")
-                .document(MainActivity.SaveSharedPreference.getPhoneNumber(ProfileActivity.this));
-        documentReference.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String Image = documentSnapshot.getString("Image Url");
-                        Picasso.get().load(Image).into(ProfileImageView);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Clickable(true);
-                                progressBarProfileActivity.setVisibility(View.GONE);
-                            }
-                        }, 1000);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ProfileActivity.this, "حدث خطأ خلال تحميل الصورة", Toast.LENGTH_SHORT).show();
-                ProfileImageView.setImageDrawable(getResources().getDrawable(R.drawable.profiledefault));
-                Clickable(true);
-                progressBarProfileActivity.setVisibility(View.GONE);
-            }
-        });
+        if(MainActivity.SaveSharedPreference.getImage(this).equals("")) {
+            ProfileImageView.setImageDrawable(getResources().getDrawable(R.drawable.profiledefault));
+        }else {
+            Picasso.get().load(MainActivity.SaveSharedPreference.getImage(this)).into(ProfileImageView);
+        }
     }
 
     private void CheckData() {
@@ -251,6 +227,7 @@ public class ProfileActivity extends AppCompatActivity {
             DateOfBirthTextViewProfile.setText("العمر :" + MainActivity.SaveSharedPreference.getAge(this));
             AddPostButton.setText(R.string.AddPost);
             DeletePostButton.setText(R.string.DeletePost);
+            SetRecyclerView();
             //TODO Read Reviews And add them to the list and calculate the reviews and add them to the text view
             RatingtextViewProfile.setText("4.7");
         } else {
@@ -264,6 +241,49 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void SetRecyclerView() {
+        posts.clear();
+        ProfileRecyceViewProfileActivity.setAdapter(null);
+        if (Connected()) {
+            Clickable(false);
+            progressBarPosts.setVisibility(View.VISIBLE);
+            ProfileRecyceViewProfileActivity.setVisibility(View.GONE);
+            db.collection(getString(R.string.UsersCollection))
+                    .document(MainActivity.SaveSharedPreference.getPhoneNumber(ProfileActivity.this))
+                    .collection(getString(R.string.PostsCollection))
+                    .orderBy("counter", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                ProfileRecyceViewProfileActivity.setVisibility(View.GONE);
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    ProfileRecyceViewProfileActivity.setVisibility(View.VISIBLE);
+                                    posts.add(new Posts(document.getId(), document.getData().get("Title").toString()
+                                            , document.getData().get("Text").toString(),
+                                            document.getData().get("Date").toString()));
+                                }
+                                adapterPosts = new DeletePostsProfileAdapter(posts, ProfileActivity.this, ProfileActivity.this);
+                                ProfileRecyceViewProfileActivity.hasFixedSize();
+                                ProfileRecyceViewProfileActivity.setAdapter(adapterPosts);
+                                ProfileRecyceViewProfileActivity.setLayoutManager(new GridLayoutManager(ProfileActivity.this, 1));
+                                adapterPosts.notifyDataSetChanged();
+                                Clickable(true);
+                                progressBarPosts.setVisibility(View.GONE);
+                            } else {
+                                Clickable(true);
+                                progressBarPosts.setVisibility(View.GONE);
+                                ProfileRecyceViewProfileActivity.setVisibility(View.GONE);
+                                Toast.makeText(ProfileActivity.this, "حدث خطأ, يرجى المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } else {
+            Toast.makeText(this, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void CheckVisibility() {
         if (MainActivity.SaveSharedPreference.getRole(this).equals("1")) {
             AdviserLocationTextView.setVisibility(View.GONE);
@@ -272,7 +292,7 @@ public class ProfileActivity extends AppCompatActivity {
             AboutWorkerTextViewProfileActivity.setVisibility(View.GONE);
             DeletePostButton.setVisibility(View.GONE);
             AddPostButton.setVisibility(View.GONE);
-            ProfileListViewProfileActivity.setVisibility(View.GONE);
+            ProfileRecyceViewProfileActivity.setVisibility(View.GONE);
         } else if (MainActivity.SaveSharedPreference.getRole(this).equals("2")) {
             AdviserLocationTextView.setVisibility(View.GONE);
             RatingtextViewProfile.setVisibility(View.GONE);
@@ -282,7 +302,7 @@ public class ProfileActivity extends AppCompatActivity {
             DeletePostButton.setText("حذف منتج");
             AddPostButton.setVisibility(View.VISIBLE);
             AddPostButton.setText("إضافة منتج");
-            ProfileListViewProfileActivity.setVisibility(View.GONE);
+            ProfileRecyceViewProfileActivity.setVisibility(View.GONE);
         } else if (MainActivity.SaveSharedPreference.getRole(this).equals("3")) {
             AdviserLocationTextView.setVisibility(View.VISIBLE);
             RatingtextViewProfile.setVisibility(View.VISIBLE);
@@ -292,7 +312,7 @@ public class ProfileActivity extends AppCompatActivity {
             DeletePostButton.setText("حذف منشور");
             AddPostButton.setVisibility(View.VISIBLE);
             AddPostButton.setText("إضافة منشور");
-            ProfileListViewProfileActivity.setVisibility(View.VISIBLE);
+            ProfileRecyceViewProfileActivity.setVisibility(View.VISIBLE);
         } else {
             AdviserLocationTextView.setVisibility(View.GONE);
             RatingtextViewProfile.setVisibility(View.VISIBLE);
@@ -300,7 +320,7 @@ public class ProfileActivity extends AppCompatActivity {
             AboutWorkerTextViewProfileActivity.setVisibility(View.VISIBLE);
             DeletePostButton.setVisibility(View.GONE);
             AddPostButton.setVisibility(View.GONE);
-            ProfileListViewProfileActivity.setVisibility(View.GONE);
+            ProfileRecyceViewProfileActivity.setVisibility(View.GONE);
         }
     }
 
@@ -316,17 +336,18 @@ public class ProfileActivity extends AppCompatActivity {
         ProfileImageView = findViewById(R.id.ProfileImageView);
         UploadPictureProfileActivity = findViewById(R.id.UploadPictureProfileActivity);
         EditProfileProfileActivity = findViewById(R.id.EditProfileProfileActivity);
-        ProfileListViewProfileActivity = findViewById(R.id.ProfileListViewProfileActivity);
+        ProfileRecyceViewProfileActivity = findViewById(R.id.ProfileRecyceViewProfileActivity);
         AddPostButton = findViewById(R.id.AddPostButton);
         DeletePostButton = findViewById(R.id.DeletePostButton);
         AboutWorkerTextViewProfileActivity = findViewById(R.id.AboutWorkerTextViewProfileActivity);
         UploadPictureProfileActivity = findViewById(R.id.UploadPictureProfileActivity);
         EditProfileProfileActivity = findViewById(R.id.EditProfileProfileActivity);
-        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
+        mStorageRef = FirebaseStorage.getInstance().getReference(getString(R.string.UploadsCollection));
         db = FirebaseFirestore.getInstance();
-        ProgressBarHorizontal = findViewById(R.id.ProgressBarHorizontal);
         UploadPictureImageView = findViewById(R.id.UploadPictureImageView);
         progressBarProfileActivity = findViewById(R.id.progressBarProfileActivity);
+        progressBarPosts = findViewById(R.id.progressBarPosts);
+        posts = new ArrayList<>();
     }
 
     public void setAppLocale(String localCode) {
@@ -360,12 +381,22 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void DeletePostButtonClicked(View view) {
         Intent toDeletePostActivity = new Intent(ProfileActivity.this, DeleteActivity.class);
+        if(MainActivity.SaveSharedPreference.getRole(this).equals("2")) {
+            toDeletePostActivity.putExtra("Role", "2");
+        }else {
+            toDeletePostActivity.putExtra("Role", "3");
+        }
         startActivity(toDeletePostActivity);
     }
 
     public void AddPostButtonClicked(View view) {
-        Intent toAddPostActivity = new Intent(ProfileActivity.this, AddPostActivity.class);
-        startActivity(toAddPostActivity);
+        if(MainActivity.SaveSharedPreference.getRole(this).equals("2")) {
+            Intent toCategoryActivity = new Intent(ProfileActivity.this, CategoryActivity.class);
+            startActivity(toCategoryActivity);
+        }else {
+            Intent toAddPostActivity = new Intent(ProfileActivity.this, AddPostActivity.class);
+            startActivity(toAddPostActivity);
+        }
     }
 
     public void AboutWorkerTextViewProfileActivityClicked(View view) {
@@ -389,5 +420,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void UploadPictureImageViewClicked(View view) {
         UploadPicture();
+    }
+
+    @Override
+    public void onPostClick(int position) {
+
     }
 }

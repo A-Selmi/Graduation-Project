@@ -5,8 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="@drawable/button_background"
-    android:padding="10dp">
+    android:background="@drawable/button_background">
 
     <ImageView
         android:id="@+id/ItemImageView"
@@ -31,29 +30,17 @@
         tools:text="Water" />
 
     <TextView
-        android:id="@+id/NameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:textColor="@android:color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ItemTextView"
-        tools:text="Talal" />
-
-    <TextView
         android:id="@+id/PriceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="8dp"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NameTextView"
+        app:layout_constraintTop_toBottomOf="@+id/ItemTextView"
         tools:text="10$" />
 
     <ImageView
@@ -61,6 +48,8 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="@+id/ItemImageView"
         app:layout_constraintTop_toBottomOf="@+id/ItemImageView"
         app:srcCompat="@drawable/ic_empty_favorite" />
@@ -81,12 +70,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
         android:numStars="1"
         android:rating="1"
         android:theme="@style/RatingBar"
-        app:layout_constraintEnd_toStartOf="@+id/RatingTextViewStore"
+        app:layout_constraintEnd_toEndOf="@+id/NotFavoriteImageView"
         app:layout_constraintTop_toBottomOf="@+id/NotFavoriteImageView" />
 
     <TextView
@@ -94,9 +81,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="6dp"
         android:textColor="@android:color/white"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/NotFavoriteImageView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ratingBarWorker"
         app:layout_constraintTop_toBottomOf="@+id/NotFavoriteImageView"
         tools:text="3.6" />
 

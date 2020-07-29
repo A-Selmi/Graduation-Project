@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context=".Activity.AddPostActivity">
+    tools:context=".Activities.AddPostActivity">
 
     <ScrollView
         android:layout_width="match_parent"

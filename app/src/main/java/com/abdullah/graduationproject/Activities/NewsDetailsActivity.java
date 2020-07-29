@@ -1,4 +1,4 @@
-package com.abdullah.graduationproject.Activity;
+package com.abdullah.graduationproject.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.abdullah.graduationproject.R;
 
-public class DeleteActivity extends AppCompatActivity {
+public class NewsDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delete);
+        setContentView(R.layout.activity_news_details);
     }
 }

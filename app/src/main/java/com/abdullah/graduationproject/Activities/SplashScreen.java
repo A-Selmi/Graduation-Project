@@ -1,4 +1,4 @@
-package com.abdullah.graduationproject.Activity;
+package com.abdullah.graduationproject.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

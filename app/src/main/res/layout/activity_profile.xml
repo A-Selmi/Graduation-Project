@@ -7,8 +7,9 @@
     android:background="@drawable/background">
 
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -49,13 +50,13 @@
                 app:layout_constraintStart_toStartOf="@+id/TitleProfileTextView"
                 app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ProfileImageView"
                 android:layout_width="225dp"
                 android:layout_height="225dp"
                 android:layout_marginTop="50dp"
                 android:padding="5dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextView"
                 app:layout_constraintStart_toStartOf="@+id/TitleProfileTextView"
                 app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextView"
@@ -162,22 +163,6 @@
                 app:layout_constraintVertical_bias="1.0"
                 tools:text="3.7" />
 
-            <ListView
-                android:id="@+id/ProfileListViewProfileActivity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/AddPostButton" />
-
             <ImageView
                 android:id="@+id/UploadPictureProfileActivity"
                 android:layout_width="50dp"
@@ -213,16 +198,6 @@
                 app:layout_constraintStart_toStartOf="@+id/NameTextViewProfile"
                 app:srcCompat="@drawable/ic_edit" />
 
-            <ProgressBar
-                android:id="@+id/ProgressBarHorizontal"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="200dp"
-                android:layout_height="25dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
-                app:layout_constraintStart_toStartOf="@+id/ProfileImageView"
-                app:layout_constraintTop_toBottomOf="@+id/ProfileImageView" />
-
             <ImageView
                 android:id="@+id/UploadPictureImageView"
                 android:layout_width="50dp"
@@ -239,11 +214,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
+                app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/ProfileImageView"
+                app:layout_constraintTop_toTopOf="@+id/ProfileImageView" />
+
+            <ProgressBar
+                android:id="@+id/progressBarPosts"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/AddPostButton" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ProfileRecyceViewProfileActivity"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/AddPostButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

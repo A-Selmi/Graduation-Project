@@ -42,6 +42,8 @@ dependencies {
     implementation 'com.android.support:cardview-v7:30.0.0'
     implementation 'com.android.support:recyclerview-v7:30.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
 
 
 }

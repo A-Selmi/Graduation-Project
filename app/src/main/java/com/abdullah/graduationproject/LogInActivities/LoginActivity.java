@@ -12,7 +12,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -20,7 +19,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.abdullah.graduationproject.Activity.MainActivity;
+import com.abdullah.graduationproject.Activities.MainActivity;
 import com.abdullah.graduationproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -95,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void DataBase() {
-        db.collection("Users")
+        db.collection(getString(R.string.UsersCollection))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -111,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                                     MainActivity.SaveSharedPreference.setAge(context, document.getData().get("Age").toString());
                                     MainActivity.SaveSharedPreference.setRole(context, document.getData().get("Role").toString());
                                     MainActivity.SaveSharedPreference.setPassword(context, document.getData().get("Password").toString());
-                                    MainActivity.SaveSharedPreference.setImage(context, "true");
+                                    MainActivity.SaveSharedPreference.setImage(context, document.getData().get("Image Url").toString());
                                     if (document.getData().get("Role").toString().equals("4")) {
                                         MainActivity.SaveSharedPreference.setPE(context, document.getData().get("PE").toString());
                                         MainActivity.SaveSharedPreference.setPP(context, document.getData().get("PP").toString());

@@ -1,4 +1,4 @@
-package com.abdullah.graduationproject.Activity;
+package com.abdullah.graduationproject.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,14 +70,21 @@ public class AddPostActivity extends AppCompatActivity {
         Map<String, Object> user = new HashMap<>();
         user.put("Title", TitleAddPostEditText.getText().toString().trim());
         user.put("Text", DetailsAddPostEditText.getText().toString().trim());
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        user.put("Date", formattedDate);
+        user.put("counter", Long.parseLong(MainActivity.SaveSharedPreference.getCounter(this)));
 
-        db.collection("posts").document(MainActivity.SaveSharedPreference.getPhoneNumber(this))
-                .collection("specifiedPosts").document()
+        db.collection(getString(R.string.UsersCollection)).document(MainActivity.SaveSharedPreference.getPhoneNumber(this))
+                .collection(getString(R.string.PostsCollection)).document()
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(AddPostActivity.this, "تم إضافة المنشور", Toast.LENGTH_SHORT).show();
+                        long newCounter = Long.parseLong(MainActivity.SaveSharedPreference.getCounter(AddPostActivity.this)) + 1;
+                        MainActivity.SaveSharedPreference.setCounter(AddPostActivity.this, String.valueOf(newCounter));
                         Clickable(true);
                         progressBarAddPostActivity.setVisibility(View.GONE);
                         finish();

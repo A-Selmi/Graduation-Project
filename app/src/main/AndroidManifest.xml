@@ -15,29 +15,29 @@
         android:roundIcon="@mipmap/ic_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.ProfileActivity"/>
-        <activity android:name=".Activity.ProfileOthorUsersActivity" />
+        <activity android:name=".Activities.ProfileActivity"/>
+        <activity android:name=".Activities.ProfileOthorUsersActivity" />
         <activity android:name=".LogInActivities.VerificationActivity" />
         <activity android:name=".LogInActivities.PhoneNumberActivity" />
-        <activity android:name=".Activity.WorkerDetailsActivity" />
+        <activity android:name=".Activities.WorkerDetailsActivity" />
         <activity android:name=".LogInActivities.AdviserCvActivity" />
-        <activity android:name=".Activity.SplashScreen">
+        <activity android:name=".Activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.CategoryActivity" />
-        <activity android:name=".Activity.AddItemActivity" />
-        <activity android:name=".Activity.DeleteActivity" />
-        <activity android:name=".Activity.AddPostActivity" />
-        <activity android:name=".Activity.NewsDetailsActivity" />
-        <activity android:name=".Activity.DetailsActivity" />
-        <activity android:name=".Activity.AboutUsActivity" />
+        <activity android:name=".Activities.CategoryActivity" />
+        <activity android:name=".Activities.AddItemActivity" />
+        <activity android:name=".Activities.DeleteActivity" />
+        <activity android:name=".Activities.AddPostActivity" />
+        <activity android:name=".Activities.NewsDetailsActivity" />
+        <activity android:name=".Activities.DetailsActivity" />
+        <activity android:name=".Activities.AboutUsActivity" />
         <activity android:name=".LogInActivities.SignUpActivity" />
         <activity android:name=".LogInActivities.LoginActivity" />
-        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activities.MainActivity" />
     </application>
 
 </manifest>

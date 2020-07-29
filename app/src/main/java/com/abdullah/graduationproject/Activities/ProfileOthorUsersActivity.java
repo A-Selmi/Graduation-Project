@@ -1,9 +1,8 @@
-package com.abdullah.graduationproject.Activity;
+package com.abdullah.graduationproject.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.abdullah.graduationproject.R;
 

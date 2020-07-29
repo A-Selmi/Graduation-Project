@@ -1,4 +1,4 @@
-package com.abdullah.graduationproject.Activity;
+package com.abdullah.graduationproject.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -25,10 +25,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.abdullah.graduationproject.Adapters.DeleteItemsAdapter;
+import com.abdullah.graduationproject.Classes.Items;
 import com.abdullah.graduationproject.Fragments.AdviserFragment;
 import com.abdullah.graduationproject.Fragments.FavoriteFragment;
 import com.abdullah.graduationproject.Fragments.FruitsAndVegetablesFragment;
@@ -39,12 +40,21 @@ import com.abdullah.graduationproject.Fragments.WaterFragment;
 import com.abdullah.graduationproject.Fragments.WorkerFragment;
 import com.abdullah.graduationproject.LogInActivities.LoginActivity;
 import com.abdullah.graduationproject.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -55,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     View HomeView;
     TextView loginNavHeaderTextView;
     Context context;
-    ImageView UserProfilePictureImageView;
+    CircleImageView UserProfilePictureImageView;
     TextView UserNameTextView;
     Intent toLoginActivity, toProfileActivity;
     FirebaseFirestore db;
@@ -97,8 +107,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.Red));
             UserNameTextView.setText(SaveSharedPreference.getFirstName(context) + " " + SaveSharedPreference.getLastName(context));
             UserNameTextView.setVisibility(View.VISIBLE);
-            //TODO Check The Photo
-            UserProfilePictureImageView.setImageResource(R.drawable.image);
+            if (MainActivity.SaveSharedPreference.getImage(this).equals("")) {
+                UserProfilePictureImageView.setImageDrawable(getResources().getDrawable(R.drawable.profiledefault));
+            } else {
+                Picasso.get().load(MainActivity.SaveSharedPreference.getImage(this)).into(UserProfilePictureImageView);
+            }
         } else {
             Logout();
         }
@@ -257,6 +270,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         static final String PREF_ABOUT = "About";
         static final String PREF_CODE = "Code";
         static final String PREF_IMAGE = "Image";
+        static final String PREF_CV = "CV";
+        static final String PREF_COUNTER = "Counter";
+        static final String PREF_FAVORITE_COUNTER = "FavoriteCounter";
 
         static SharedPreferences getSharedPreferences(Context ctx) {
             return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -401,6 +417,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public static String getImage(Context ctx) {
             return getSharedPreferences(ctx).getString(PREF_IMAGE, "");
         }
+
+        public static void setCV(Context ctx, String cv) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_CV, cv);
+            editor.apply();
+        }
+
+        public static String getCV(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_CV, "");
+        }
+
+        public static void setCounter(Context ctx, String counter) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_COUNTER, counter);
+            editor.apply();
+        }
+
+        public static String getCounter(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_COUNTER, "0");
+        }
+
+        public static void setFavoriteCounter(Context ctx, String favoritecounter) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_FAVORITE_COUNTER, favoritecounter);
+            editor.apply();
+        }
+
+        public static String getFavoriteCounter(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_FAVORITE_COUNTER, "0");
+        }
     }
 
     private AlertDialog LogoutDialog() {
@@ -437,9 +483,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            // if the kyboard open
-            // close it
-            // close the search bar
+            /*TODO if the keyboard open (AND) close it (AND) close the search bar */
             drawerLayout.closeDrawer(GravityCompat.START);
             AlertDialog dialog = ExitDialog();
             dialog.show();
@@ -505,26 +549,119 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void DeleteAccount() {
         Clickable(false);
-        db.collection("Users").document(SaveSharedPreference.getPhoneNumber(this))
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Logout();
-                        navigationView = findViewById(R.id.nav_view);
-                        Menu menu = navigationView.getMenu();
-                        menu.findItem(R.id.nav_delete_account).setVisible(false);
-                        Clickable(true);
-                        Toast.makeText(MainActivity.this, "تم حذف الحساب بنجاح!", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "حدث خطأ أثناء حذف الحساب", Toast.LENGTH_SHORT).show();
-                Clickable(true);
+        DeleteFavorite();
+        DeletePhoto();
+        if (SaveSharedPreference.getRole(this).equals("2")) {
+            DeleteItemsPhoto();
+            DeleteItemsDataBase();
+        } else if (SaveSharedPreference.getRole(this).equals("3")) {
+            DeleteConsultant();
+            DeletePosts();
+        }
+        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this)).delete();
+        Logout();
+        SaveSharedPreference.setCounter(context, "0");
+        navigationView = findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.nav_delete_account).setVisible(false);
+        Clickable(true);
+        Toast.makeText(MainActivity.this, "تم حذف الحساب بنجاح!", Toast.LENGTH_SHORT).show();
+    }
 
-            }
-        });
+    private void DeletePosts() {
+        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
+                .collection(getString(R.string.PostsCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
+                                        .collection(getString(R.string.PostsCollection)).document(document.getId()).delete();
+                            }
+
+                        } else {
+                            Toast.makeText(context, "حدث خطأ أثناء حذف الحساب", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void DeleteItemsDataBase() {
+        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
+                .collection(getString(R.string.ItemsCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
+                                        .collection(getString(R.string.ItemsCollection)).document(document.getId()).delete();
+                            }
+
+                        } else {
+                            Toast.makeText(context, "حدث خطأ أثناء حذف الحساب", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void DeleteFavorite() {
+        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
+                .collection(getString(R.string.FavoriteCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
+                                        .collection(getString(R.string.FavoriteCollection)).document(document.getId()).delete();
+                            }
+
+                        } else {
+                            Toast.makeText(context, "حدث خطأ أثناء حذف الحساب", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
+
+    private void DeleteItemsPhoto() {
+        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
+                .collection(getString(R.string.ItemsCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                                StorageReference photoRef = storageRef.child(getString(R.string.ItemsCollection))
+                                        .child(document.getId());
+                                photoRef.delete();
+                            }
+                        } else {
+                            Toast.makeText(MainActivity.this, "حدث خطأ, يرجى المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void DeleteConsultant() {
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference deleteRef = storageRef.child("CVs").child(SaveSharedPreference.getCV(MainActivity.this));
+        deleteRef.delete();
+    }
+
+    private void DeletePhoto() {
+        if (UserProfilePictureImageView.getDrawable().getConstantState() != getResources().getDrawable(R.drawable.profiledefault).getConstantState()) {
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference photoRef = storageRef.child("uploads").child(SaveSharedPreference.getPhoneNumber(MainActivity.this));
+            photoRef.delete();
+        }
     }
 
     private void Logout() {
@@ -539,7 +676,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SaveSharedPreference.setImage(context, "");
         loginNavHeaderTextView.setText("تسجيل الدخول");
         loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
-        UserProfilePictureImageView.setImageResource(R.drawable.profiledefault);
+        UserProfilePictureImageView.setImageDrawable(getResources().getDrawable(R.drawable.profiledefault));
         UserNameTextView.setText("");
         UserNameTextView.setVisibility(View.GONE);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

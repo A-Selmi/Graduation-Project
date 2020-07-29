@@ -25,7 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.abdullah.graduationproject.Activity.MainActivity;
+import com.abdullah.graduationproject.Activities.MainActivity;
 import com.abdullah.graduationproject.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

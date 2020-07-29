@@ -7,7 +7,7 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     android:padding="5dp"
-    tools:context=".Activity.DetailsActivity">
+    tools:context=".Activities.DetailsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
