@@ -1,6 +1,7 @@
 package com.abdullah.graduationproject.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,37 +10,35 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.abdullah.graduationproject.Activities.DetailsActivity;
 import com.abdullah.graduationproject.Classes.Items;
 import com.abdullah.graduationproject.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class DeleteItemsAdapter extends RecyclerView.Adapter<DeleteItemsAdapter.DeleteItemsAdapterHolder> {
+public class SeedsAdapter extends RecyclerView.Adapter<SeedsAdapter.DeleteItemsAdapterHolder> {
 
     Context context;
     List<Items> itemsList;
-    OnItemClickListener itemClickListener;
 
-    public DeleteItemsAdapter(List<Items> itemsList, Context context, OnItemClickListener onItemClickListener) {
+    public SeedsAdapter(List<Items> itemsList, Context context) {
         this.itemsList = itemsList;
         this.context = context;
-        itemClickListener = onItemClickListener;
     }
 
     @NonNull
     @Override
     public DeleteItemsAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.store_custom, parent, false);
-        return new DeleteItemsAdapterHolder(view, itemClickListener);
+        return new DeleteItemsAdapterHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DeleteItemsAdapterHolder holder, int position) {
-        Items items = itemsList.get(position);
+        final Items items = itemsList.get(position);
         Picasso.get()
                 .load(items.getImage())
                 .placeholder(R.mipmap.ic_icon)
@@ -49,8 +48,18 @@ public class DeleteItemsAdapter extends RecyclerView.Adapter<DeleteItemsAdapter.
         holder.Name.setText(items.getName());
         holder.Price.setText(items.getPrice());
         holder.Rating.setText(items.getRating());
-        holder.FavoriteImageView.setVisibility(View.INVISIBLE);
-        holder.NotFavoriteImageView.setVisibility(View.INVISIBLE);
+        holder.FavoriteImageView.setVisibility(View.VISIBLE);
+        holder.NotFavoriteImageView.setVisibility(View.VISIBLE);
+
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toDetailsActivity = new Intent(context, DetailsActivity.class);
+                toDetailsActivity.putExtra("Item", "Seeds");
+                toDetailsActivity.putExtra("Id", items.getId());
+                context.startActivity(toDetailsActivity);
+            }
+        });
     }
 
     @Override
@@ -58,14 +67,14 @@ public class DeleteItemsAdapter extends RecyclerView.Adapter<DeleteItemsAdapter.
         return itemsList.size();
     }
 
-    public class DeleteItemsAdapterHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class DeleteItemsAdapterHolder extends RecyclerView.ViewHolder {
 
+        ConstraintLayout constraintLayout;
         ImageView Image;
         TextView Name, Price, Rating;
         ImageView NotFavoriteImageView, FavoriteImageView;
-        OnItemClickListener listener;
 
-        public DeleteItemsAdapterHolder(@NonNull View itemView, OnItemClickListener onClickListener) {
+        public DeleteItemsAdapterHolder(@NonNull View itemView) {
             super(itemView);
             Image = itemView.findViewById(R.id.ItemImageView);
             Name = itemView.findViewById(R.id.ItemTextView);
@@ -73,19 +82,8 @@ public class DeleteItemsAdapter extends RecyclerView.Adapter<DeleteItemsAdapter.
             Rating = itemView.findViewById(R.id.RatingTextViewStore);
             NotFavoriteImageView = itemView.findViewById(R.id.NotFavoriteImageView);
             FavoriteImageView = itemView.findViewById(R.id.FavoriteImageView);
-            listener = onClickListener;
-
-            itemView.setOnClickListener(this);
+            constraintLayout = itemView.findViewById(R.id.store_constraint_layout);
         }
-
-        @Override
-        public void onClick(View view) {
-            listener.onItemClick(getAdapterPosition());
-        }
-    }
-
-    public  interface OnItemClickListener {
-        void onItemClick(int position);
     }
 
 }

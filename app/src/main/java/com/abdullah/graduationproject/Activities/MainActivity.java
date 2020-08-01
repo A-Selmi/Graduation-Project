@@ -257,8 +257,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static class SaveSharedPreference {
         static final String PREF_LOGIN = "LogIn";
-        static final String PREF_FIRSTNAME = "FirstName";
-        static final String PREF_LASTTNAME = "LastName";
+        static final String PREF_FIRST_NAME = "FirstName";
+        static final String PREF_LASTT_NAME = "LastName";
         static final String PREF_LOCATION = "Location";
         static final String PREF_Age = "Age";
         static final String PREF_PHONE_NUMBER = "PhoneNumber";
@@ -271,8 +271,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         static final String PREF_CODE = "Code";
         static final String PREF_IMAGE = "Image";
         static final String PREF_CV = "CV";
-        static final String PREF_COUNTER = "Counter";
+        static final String PREF_RATING = "Rating";
         static final String PREF_FAVORITE_COUNTER = "FavoriteCounter";
+        static final String PREF_NUMBER = "Number";
 
         static SharedPreferences getSharedPreferences(Context ctx) {
             return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -290,22 +291,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         public static void setFirstName(Context ctx, String firstname) {
             SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-            editor.putString(PREF_FIRSTNAME, firstname);
+            editor.putString(PREF_FIRST_NAME, firstname);
             editor.apply();
         }
 
         public static String getFirstName(Context ctx) {
-            return getSharedPreferences(ctx).getString(PREF_FIRSTNAME, "");
+            return getSharedPreferences(ctx).getString(PREF_FIRST_NAME, "");
         }
 
         public static void setLastName(Context ctx, String lastname) {
             SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-            editor.putString(PREF_LASTTNAME, lastname);
+            editor.putString(PREF_LASTT_NAME, lastname);
             editor.apply();
         }
 
         public static String getLastName(Context ctx) {
-            return getSharedPreferences(ctx).getString(PREF_LASTTNAME, "");
+            return getSharedPreferences(ctx).getString(PREF_LASTT_NAME, "");
         }
 
         public static void setLocation(Context ctx, String location) {
@@ -428,14 +429,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return getSharedPreferences(ctx).getString(PREF_CV, "");
         }
 
-        public static void setCounter(Context ctx, String counter) {
+        public static void setRating(Context ctx, String rating) {
             SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-            editor.putString(PREF_COUNTER, counter);
+            editor.putString(PREF_RATING, rating);
             editor.apply();
         }
 
-        public static String getCounter(Context ctx) {
-            return getSharedPreferences(ctx).getString(PREF_COUNTER, "0");
+        public static String getRating(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_RATING, "");
         }
 
         public static void setFavoriteCounter(Context ctx, String favoritecounter) {
@@ -446,6 +447,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         public static String getFavoriteCounter(Context ctx) {
             return getSharedPreferences(ctx).getString(PREF_FAVORITE_COUNTER, "0");
+        }
+
+        public static void setNumber(Context ctx, String number) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_NUMBER, number);
+            editor.apply();
+        }
+
+        public static String getNumber(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_NUMBER, "0");
         }
     }
 
@@ -560,7 +571,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this)).delete();
         Logout();
-        SaveSharedPreference.setCounter(context, "0");
         navigationView = findViewById(R.id.nav_view);
         Menu menu = navigationView.getMenu();
         menu.findItem(R.id.nav_delete_account).setVisible(false);

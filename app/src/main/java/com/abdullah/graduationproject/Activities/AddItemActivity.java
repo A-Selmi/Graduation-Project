@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,7 +22,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -38,6 +36,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -143,7 +143,10 @@ public class AddItemActivity extends AppCompatActivity {
         user.put("Price", ItemPriceEditTextAddItem.getText().toString().trim());
         user.put("Phone Number", MainActivity.SaveSharedPreference.getPhoneNumber(AddItemActivity.this));
         user.put("Description", ItemDiscriptionEditTextAddItem.getText().toString().trim());
-        user.put("counter", Long.parseLong(MainActivity.SaveSharedPreference.getCounter(this)));
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        user.put("Date", formattedDate);
 
         final DocumentReference ref = db.collection(getString(R.string.UsersCollection))
                 .document(MainActivity.SaveSharedPreference.getPhoneNumber(AddItemActivity.this))
@@ -152,11 +155,42 @@ public class AddItemActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        UploadToDataBaseCollection(ref.getId());
+                        UploadPicture(MainActivity.SaveSharedPreference.getPhoneNumber(AddItemActivity.this), ref.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
                         Clickable(true);
                         progressBarAddItemActivity.setVisibility(View.GONE);
-                        long newCounter = Long.parseLong(MainActivity.SaveSharedPreference.getCounter(AddItemActivity.this)) + 1;
-                        MainActivity.SaveSharedPreference.setCounter(AddItemActivity.this, String.valueOf(newCounter));
-                        UploadPicture(MainActivity.SaveSharedPreference.getPhoneNumber(AddItemActivity.this), ref.getId());
+                        Toast.makeText(AddItemActivity.this, R.string.FailToSignUpMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void UploadToDataBaseCollection(String id) {
+        Clickable(false);
+        progressBarAddItemActivity.setVisibility(View.VISIBLE);
+        user = new HashMap<>();
+        user.put("Product Name", ItemNameEditTextAddItem.getText().toString().trim());
+        user.put("Provider", MainActivity.SaveSharedPreference.getFirstName(AddItemActivity.this)
+                + " " + MainActivity.SaveSharedPreference.getLastName(AddItemActivity.this));
+        user.put("Location", MainActivity.SaveSharedPreference.getLocation(AddItemActivity.this));
+        user.put("Price", ItemPriceEditTextAddItem.getText().toString().trim());
+        user.put("Phone Number", MainActivity.SaveSharedPreference.getPhoneNumber(AddItemActivity.this));
+        user.put("Description", ItemDiscriptionEditTextAddItem.getText().toString().trim());
+        user.put("Category", ItemName);
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(c);
+        user.put("Date", formattedDate);
+
+        final DocumentReference ref = db.collection(getString(R.string.ItemsCollection)).document(id);
+        ref.set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -195,7 +229,7 @@ public class AddItemActivity extends AppCompatActivity {
             mImageUri = data.getData();
             Picasso.get().load(mImageUri.toString()).into(ItemPictureImageViewAddItem);
             ItemPictureImageViewAddItem.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        }else {
+        } else {
             Toast.makeText(this, "حدث خطأ خلال تحميل الصورة", Toast.LENGTH_SHORT).show();
         }
     }
@@ -206,14 +240,13 @@ public class AddItemActivity extends AppCompatActivity {
                 Toast.makeText(this, "تحميل...", Toast.LENGTH_SHORT).show();
                 Clickable(false);
                 progressBarAddItemActivity.setVisibility(View.VISIBLE);
-
                 final StorageReference reference = mStorageRef.child(id);
                 UploadTask task = reference.putFile(mImageUri);
                 task.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
                     public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(AddItemActivity.this, "لم يتم تحميل الصورة", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddItemActivity.this, "حدث خطا أثناء التحميل", Toast.LENGTH_SHORT).show();
                             Clickable(true);
                             progressBarAddItemActivity.setVisibility(View.GONE);
                         }
@@ -229,6 +262,21 @@ public class AddItemActivity extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(AddItemActivity.this, "حدث خطأ, يرجى المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
+                                    Clickable(true);
+                                    progressBarAddItemActivity.setVisibility(View.GONE);
+                                }
+                            });
+                            db.collection(getString(R.string.ItemsCollection)).document(id)
+                                    .update("Image Url", task.getResult().toString())
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(AddItemActivity.this, "تم إضافة المنتج بنجاح", Toast.LENGTH_SHORT).show();
                                             Clickable(true);
                                             progressBarAddItemActivity.setVisibility(View.GONE);
                                             CategoryActivity.activity.finish();

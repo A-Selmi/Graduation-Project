@@ -31,6 +31,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -85,7 +86,7 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
             db.collection(getString(R.string.UsersCollection))
                     .document(MainActivity.SaveSharedPreference.getPhoneNumber(DeleteActivity.this))
                     .collection(getString(R.string.PostsCollection))
-                    .orderBy("counter", Query.Direction.DESCENDING)
+                    .orderBy("Date", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -128,7 +129,7 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
             db.collection(getString(R.string.UsersCollection))
                     .document(MainActivity.SaveSharedPreference.getPhoneNumber(DeleteActivity.this))
                     .collection(getString(R.string.ItemsCollection))
-                    .orderBy("counter", Query.Direction.DESCENDING)
+                    .orderBy("Date", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -206,6 +207,7 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
                         if (Connected()) {
                             DeleteItemPicture(position);
                             DeleteItem(position);
+                            DeleteItemsCollection(position);
                         } else {
                             Toast.makeText(DeleteActivity.this, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
                         }
@@ -227,6 +229,54 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
         return DeleteDialog;
     }
 
+    private void DeleteItemsCollection(int position) {
+        Clickable(false);
+        progressBarDeleteActivity.setVisibility(View.VISIBLE);
+        DeleteItemsReviewCollection(list.get(position).getId());
+        db.collection(getString(R.string.ItemsCollection)).document(list.get(position).getId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Clickable(true);
+                        progressBarDeleteActivity.setVisibility(View.GONE);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(DeleteActivity.this, "حدث خطأ أثناء الحذف", Toast.LENGTH_SHORT).show();
+                Clickable(true);
+                progressBarDeleteActivity.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void DeleteItemsReviewCollection(final String id) {
+        db.collection(getString(R.string.ItemsCollection)).document(id)
+                .collection(getString(R.string.ReviewCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.ItemsCollection))
+                                        .document(id)
+                                        .collection(getString(R.string.ReviewCollection))
+                                        .document(document.getId())
+                                        .delete();
+                            }
+                            Clickable(true);
+                            progressBarDeleteActivity.setVisibility(View.GONE);
+                        }else {
+                            Toast.makeText(DeleteActivity.this, "حدث خطأ أثناء الحذف", Toast.LENGTH_SHORT).show();
+                            Clickable(true);
+                            progressBarDeleteActivity.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
+
     private void DeleteItemPicture(int position) {
         Clickable(false);
         progressBarDeleteActivity.setVisibility(View.VISIBLE);
@@ -240,6 +290,7 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
     private void DeleteItem(final int position) {
         Clickable(false);
         progressBarDeleteActivity.setVisibility(View.VISIBLE);
+        DeleteItemsReview(list.get(position).getId());
         db.collection(getString(R.string.UsersCollection)).document(MainActivity.SaveSharedPreference.getPhoneNumber(this))
                 .collection(getString(R.string.ItemsCollection)).document(list.get(position).getId())
                 .delete()
@@ -262,6 +313,35 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
                 progressBarDeleteActivity.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void DeleteItemsReview(final String id) {
+        db.collection(getString(R.string.UsersCollection)).document(MainActivity.SaveSharedPreference.getPhoneNumber(this))
+                .collection(getString(R.string.ItemsCollection)).document(id)
+                .collection(getString(R.string.ReviewCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.UsersCollection))
+                                        .document(MainActivity.SaveSharedPreference.getPhoneNumber(DeleteActivity.this))
+                                        .collection(getString(R.string.ItemsCollection))
+                                        .document(id)
+                                        .collection(getString(R.string.ReviewCollection))
+                                        .document(document.getId())
+                                        .delete();
+                            }
+                            Clickable(true);
+                            progressBarDeleteActivity.setVisibility(View.GONE);
+                        }else {
+                            Toast.makeText(DeleteActivity.this, "حدث خطأ أثناء الحذف", Toast.LENGTH_SHORT).show();
+                            Clickable(true);
+                            progressBarDeleteActivity.setVisibility(View.GONE);
+                        }
+                    }
+                });
     }
 
     private void CheckState() {

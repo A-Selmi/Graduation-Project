@@ -80,14 +80,13 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        findview();
-        CheckState();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         findview();
+        CheckState();
         setAppLocale("ar");
         Clickable(true);
     }
@@ -251,7 +250,7 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
             db.collection(getString(R.string.UsersCollection))
                     .document(MainActivity.SaveSharedPreference.getPhoneNumber(ProfileActivity.this))
                     .collection(getString(R.string.PostsCollection))
-                    .orderBy("counter", Query.Direction.DESCENDING)
+                    .orderBy("Date", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
