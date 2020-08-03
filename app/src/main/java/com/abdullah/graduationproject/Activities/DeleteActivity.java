@@ -179,7 +179,7 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                TotalRating += Long.parseLong(document.getData().get("Review Rate").toString());
+                                TotalRating += Float.parseFloat(document.getData().get("Review Rate").toString());
                                 count++;
                             }
                         } else {

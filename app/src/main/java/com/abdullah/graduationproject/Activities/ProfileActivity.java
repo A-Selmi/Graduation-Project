@@ -80,13 +80,13 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        findview();
+        CheckState();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        findview();
-        CheckState();
         setAppLocale("ar");
         Clickable(true);
     }
@@ -112,15 +112,11 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        try {
-            if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                    && data != null && data.getData() != null) {
-                mImageUri = data.getData();
-                Picasso.get().load(mImageUri.toString()).into(ProfileImageView);
-                UploadPictureImageView.setVisibility(View.VISIBLE);
-            }
-        } catch (Exception e) {
-            Toast.makeText(this, "حدث خطأ خلال تحميل الصورة", Toast.LENGTH_SHORT).show();
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+            Picasso.get().load(mImageUri.toString()).into(ProfileImageView);
+            UploadPictureImageView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -196,9 +192,9 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
     }
 
     private void CheckPicture() {
-        if(MainActivity.SaveSharedPreference.getImage(this).equals("")) {
+        if (MainActivity.SaveSharedPreference.getImage(this).equals("")) {
             ProfileImageView.setImageDrawable(getResources().getDrawable(R.drawable.profiledefault));
-        }else {
+        } else {
             Picasso.get().load(MainActivity.SaveSharedPreference.getImage(this)).into(ProfileImageView);
         }
     }
@@ -380,19 +376,19 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
 
     public void DeletePostButtonClicked(View view) {
         Intent toDeletePostActivity = new Intent(ProfileActivity.this, DeleteActivity.class);
-        if(MainActivity.SaveSharedPreference.getRole(this).equals("2")) {
+        if (MainActivity.SaveSharedPreference.getRole(this).equals("2")) {
             toDeletePostActivity.putExtra("Role", "2");
-        }else {
+        } else {
             toDeletePostActivity.putExtra("Role", "3");
         }
         startActivity(toDeletePostActivity);
     }
 
     public void AddPostButtonClicked(View view) {
-        if(MainActivity.SaveSharedPreference.getRole(this).equals("2")) {
+        if (MainActivity.SaveSharedPreference.getRole(this).equals("2")) {
             Intent toCategoryActivity = new Intent(ProfileActivity.this, CategoryActivity.class);
             startActivity(toCategoryActivity);
-        }else {
+        } else {
             Intent toAddPostActivity = new Intent(ProfileActivity.this, AddPostActivity.class);
             startActivity(toAddPostActivity);
         }

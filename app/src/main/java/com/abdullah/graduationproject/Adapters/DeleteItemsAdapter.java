@@ -8,8 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.abdullah.graduationproject.Classes.Items;
@@ -33,7 +31,7 @@ public class DeleteItemsAdapter extends RecyclerView.Adapter<DeleteItemsAdapter.
     @NonNull
     @Override
     public DeleteItemsAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.store_custom, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.store_delete_custom, parent, false);
         return new DeleteItemsAdapterHolder(view, itemClickListener);
     }
 
@@ -47,10 +45,8 @@ public class DeleteItemsAdapter extends RecyclerView.Adapter<DeleteItemsAdapter.
                 .centerCrop()
                 .into(holder.Image);
         holder.Name.setText(items.getName());
-        holder.Price.setText(items.getPrice());
+        holder.Price.setText(items.getPrice()+ " دينار");
         holder.Rating.setText(items.getRating());
-        holder.FavoriteImageView.setVisibility(View.INVISIBLE);
-        holder.NotFavoriteImageView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -62,7 +58,6 @@ public class DeleteItemsAdapter extends RecyclerView.Adapter<DeleteItemsAdapter.
 
         ImageView Image;
         TextView Name, Price, Rating;
-        ImageView NotFavoriteImageView, FavoriteImageView;
         OnItemClickListener listener;
 
         public DeleteItemsAdapterHolder(@NonNull View itemView, OnItemClickListener onClickListener) {
@@ -71,8 +66,6 @@ public class DeleteItemsAdapter extends RecyclerView.Adapter<DeleteItemsAdapter.
             Name = itemView.findViewById(R.id.ItemTextView);
             Price = itemView.findViewById(R.id.PriceTextView);
             Rating = itemView.findViewById(R.id.RatingTextViewStore);
-            NotFavoriteImageView = itemView.findViewById(R.id.NotFavoriteImageView);
-            FavoriteImageView = itemView.findViewById(R.id.FavoriteImageView);
             listener = onClickListener;
 
             itemView.setOnClickListener(this);

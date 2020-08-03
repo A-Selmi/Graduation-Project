@@ -51,6 +51,7 @@ public class ToolsFragment extends Fragment {
     float TotalRating = 0;
     float count = 0;
     View view;
+    MainActivity mainActivity;
 
     @Nullable
     @Override
@@ -73,6 +74,7 @@ public class ToolsFragment extends Fragment {
         NoDataTextViewToolsActivity = view.findViewById(R.id.NoDataTextViewToolsActivity);
         progressBarToolsActivity = view.findViewById(R.id.progressBarToolsActivity);
         ToolsRecyclerView = view.findViewById(R.id.ToolsRecyclerView);
+        mainActivity = (MainActivity) getActivity();
     }
 
     public void setAppLocale(String localCode) {
@@ -89,14 +91,14 @@ public class ToolsFragment extends Fragment {
 
     public void Clickable(boolean b) {
         if (b) {
-            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         } else {
-            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            mainActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
     }
 
     public boolean Connected() {
-        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = manager.getActiveNetworkInfo();
         if (info != null && info.isConnected()) {
             return true;
@@ -117,73 +119,70 @@ public class ToolsFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if(document.getData().get("Category").equals("FAndV")) {
-                                        ReadRating(document.getId());
-                                        FavoriteState(document.getId());
-                                        list.add(new Items(document.getId(), document.getData().get("Image Url").toString()
-                                                , document.getData().get("Product Name").toString(),
-                                                document.getData().get("Provider").toString(), document.getData().get("Price").toString(),
-                                                MainActivity.SaveSharedPreference.getRating(getActivity()), document.getData().get("Phone Number").toString(),
-                                                document.getData().get("Location").toString(), document.getData().get("Description").toString()));
+                                for (final QueryDocumentSnapshot document : task.getResult()) {
+                                    if(document.getData().get("Category").equals("Tools")) {
+                                        db.collection("Items").document(document.getId())
+                                                .collection("Review")
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                TotalRating += Float.parseFloat(document.getData().get("Review Rate").toString());
+                                                                count++;
+                                                            }
+                                                            if (count == 0) {
+                                                                list.add(new Items(document.getId(), document.getData().get("Image Url").toString()
+                                                                        , document.getData().get("Product Name").toString(),
+                                                                        document.getData().get("Provider").toString(), document.getData().get("Price").toString(),
+                                                                        "0", document.getData().get("Phone Number").toString(),
+                                                                        document.getData().get("Location").toString(), document.getData().get("Description").toString()));
+                                                            } else {
+                                                                TotalRating /= count;
+                                                                String output = new DecimalFormat("#.0").format(TotalRating);
+                                                                list.add(new Items(document.getId(), document.getData().get("Image Url").toString()
+                                                                        , document.getData().get("Product Name").toString(),
+                                                                        document.getData().get("Provider").toString(), document.getData().get("Price").toString(),
+                                                                        output, document.getData().get("Phone Number").toString(),
+                                                                        document.getData().get("Location").toString(), document.getData().get("Description").toString()));
+                                                            }
+                                                            if (list.isEmpty()) {
+                                                                NoDataTextViewToolsActivity.setVisibility(View.VISIBLE);
+                                                                ToolsRecyclerView.setVisibility(View.GONE);
+                                                            } else {
+                                                                NoDataTextViewToolsActivity.setVisibility(View.GONE);
+                                                                ToolsRecyclerView.setVisibility(View.VISIBLE);
+                                                            }
+                                                            adapter = new ToolsAdapter(list, mainActivity);
+                                                            ToolsRecyclerView.hasFixedSize();
+                                                            ToolsRecyclerView.setAdapter(adapter);
+                                                            ToolsRecyclerView.setLayoutManager(new GridLayoutManager(mainActivity, 3));
+                                                            adapter.notifyDataSetChanged();
+                                                            Clickable(true);
+                                                            progressBarToolsActivity.setVisibility(View.GONE);
+                                                        } else {
+                                                            Toast.makeText(mainActivity, "حدث خطأ أثناء قرآءة التقييم", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+                                    }else {
+                                        Clickable(true);
+                                        progressBarToolsActivity.setVisibility(View.GONE);
+                                        NoDataTextViewToolsActivity.setVisibility(View.VISIBLE);
+                                        ToolsRecyclerView.setVisibility(View.GONE);
                                     }
                                 }
-                                if (list.isEmpty()) {
-                                    NoDataTextViewToolsActivity.setVisibility(View.VISIBLE);
-                                    ToolsRecyclerView.setVisibility(View.GONE);
-                                } else {
-                                    NoDataTextViewToolsActivity.setVisibility(View.GONE);
-                                    ToolsRecyclerView.setVisibility(View.VISIBLE);
-                                }
-                                adapter = new ToolsAdapter(list, getActivity());
-                                ToolsRecyclerView.hasFixedSize();
-                                ToolsRecyclerView.setAdapter(adapter);
-                                ToolsRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-                                adapter.notifyDataSetChanged();
-                                Clickable(true);
-                                progressBarToolsActivity.setVisibility(View.GONE);
                             } else {
                                 Clickable(true);
                                 progressBarToolsActivity.setVisibility(View.GONE);
                                 ToolsRecyclerView.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), "حدث خطأ, يرجى المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mainActivity, "حدث خطأ, يرجى المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
         } else {
-            Toast.makeText(getActivity(), R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mainActivity, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
         }
     }
-
-    private void FavoriteState(String id) {
-        //TODO Check favorite state
-    }
-
-    private void ReadRating(String id) {
-        MainActivity.SaveSharedPreference.setRating(getActivity(), "0");
-        db.collection(getString(R.string.ItemsCollection)).document(id)
-                .collection(getString(R.string.ReviewCollection))
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                TotalRating += Long.parseLong(document.getData().get("Review Rate").toString());
-                                count++;
-                            }
-                            if (count == 0) {
-                                MainActivity.SaveSharedPreference.setRating(getActivity(), "0");
-                            } else {
-                                TotalRating /= count;
-                                String output = new DecimalFormat("#.0").format(TotalRating);
-                                MainActivity.SaveSharedPreference.setRating(getActivity(), output);
-                            }
-                        } else {
-                            Toast.makeText(getActivity(), "حدث خطأ أثناء قرآءة التقييم", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
 }
