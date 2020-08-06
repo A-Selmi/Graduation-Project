@@ -2,6 +2,7 @@ package com.abdullah.graduationproject.LogInActivities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -57,7 +58,6 @@ public class VerificationActivity extends AppCompatActivity {
     Map<String, Object> user;
     PhoneAuthProvider.ForceResendingToken resendingToken;
     FirebaseStorage storage;
-    FirebaseDatabase database;
     ProgressDialog progressDialog;
     Uri pdfUri;
 
@@ -95,7 +95,6 @@ public class VerificationActivity extends AppCompatActivity {
             pdfUri = Uri.parse(getIntent().getStringExtra("uri"));
         }
         storage = FirebaseStorage.getInstance();
-        database = FirebaseDatabase.getInstance();
     }
 
     public void CheckPhoneNumberButtonClicked(View view) {
@@ -139,6 +138,8 @@ public class VerificationActivity extends AppCompatActivity {
                 user.put("PP", MainActivity.SaveSharedPreference.getPP(context));
                 user.put("Skills", MainActivity.SaveSharedPreference.getSkills(context));
                 user.put("About", MainActivity.SaveSharedPreference.getAbout(context));
+            }else if(MainActivity.SaveSharedPreference.getRole(context).equals("3")) {
+                user.put("CV", "");
             }
 
             db.collection("Users").document(phoneNumber)
@@ -254,32 +255,36 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     public void uploudFile(Uri pdfUri) {
+        Clickable(false);
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setTitle("تحميل الملف ");
         progressDialog.setProgress(0);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-        final String fileName = System.currentTimeMillis() + "";
+        final String fileName = MainActivity.SaveSharedPreference.getPhoneNumber(VerificationActivity.this);
         StorageReference storageReference = storage.getReference();
         storageReference.child(getString(R.string.CVCollection)).child(fileName).putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String url = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-                DatabaseReference reference = database.getReference();
-                MainActivity.SaveSharedPreference.setCV(VerificationActivity.this, fileName);
-                reference.child(fileName).setValue(url).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(context, "تم تحميل الملف", Toast.LENGTH_SHORT).show();
-                        Intent backMainActivity = new Intent(VerificationActivity.this, MainActivity.class);
-                        backMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(backMainActivity);
-                    }
-                });
+                db.collection("Users").document(MainActivity.SaveSharedPreference.getPhoneNumber(VerificationActivity.this))
+                        .update("CV", MainActivity.SaveSharedPreference.getPhoneNumber(VerificationActivity.this))
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Clickable(true);
+                                MainActivity.SaveSharedPreference.setCV(VerificationActivity.this, fileName);
+                                Toast.makeText(context, "تم تحميل الملف", Toast.LENGTH_SHORT).show();
+                                Intent backMainActivity = new Intent(VerificationActivity.this, MainActivity.class);
+                                backMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(backMainActivity);
+                            }
+                        });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Clickable(true);
                 Toast.makeText(context, "حدث خطأ أثناء تحميل الملف", Toast.LENGTH_SHORT).show();
                 Intent backMainActivity = new Intent(VerificationActivity.this, MainActivity.class);
                 backMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

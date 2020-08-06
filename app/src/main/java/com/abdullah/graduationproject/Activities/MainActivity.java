@@ -45,6 +45,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -87,9 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         findHomeViews();
         setAppLocale("ar");
         CheckTheState();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
-        navigationView.setCheckedItem(R.id.nav_home);
+        CheckFragment();
         if (SaveSharedPreference.getLogIn(context).equals("true")) {
             navigationView = findViewById(R.id.nav_view);
             Menu menu = navigationView.getMenu();
@@ -98,6 +97,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView = findViewById(R.id.nav_view);
             Menu menu = navigationView.getMenu();
             menu.findItem(R.id.nav_delete_account).setVisible(false);
+        }
+    }
+
+    private void CheckFragment() {
+        if (SaveSharedPreference.getFragment(this).equals("1")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FavoriteFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_favorite);
+        } else if (SaveSharedPreference.getFragment(this).equals("2")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new WaterFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_water);
+        } else if (SaveSharedPreference.getFragment(this).equals("3")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FruitsAndVegetablesFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_fruits_and_vegetables);
+        } else if (SaveSharedPreference.getFragment(this).equals("4")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new SeedsFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_seeds);
+        } else if (SaveSharedPreference.getFragment(this).equals("5")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new ToolsFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_tools);
+        } else if (SaveSharedPreference.getFragment(this).equals("6")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new WorkerFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_worker);
+        } else if (SaveSharedPreference.getFragment(this).equals("7")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new AdviserFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_Adviser);
+        } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
         }
     }
 
@@ -158,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (SaveSharedPreference.getLogIn(context).equals("true")) {
             switch (item.getItemId()) {
                 case R.id.nav_profile:
+                    SaveSharedPreference.setFragment(this, "");
                     startActivity(toProfileActivity);
                     break;
                 case R.id.nav_favorite:
@@ -168,15 +204,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             switch (item.getItemId()) {
                 case R.id.nav_profile:
+                    SaveSharedPreference.setFragment(this, "");
                     startActivity(toLoginActivity);
                     break;
                 case R.id.nav_favorite:
+                    SaveSharedPreference.setFragment(this, "");
                     startActivity(toLoginActivity);
                     break;
             }
         }
         switch (item.getItemId()) {
             case R.id.nav_home:
+                SaveSharedPreference.setFragment(this, "");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new HomeFragment()).commit();
                 break;
@@ -208,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Go to Contact Us web page", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_about_us:
+                SaveSharedPreference.setFragment(this, "");
                 Intent toAboutUsActivity = new Intent(this, AboutUsActivity.class);
                 startActivity(toAboutUsActivity);
                 break;
@@ -258,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static class SaveSharedPreference {
         static final String PREF_LOGIN = "LogIn";
         static final String PREF_FIRST_NAME = "FirstName";
-        static final String PREF_LASTT_NAME = "LastName";
+        static final String PREF_LAST_NAME = "LastName";
         static final String PREF_LOCATION = "Location";
         static final String PREF_Age = "Age";
         static final String PREF_PHONE_NUMBER = "PhoneNumber";
@@ -273,7 +313,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         static final String PREF_CV = "CV";
         static final String PREF_RATING = "Rating";
         static final String PREF_FAVORITE_COUNTER = "FavoriteCounter";
-        static final String PREF_NUMBER = "Number";
+        static final String PREF_ITEMS_COUNTER = "ItemsCounter";
+        static final String PREF_POSTS_COUNTER = "PostsCounter";
+        static final String PREF_FRAGMENT = "Fragment";
 
         static SharedPreferences getSharedPreferences(Context ctx) {
             return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -301,12 +343,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         public static void setLastName(Context ctx, String lastname) {
             SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-            editor.putString(PREF_LASTT_NAME, lastname);
+            editor.putString(PREF_LAST_NAME, lastname);
             editor.apply();
         }
 
         public static String getLastName(Context ctx) {
-            return getSharedPreferences(ctx).getString(PREF_LASTT_NAME, "");
+            return getSharedPreferences(ctx).getString(PREF_LAST_NAME, "");
         }
 
         public static void setLocation(Context ctx, String location) {
@@ -449,14 +491,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return getSharedPreferences(ctx).getString(PREF_FAVORITE_COUNTER, "0");
         }
 
-        public static void setNumber(Context ctx, String number) {
+        public static void setItemsCounter(Context ctx, String itemscounter) {
             SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-            editor.putString(PREF_NUMBER, number);
+            editor.putString(PREF_ITEMS_COUNTER, itemscounter);
             editor.apply();
         }
 
-        public static String getNumber(Context ctx) {
-            return getSharedPreferences(ctx).getString(PREF_NUMBER, "0");
+        public static String getItemsCounter(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_ITEMS_COUNTER, "0");
+        }
+
+        public static void setPostsCounter(Context ctx, String postscounter) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_POSTS_COUNTER, postscounter);
+            editor.apply();
+        }
+
+        public static String getPostsCounter(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_POSTS_COUNTER, "0");
+        }
+
+        public static void setFragment(Context ctx, String fragment) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_FRAGMENT, fragment);
+            editor.apply();
+        }
+
+        public static String getFragment(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_FRAGMENT, "");
         }
     }
 
@@ -528,6 +590,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return LogoutDialog;
     }
 
+    public void Clickable(boolean b) {
+        if (b) {
+            this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        } else {
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }
+    }
+
+    public boolean Connected() {
+        ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        if (info != null && info.isConnected()) {
+            return true;
+        }
+        return false;
+    }
+
     private AlertDialog DeleteAccountDialog() {
         final AlertDialog LogoutDialog = new AlertDialog.Builder(this)
                 .setTitle("حذف الحساب")
@@ -561,21 +640,193 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void DeleteAccount() {
         Clickable(false);
         DeleteFavorite();
-        DeletePhoto();
+    }
+
+    private void DeleteFavorite() {
+        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
+                .collection(getString(R.string.FavoriteCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
+                                        .collection(getString(R.string.FavoriteCollection)).document(document.getId()).delete();
+
+                            }
+                            DeletePhoto();
+                        } else {
+                            Toast.makeText(context, "حدث خطأ أثناء حذف الحساب", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
+
+    private void DeletePhoto() {
+        if (UserProfilePictureImageView.getDrawable().getConstantState() != getResources().getDrawable(R.drawable.profiledefault).getConstantState()) {
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference photoRef = storageRef.child("uploads").child(SaveSharedPreference.getPhoneNumber(MainActivity.this));
+            photoRef.delete();
+        }
         if (SaveSharedPreference.getRole(this).equals("2")) {
             DeleteItemsPhoto();
-            DeleteItemsDataBase();
         } else if (SaveSharedPreference.getRole(this).equals("3")) {
-            DeleteConsultant();
-            DeletePosts();
+            DeleteCV();
+        } else {
+            DeleteUser();
         }
-        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this)).delete();
-        Logout();
-        navigationView = findViewById(R.id.nav_view);
-        Menu menu = navigationView.getMenu();
-        menu.findItem(R.id.nav_delete_account).setVisible(false);
-        Clickable(true);
-        Toast.makeText(MainActivity.this, "تم حذف الحساب بنجاح!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void DeleteItemsPhoto() {
+        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
+                .collection(getString(R.string.ItemsCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                                StorageReference photoRef = storageRef.child(getString(R.string.ItemsCollection))
+                                        .child(document.getId());
+                                photoRef.delete();
+                            }
+                            DeleteItemsRating();
+                        } else {
+                            Toast.makeText(MainActivity.this, "حدث خطأ, يرجى المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void DeleteItemsRating() {
+        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
+                .collection(getString(R.string.ItemsCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
+                                        .collection(getString(R.string.ItemsCollection)).document(document.getId())
+                                        .collection(getString(R.string.ReviewCollection))
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document1 : task.getResult()) {
+                                                        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
+                                                                .collection(getString(R.string.ItemsCollection)).document(document.getId())
+                                                                .collection(getString(R.string.ReviewCollection)).document(document1.getId())
+                                                                .delete();
+                                                    }
+                                                }
+                                            }
+                                        });
+                            }
+                            DeleteItemsRatingCollection();
+                        }
+                    }
+                });
+    }
+
+    private void DeleteItemsRatingCollection() {
+        db.collection(getString(R.string.ItemsCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.ItemsCollection)).document(document.getId())
+                                        .collection(getString(R.string.ReviewCollection))
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document1 : task.getResult()) {
+                                                        db.collection(getString(R.string.ItemsCollection)).document(document.getId())
+                                                                .collection(getString(R.string.ReviewCollection)).document(document1.getId())
+                                                                .delete();
+                                                    }
+                                                }
+                                            }
+                                        });
+                            }
+                            DeleteItems();
+                        }
+                    }
+                });
+    }
+
+    private void DeleteItems() {
+        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
+                .collection(getString(R.string.ItemsCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
+                                        .collection(getString(R.string.ItemsCollection)).document(document.getId())
+                                        .delete();
+                            }
+                            DeleteItemsCollection();
+                        }
+                    }
+                });
+    }
+
+    private void DeleteItemsCollection() {
+        db.collection(getString(R.string.ItemsCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.ItemsCollection)).document(document.getId())
+                                        .delete();
+                            }
+                            DeleteUser();
+                        }
+                    }
+                });
+    }
+
+    private void DeleteCV() {
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference deleteRef = storageRef.child("CVs").child(SaveSharedPreference.getCV(MainActivity.this));
+        deleteRef.delete();
+        DeleteAdviserRating();
+    }
+
+    private void DeleteAdviserRating()
+    {
+        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
+                .collection(getString(R.string.RatingCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
+                                        .collection(getString(R.string.RatingCollection))
+                                        .document(document.getId()).delete();
+                            }
+                            DeletePosts();
+                        } else {
+                            Toast.makeText(context, "حدث خطأ أثناء حذف الحساب", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void DeletePosts() {
@@ -590,7 +841,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
                                         .collection(getString(R.string.PostsCollection)).document(document.getId()).delete();
                             }
-
+                            DeleteUser();
                         } else {
                             Toast.makeText(context, "حدث خطأ أثناء حذف الحساب", Toast.LENGTH_SHORT).show();
                         }
@@ -598,80 +849,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });
     }
 
-    private void DeleteItemsDataBase() {
-        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
-                .collection(getString(R.string.ItemsCollection))
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
-                                        .collection(getString(R.string.ItemsCollection)).document(document.getId()).delete();
-                            }
-
-                        } else {
-                            Toast.makeText(context, "حدث خطأ أثناء حذف الحساب", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    private void DeleteFavorite() {
-        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
-                .collection(getString(R.string.FavoriteCollection))
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
-                                        .collection(getString(R.string.FavoriteCollection)).document(document.getId()).delete();
-                            }
-
-                        } else {
-                            Toast.makeText(context, "حدث خطأ أثناء حذف الحساب", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-    }
-
-    private void DeleteItemsPhoto() {
-        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
-                .collection(getString(R.string.ItemsCollection))
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-                                StorageReference photoRef = storageRef.child(getString(R.string.ItemsCollection))
-                                        .child(document.getId());
-                                photoRef.delete();
-                            }
-                        } else {
-                            Toast.makeText(MainActivity.this, "حدث خطأ, يرجى المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    private void DeleteConsultant() {
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference deleteRef = storageRef.child("CVs").child(SaveSharedPreference.getCV(MainActivity.this));
-        deleteRef.delete();
-    }
-
-    private void DeletePhoto() {
-        if (UserProfilePictureImageView.getDrawable().getConstantState() != getResources().getDrawable(R.drawable.profiledefault).getConstantState()) {
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            StorageReference photoRef = storageRef.child("uploads").child(SaveSharedPreference.getPhoneNumber(MainActivity.this));
-            photoRef.delete();
-        }
+    private void DeleteUser() {
+        db.collection(getString(R.string.UsersCollection))
+                .document(SaveSharedPreference.getPhoneNumber(this))
+                .delete();
+        Logout();
+        navigationView = findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.nav_delete_account).setVisible(false);
+        Clickable(true);
+        Toast.makeText(MainActivity.this, "تم حذف الحساب بنجاح!", Toast.LENGTH_SHORT).show();
     }
 
     private void Logout() {
@@ -684,6 +871,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SaveSharedPreference.setPassword(context, "");
         SaveSharedPreference.setPhoneNumber(context, "");
         SaveSharedPreference.setImage(context, "");
+        SaveSharedPreference.setCV(context, "");
+        SaveSharedPreference.setFavoriteCounter(context, "0");
+        SaveSharedPreference.setPostsCounter(context, "0");
+        SaveSharedPreference.setItemsCounter(context, "0");
+        SaveSharedPreference.setFragment(context, "");
+        SaveSharedPreference.setRating(context, "");
+        SaveSharedPreference.setAbout(context, "");
+        SaveSharedPreference.setCode(context, "");
+        SaveSharedPreference.setPE(context, "");
+        SaveSharedPreference.setPP(context, "");
+        SaveSharedPreference.setSkills(context, "");
         loginNavHeaderTextView.setText("تسجيل الدخول");
         loginNavHeaderTextView.setTextColor(getResources().getColor(R.color.colorAccent));
         UserProfilePictureImageView.setImageDrawable(getResources().getDrawable(R.drawable.profiledefault));
@@ -692,22 +890,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HomeFragment()).commit();
         navigationView.setCheckedItem(R.id.nav_home);
-    }
-
-    public void Clickable(boolean b) {
-        if (b) {
-            this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        } else {
-            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        }
-    }
-
-    public boolean Connected() {
-        ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = manager.getActiveNetworkInfo();
-        if (info != null && info.isConnected()) {
-            return true;
-        }
-        return false;
     }
 }

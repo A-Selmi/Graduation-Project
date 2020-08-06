@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/image"
-    tools:context=".LogInActivities.VerificationActivity"
+    android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    android:descendantFocusability="beforeDescendants">
+    tools:context=".LogInActivities.VerificationActivity">
 
     <ScrollView
         android:id="@+id/scrollView2"

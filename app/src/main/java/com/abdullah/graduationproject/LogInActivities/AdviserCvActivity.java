@@ -138,7 +138,6 @@ public class AdviserCvActivity extends AppCompatActivity {
         if (requestCode == 9 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             selectPdf();
             True = true;
-//            UploadThePDFFile();
         } else {
             True = false;
             Toast.makeText(AdviserCvActivity.this, "الرجاء اعطاء الصلاحية", Toast.LENGTH_LONG).show();
@@ -149,7 +148,6 @@ public class AdviserCvActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("application/pdf");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        //to fetch files
         startActivityForResult(intent, 86);
 
     }

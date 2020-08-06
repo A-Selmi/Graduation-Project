@@ -2,31 +2,33 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/worker_and_adviser_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
+    android:background="@drawable/button_background"
     android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/WorkerImageView"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/WorkerAndAdviserImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/image" />
 
     <TextView
-        android:id="@+id/WorkerNameTextView"
+        android:id="@+id/WorkerAndAdviserNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/WorkerImageView"
-        app:layout_constraintTop_toTopOf="@+id/WorkerImageView"
+        app:layout_constraintStart_toEndOf="@+id/WorkerAndAdviserImageView"
+        app:layout_constraintTop_toTopOf="@+id/WorkerAndAdviserImageView"
         tools:text="Talal" />
 
     <TextView
@@ -36,9 +38,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:textColor="@android:color/black"
-        app:layout_constraintStart_toEndOf="@+id/WorkerImageView"
-        app:layout_constraintTop_toBottomOf="@+id/WorkerNameTextView"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toEndOf="@+id/WorkerAndAdviserImageView"
+        app:layout_constraintTop_toBottomOf="@+id/WorkerAndAdviserNameTextView"
         tools:text="As-Salt" />
 
     <RatingBar
@@ -49,10 +51,12 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
+        android:clickable="false"
         android:numStars="1"
         android:rating="1"
         android:theme="@style/RatingBar"
-        app:layout_constraintStart_toEndOf="@+id/WorkerImageView"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@+id/WorkerAndAdviserImageView"
         app:layout_constraintTop_toBottomOf="@+id/LocationTextView" />
 
     <TextView
@@ -61,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/ratingBarWorker"
         app:layout_constraintStart_toEndOf="@+id/ratingBarWorker"

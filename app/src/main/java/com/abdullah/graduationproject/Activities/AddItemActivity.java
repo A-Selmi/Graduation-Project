@@ -143,10 +143,11 @@ public class AddItemActivity extends AppCompatActivity {
         user.put("Price", ItemPriceEditTextAddItem.getText().toString().trim());
         user.put("Phone Number", MainActivity.SaveSharedPreference.getPhoneNumber(AddItemActivity.this));
         user.put("Description", ItemDiscriptionEditTextAddItem.getText().toString().trim());
-        Date c = Calendar.getInstance().getTime();
+        final Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         String formattedDate = df.format(c);
         user.put("Date", formattedDate);
+        user.put("counter", MainActivity.SaveSharedPreference.getItemsCounter(this));
 
         final DocumentReference ref = db.collection(getString(R.string.UsersCollection))
                 .document(MainActivity.SaveSharedPreference.getPhoneNumber(AddItemActivity.this))
@@ -157,6 +158,8 @@ public class AddItemActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         UploadToDataBaseCollection(ref.getId());
                         UploadPicture(MainActivity.SaveSharedPreference.getPhoneNumber(AddItemActivity.this), ref.getId());
+                        long oldCounter = Long.parseLong(MainActivity.SaveSharedPreference.getItemsCounter(AddItemActivity.this));
+                        MainActivity.SaveSharedPreference.setItemsCounter(AddItemActivity.this, String.valueOf(oldCounter + 1));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -164,7 +167,7 @@ public class AddItemActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Clickable(true);
                         progressBarAddItemActivity.setVisibility(View.GONE);
-                        Toast.makeText(AddItemActivity.this, R.string.FailToSignUpMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddItemActivity.this, "حدث خطأ أثناء إضافة المنتج, الرجاء المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -185,6 +188,7 @@ public class AddItemActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         String formattedDate = df.format(c);
         user.put("Date", formattedDate);
+        user.put("counter", MainActivity.SaveSharedPreference.getItemsCounter(this));
 
         final DocumentReference ref = db.collection(getString(R.string.ItemsCollection)).document(id);
         ref.set(user)
@@ -198,7 +202,7 @@ public class AddItemActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Clickable(true);
                         progressBarAddItemActivity.setVisibility(View.GONE);
-                        Toast.makeText(AddItemActivity.this, R.string.FailToSignUpMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddItemActivity.this, "حدث خطأ أثناء إضافة المنتج, الرجاء المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

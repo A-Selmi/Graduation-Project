@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.abdullah.graduationproject.Adapters.FAndVAdapter;
 import com.abdullah.graduationproject.Adapters.ReviewsAdapter;
 import com.abdullah.graduationproject.Classes.Items;
+import com.abdullah.graduationproject.Classes.Posts;
 import com.abdullah.graduationproject.Classes.Reviews;
 import com.abdullah.graduationproject.LogInActivities.LoginActivity;
 import com.abdullah.graduationproject.R;
@@ -43,6 +44,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +61,6 @@ public class DetailsActivity extends AppCompatActivity {
     EditText ReviewEditText;
     FirebaseFirestore db;
     ProgressBar DetailsActivityProgressBar;
-    long counterDatabase = 0;
     String IntentId, IntentItemName;
     ImageView ItemImageViewDetails;
     RecyclerView ReviewRecycleView;
@@ -154,7 +155,6 @@ public class DetailsActivity extends AppCompatActivity {
         db.collection(getString(R.string.ItemsCollection))
                 .document(intentId)
                 .collection(getString(R.string.ReviewCollection))
-                .orderBy("Review Date", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -163,8 +163,10 @@ public class DetailsActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 list.add(new Reviews(document.getId(), document.getData().get("Reviewer Name").toString()
                                         , document.getData().get("Review Rate").toString(), document.getData().get("Review Date").toString()
-                                        , document.getData().get("Review Text").toString()));
+                                        , document.getData().get("Review Text").toString(),
+                                        Long.parseLong(document.getData().get("counter").toString())));
                             }
+                            Collections.sort(list, Collections.<Reviews>reverseOrder());
                             adapter = new ReviewsAdapter(list, DetailsActivity.this);
                             ReviewRecycleView.hasFixedSize();
                             ReviewRecycleView.setAdapter(adapter);
@@ -185,14 +187,18 @@ public class DetailsActivity extends AppCompatActivity {
 
     public void ReviewButtonClicked(View view) {
         hideKeyboard(this);
-        if (RatingBarDetails.getRating() > 0) {
-            if (Connected()) {
-                UploadToFireBase();
+        if(MainActivity.SaveSharedPreference.getLogIn(this).equals("true")) {
+            if (RatingBarDetails.getRating() > 0) {
+                if (Connected()) {
+                    UploadToFireBase();
+                } else {
+                    Toast.makeText(this, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(this, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "يرجى التقييم", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, "يرجى التقييم", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, "يرجى تسجيل الدخول", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -203,7 +209,7 @@ public class DetailsActivity extends AppCompatActivity {
         user.put("Reviewer Name", MainActivity.SaveSharedPreference.getFirstName(this) + " " +
                 MainActivity.SaveSharedPreference.getLastName(this));
         user.put("Review Rate", String.valueOf(RatingBarDetails.getRating()));
-        Date c = Calendar.getInstance().getTime();
+        final Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         String formattedDate = df.format(c);
         user.put("Review Date", formattedDate);
@@ -217,41 +223,63 @@ public class DetailsActivity extends AppCompatActivity {
 
         db.collection(getString(R.string.UsersCollection)).document("+962" + PhoneNumberTextViewDetails.getText().toString().trim().substring(1))
                 .collection(getString(R.string.ItemsCollection)).document(IntentId)
-                .collection(getString(R.string.ReviewCollection)).document(MainActivity.SaveSharedPreference.getPhoneNumber(this))
-                .set(user2)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                .collection(getString(R.string.ReviewCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        db.collection(getString(R.string.ItemsCollection)).document(IntentId)
-                                .collection(getString(R.string.ReviewCollection)).document(MainActivity.SaveSharedPreference.getPhoneNumber(DetailsActivity.this))
-                                .set(user)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(DetailsActivity.this, "تم إضافة التقييم", Toast.LENGTH_SHORT).show();
-                                        ReadReviews(IntentId);
-                                        Clickable(true);
-                                        DetailsActivityProgressBar.setVisibility(View.GONE);
-                                        RatingBarDetails.setRating(0);
-                                        ReviewEditText.setText("");
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(DetailsActivity.this, "حدث خطأ أثناء إضافة التقييم", Toast.LENGTH_SHORT).show();
-                                Clickable(true);
-                                DetailsActivityProgressBar.setVisibility(View.GONE);
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            long counter = -1;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(Long.parseLong(document.getData().get("counter").toString()) > counter) {
+                                    counter = Long.parseLong(document.getData().get("counter").toString());
+                                }
                             }
-                        });
+                            if(counter == -1) {
+                                user.put("counter", "0");
+                            }else {
+                                user.put("counter", String.valueOf(counter + 1));
+                            }
+                            db.collection(getString(R.string.UsersCollection)).document("+962" + PhoneNumberTextViewDetails.getText().toString().trim().substring(1))
+                                    .collection(getString(R.string.ItemsCollection)).document(IntentId)
+                                    .collection(getString(R.string.ReviewCollection)).document(MainActivity.SaveSharedPreference.getPhoneNumber(DetailsActivity.this))
+                                    .set(user2)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            db.collection(getString(R.string.ItemsCollection)).document(IntentId)
+                                                    .collection(getString(R.string.ReviewCollection)).document(MainActivity.SaveSharedPreference.getPhoneNumber(DetailsActivity.this))
+                                                    .set(user)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Toast.makeText(DetailsActivity.this, "تم إضافة التقييم", Toast.LENGTH_SHORT).show();
+                                                            ReadReviews(IntentId);
+                                                            Clickable(true);
+                                                            DetailsActivityProgressBar.setVisibility(View.GONE);
+                                                            RatingBarDetails.setRating(0);
+                                                            ReviewEditText.setText("");
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(DetailsActivity.this, "حدث خطأ أثناء إضافة التقييم", Toast.LENGTH_SHORT).show();
+                                                    Clickable(true);
+                                                    DetailsActivityProgressBar.setVisibility(View.GONE);
+                                                }
+                                            });
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(DetailsActivity.this, "حدث خطأ أثناء إضافة التقييم", Toast.LENGTH_SHORT).show();
+                                    Clickable(true);
+                                    DetailsActivityProgressBar.setVisibility(View.GONE);
+                                }
+                            });
+                        }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(DetailsActivity.this, "حدث خطأ أثناء إضافة التقييم", Toast.LENGTH_SHORT).show();
-                Clickable(true);
-                DetailsActivityProgressBar.setVisibility(View.GONE);
-            }
-        });
+                });
     }
 
     public void Clickable(boolean b) {

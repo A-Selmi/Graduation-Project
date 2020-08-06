@@ -1,14 +1,16 @@
 package com.abdullah.graduationproject.Classes;
 
-public class Posts {
+public class Posts implements Comparable<Posts> {
 
     String ID, Title, Text, Date;
+    Long Counter;
 
-    public Posts(String id, String title, String text, String date) {
+    public Posts(String id, String title, String text, String date, Long counter) {
         ID = id;
         Title = title;
         Text = text;
         Date = date;
+        Counter = counter;
     }
 
     public String getID() {
@@ -43,4 +45,17 @@ public class Posts {
         Date = date;
     }
 
+    public Long getCounter() {
+        return Counter;
+    }
+
+    public void setCounter(Long counter) {
+        Counter = counter;
+    }
+
+    @Override
+    public int compareTo(Posts posts) {
+        int compare = Counter.compareTo(posts.Counter);
+        return compare;
+    }
 }

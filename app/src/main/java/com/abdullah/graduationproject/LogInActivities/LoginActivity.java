@@ -92,6 +92,97 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+    private void ReadCounter(final String role) {
+        db.collection(getString(R.string.UsersCollection))
+                .document(MainActivity.SaveSharedPreference.getPhoneNumber(this))
+                .collection(getString(R.string.FavoriteCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            long counter = -1;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(Long.parseLong(document.getData().get("counter").toString()) > counter ){
+                                    counter = Long.parseLong(document.getData().get("counter").toString());
+                                }
+                            }
+                            if(counter == -1) {
+                                MainActivity.SaveSharedPreference.setFavoriteCounter(LoginActivity.this, "0");
+                            }else {
+                                MainActivity.SaveSharedPreference.setFavoriteCounter(LoginActivity.this, String.valueOf(counter + 1));
+                            }
+                            CheckItemAndPostCounter(role);
+                        }
+                    }
+                });
+    }
+
+    private void CheckItemAndPostCounter(String role) {
+        if(role.equals("2")) {
+            db.collection(getString(R.string.UsersCollection))
+                    .document(MainActivity.SaveSharedPreference.getPhoneNumber(this))
+                    .collection(getString(R.string.ItemsCollection))
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()) {
+                                long counter = -1;
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if(Long.parseLong(document.getData().get("counter").toString()) > counter ){
+                                        counter = Long.parseLong(document.getData().get("counter").toString());
+                                    }
+                                }
+                                if(counter == -1) {
+                                    MainActivity.SaveSharedPreference.setItemsCounter(LoginActivity.this, "0");
+                                }else {
+                                    MainActivity.SaveSharedPreference.setItemsCounter(LoginActivity.this, String.valueOf(counter + 1));
+                                }
+                                Clickable(true);
+                                progressBarLogin.setVisibility(View.GONE);
+                                Toast.makeText(context, "مرحباً " + MainActivity.SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
+                                finish();
+                                return;
+                            }
+                        }
+                    });
+        }else if (role.equals("3")) {
+            db.collection(getString(R.string.UsersCollection))
+                    .document(MainActivity.SaveSharedPreference.getPhoneNumber(this))
+                    .collection(getString(R.string.PostsCollection))
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()) {
+                                long counter = -1;
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if(Long.parseLong(document.getData().get("counter").toString()) > counter ){
+                                        counter = Long.parseLong(document.getData().get("counter").toString());
+                                    }
+                                }
+                                if(counter == -1) {
+                                    MainActivity.SaveSharedPreference.setPostsCounter(LoginActivity.this, "0");
+                                }else {
+                                    MainActivity.SaveSharedPreference.setPostsCounter(LoginActivity.this, String.valueOf(counter + 1));
+                                }
+                                Clickable(true);
+                                progressBarLogin.setVisibility(View.GONE);
+                                Toast.makeText(context, "مرحباً " + MainActivity.SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
+                                finish();
+                                return;
+                            }
+                        }
+                    });
+        }else {
+            Clickable(true);
+            progressBarLogin.setVisibility(View.GONE);
+            Toast.makeText(context, "مرحباً " + MainActivity.SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+    }
 
     private void DataBase() {
         db.collection(getString(R.string.UsersCollection))
@@ -116,17 +207,17 @@ public class LoginActivity extends AppCompatActivity {
                                         MainActivity.SaveSharedPreference.setPP(context, document.getData().get("PP").toString());
                                         MainActivity.SaveSharedPreference.setSkills(context, document.getData().get("Skills").toString());
                                         MainActivity.SaveSharedPreference.setAbout(context, document.getData().get("About").toString());
+                                    }else if(document.getData().get("Role").toString().equals("3")) {
+                                        MainActivity.SaveSharedPreference.setCV(LoginActivity.this, document.getData().get("CV").toString());
                                     }
-                                    Clickable(true);
-                                    progressBarLogin.setVisibility(View.GONE);
-                                    Toast.makeText(context, "مرحباً " + MainActivity.SaveSharedPreference.getFirstName(context), Toast.LENGTH_SHORT).show();
-                                    finish();
-                                    return;
+                                    ReadCounter(MainActivity.SaveSharedPreference.getRole(LoginActivity.this));
                                 }
                             }
-                            Clickable(true);
-                            progressBarLogin.setVisibility(View.GONE);
-                            Toast.makeText(LoginActivity.this, "هذا المستخدم غير موجود", Toast.LENGTH_SHORT).show();
+                            if(!MainActivity.SaveSharedPreference.getLogIn(LoginActivity.this).equals("true")) {
+                                Clickable(true);
+                                progressBarLogin.setVisibility(View.GONE);
+                                Toast.makeText(LoginActivity.this, "هذا المستخدم غير موجود", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Clickable(true);
                             progressBarLogin.setVisibility(View.GONE);

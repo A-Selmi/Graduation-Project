@@ -53,6 +53,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -80,14 +81,14 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        findview();
-        CheckState();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        findview();
         setAppLocale("ar");
+        CheckState();
         Clickable(true);
     }
 
@@ -257,8 +258,10 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
                                     ProfileRecyceViewProfileActivity.setVisibility(View.VISIBLE);
                                     posts.add(new Posts(document.getId(), document.getData().get("Title").toString()
                                             , document.getData().get("Text").toString(),
-                                            document.getData().get("Date").toString()));
+                                            document.getData().get("Date").toString(),
+                                            Long.parseLong(document.getData().get("counter").toString())));
                                 }
+                                Collections.sort(posts, Collections.<Posts>reverseOrder());
                                 adapterPosts = new DeletePostsProfileAdapter(posts, ProfileActivity.this, ProfileActivity.this);
                                 ProfileRecyceViewProfileActivity.hasFixedSize();
                                 ProfileRecyceViewProfileActivity.setAdapter(adapterPosts);

@@ -68,6 +68,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
                 Intent toDetailsActivity = new Intent(context, DetailsActivity.class);
                 toDetailsActivity.putExtra("Item", "FAndV");
                 toDetailsActivity.putExtra("Id", items.getId());
+                MainActivity.SaveSharedPreference.setFragment(context, "1");
                 context.startActivity(toDetailsActivity);
             }
         });

@@ -81,6 +81,7 @@ public class FAndVAdapter extends RecyclerView.Adapter<FAndVAdapter.DeleteItemsA
                 Intent toDetailsActivity = new Intent(context, DetailsActivity.class);
                 toDetailsActivity.putExtra("Item", ItemType);
                 toDetailsActivity.putExtra("Id", items.getId());
+                MainActivity.SaveSharedPreference.setFragment(context, "3");
                 context.startActivity(toDetailsActivity);
             }
         });
@@ -130,14 +131,6 @@ public class FAndVAdapter extends RecyclerView.Adapter<FAndVAdapter.DeleteItemsA
 
     private void AddFavorite(Items items) {
         Map<String, Object> user = new HashMap<>();
-        if (MainActivity.SaveSharedPreference.getFavoriteCounter(context).equals("0")) {
-            user.put("counter", "0");
-            MainActivity.SaveSharedPreference.setFavoriteCounter(context, "1");
-        } else {
-            long counter = Long.parseLong(MainActivity.SaveSharedPreference.getFavoriteCounter(context));
-            user.put("counter", counter);
-            MainActivity.SaveSharedPreference.setFavoriteCounter(context, String.valueOf(counter + 1));
-        }
         user.put("Category", ItemType);
         user.put("Product Name", items.getName());
         user.put("Provider", items.getProvider());
@@ -145,11 +138,12 @@ public class FAndVAdapter extends RecyclerView.Adapter<FAndVAdapter.DeleteItemsA
         user.put("Price", items.getPrice());
         user.put("Phone Number", items.getPhoneNumber());
         user.put("Description", items.getDescription());
-        Date c = Calendar.getInstance().getTime();
+        final Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         String formattedDate = df.format(c);
         user.put("Date", formattedDate);
         user.put("Image Url", items.getImage());
+        user.put("counter", MainActivity.SaveSharedPreference.getFavoriteCounter(context));
 
         FirebaseFirestore.getInstance().collection("Users").document(MainActivity.SaveSharedPreference.getPhoneNumber(context))
                 .collection("Favorite").document(items.getId())
@@ -158,6 +152,8 @@ public class FAndVAdapter extends RecyclerView.Adapter<FAndVAdapter.DeleteItemsA
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(context, "تمت إضافة المنتج إلى المفضلة", Toast.LENGTH_SHORT).show();
+                        long oldCounter = Long.parseLong(MainActivity.SaveSharedPreference.getFavoriteCounter(context));
+                        MainActivity.SaveSharedPreference.setFavoriteCounter(context, String.valueOf(oldCounter + 1));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

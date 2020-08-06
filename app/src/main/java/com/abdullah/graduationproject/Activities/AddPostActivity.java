@@ -74,6 +74,7 @@ public class AddPostActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         String formattedDate = df.format(c);
         user.put("Date", formattedDate);
+        user.put("counter", MainActivity.SaveSharedPreference.getPostsCounter(this));
 
         db.collection(getString(R.string.UsersCollection)).document(MainActivity.SaveSharedPreference.getPhoneNumber(this))
                 .collection(getString(R.string.PostsCollection)).document()
@@ -84,6 +85,8 @@ public class AddPostActivity extends AppCompatActivity {
                         Toast.makeText(AddPostActivity.this, "تم إضافة المنشور", Toast.LENGTH_SHORT).show();
                         Clickable(true);
                         progressBarAddPostActivity.setVisibility(View.GONE);
+                        long oldCounter = Long.parseLong(MainActivity.SaveSharedPreference.getPostsCounter(AddPostActivity.this));
+                        MainActivity.SaveSharedPreference.setPostsCounter(AddPostActivity.this, String.valueOf(oldCounter + 1));
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

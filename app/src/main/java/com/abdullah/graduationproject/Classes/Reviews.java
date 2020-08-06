@@ -1,18 +1,17 @@
 package com.abdullah.graduationproject.Classes;
 
-public class Reviews {
+public class Reviews implements Comparable<Reviews> {
 
     String Id, Name, Rate,  Date, Text;
+    Long Counter;
 
-    public Reviews() {
-    }
-
-    public Reviews(String id, String name, String rate, String date, String text) {
+    public Reviews(String id, String name, String rate, String date, String text, Long counter) {
         Id = id;
         Name = name;
         Rate = rate;
         Date = date;
         Text = text;
+        Counter = counter;
     }
 
     public String getId() {
@@ -55,4 +54,17 @@ public class Reviews {
         Text = text;
     }
 
+    public Long getCounter() {
+        return Counter;
+    }
+
+    public void setCounter(Long counter) {
+        Counter = counter;
+    }
+
+    @Override
+    public int compareTo(Reviews reviews) {
+        int compare = Counter.compareTo(reviews.Counter);
+        return compare;
+    }
 }

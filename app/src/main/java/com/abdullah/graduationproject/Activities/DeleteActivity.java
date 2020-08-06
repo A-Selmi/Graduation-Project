@@ -41,6 +41,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -86,7 +87,6 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
             db.collection(getString(R.string.UsersCollection))
                     .document(MainActivity.SaveSharedPreference.getPhoneNumber(DeleteActivity.this))
                     .collection(getString(R.string.PostsCollection))
-                    .orderBy("Date", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -99,8 +99,10 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
                                     DeleteRecycleView.setVisibility(View.VISIBLE);
                                     posts.add(new Posts(document.getId(), document.getData().get("Title").toString()
                                             , document.getData().get("Text").toString(),
-                                            document.getData().get("Date").toString()));
+                                            document.getData().get("Date").toString(),
+                                            Long.parseLong(document.getData().get("counter").toString())));
                                 }
+                                Collections.sort(posts, Collections.<Posts>reverseOrder());
                                 adapterPosts = new DeletePostsAdapter(posts, DeleteActivity.this, DeleteActivity.this);
                                 DeleteRecycleView.setAdapter(null);
                                 DeleteRecycleView.setAdapter(adapterPosts);
@@ -129,7 +131,6 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
             db.collection(getString(R.string.UsersCollection))
                     .document(MainActivity.SaveSharedPreference.getPhoneNumber(DeleteActivity.this))
                     .collection(getString(R.string.ItemsCollection))
-                    .orderBy("Date", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -141,8 +142,10 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
                                             , document.getData().get("Product Name").toString(),
                                             document.getData().get("Provider").toString(), document.getData().get("Price").toString(),
                                             rating, document.getData().get("Phone Number").toString(),
-                                            document.getData().get("Location").toString(), document.getData().get("Description").toString()));
+                                            document.getData().get("Location").toString(), document.getData().get("Description").toString(),
+                                            Long.parseLong(document.getData().get("counter").toString())));
                                 }
+                                Collections.sort(list, Collections.<Items>reverseOrder());
                                 if (list.isEmpty()) {
                                     NoDataTextViewDeleteActivity.setVisibility(View.VISIBLE);
                                     DeleteRecycleView.setVisibility(View.GONE);

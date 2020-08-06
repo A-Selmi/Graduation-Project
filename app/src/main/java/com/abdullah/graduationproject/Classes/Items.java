@@ -1,14 +1,12 @@
 package com.abdullah.graduationproject.Classes;
 
-public class Items {
+public class Items implements Comparable<Items> {
 
     String Id, Image, Name, Provider, Price,
             Rating, PhoneNumber, Location, Description;
+    Long Counter;
 
-    public Items() {
-    }
-
-    public Items(String id, String image, String name, String provider, String price, String rating, String phoneNumber, String location, String description) {
+    public Items(String id, String image, String name, String provider, String price, String rating, String phoneNumber, String location, String description, Long counter) {
         Id = id;
         Image = image;
         Name = name;
@@ -18,6 +16,7 @@ public class Items {
         PhoneNumber = phoneNumber;
         Location = location;
         Description = description;
+        Counter = counter;
     }
 
     public String getId() {
@@ -92,4 +91,17 @@ public class Items {
         Description = description;
     }
 
+    public Long getCounter() {
+        return Counter;
+    }
+
+    public void setCounter(Long counter) {
+        Counter = counter;
+    }
+
+    @Override
+    public int compareTo(Items items) {
+        int compare = Counter.compareTo(items.Counter);
+        return compare;
+    }
 }

@@ -36,6 +36,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -112,14 +113,21 @@ public class SeedsFragment extends Fragment {
             progressBarSeedsActivity.setVisibility(View.VISIBLE);
             SeedsRecyclerView.setVisibility(View.GONE);
             db.collection(getString(R.string.ItemsCollection))
-                    .orderBy("Date", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
+                                Clickable(true);
+                                progressBarSeedsActivity.setVisibility(View.GONE);
+                                SeedsRecyclerView.setVisibility(View.GONE);
+                                NoDataTextViewSeedsActivity.setVisibility(View.VISIBLE);
                                 for (final QueryDocumentSnapshot document : task.getResult()) {
                                     if (document.getData().get("Category").equals("Seeds")) {
+                                        Clickable(false);
+                                        progressBarSeedsActivity.setVisibility(View.VISIBLE);
+                                        SeedsRecyclerView.setVisibility(View.GONE);
+                                        NoDataTextViewSeedsActivity.setVisibility(View.GONE);
                                         db.collection("Items").document(document.getId())
                                                 .collection("Review")
                                                 .get()
@@ -127,25 +135,27 @@ public class SeedsFragment extends Fragment {
                                                     @Override
                                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                         if (task.isSuccessful()) {
+                                                            final float[] TotalRating = {0};
+                                                            final float[] count = {0};
+                                                            final String[] output = {"0"};
                                                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                TotalRating += Float.parseFloat(document.getData().get("Review Rate").toString());
-                                                                count++;
+                                                                TotalRating[0] += Float.parseFloat(document.getData().get("Review Rate").toString());
+                                                                count[0]++;
                                                             }
-                                                            if (count == 0) {
-                                                                list.add(new Items(document.getId(), document.getData().get("Image Url").toString()
-                                                                        , document.getData().get("Product Name").toString(),
-                                                                        document.getData().get("Provider").toString(), document.getData().get("Price").toString(),
-                                                                        "0", document.getData().get("Phone Number").toString(),
-                                                                        document.getData().get("Location").toString(), document.getData().get("Description").toString()));
+                                                            if (count[0] == 0) {
+                                                                TotalRating[0] = 0;
+                                                                output[0] = "0";
                                                             } else {
-                                                                TotalRating /= count;
-                                                                String output = new DecimalFormat("#.0").format(TotalRating);
-                                                                list.add(new Items(document.getId(), document.getData().get("Image Url").toString()
-                                                                        , document.getData().get("Product Name").toString(),
-                                                                        document.getData().get("Provider").toString(), document.getData().get("Price").toString(),
-                                                                        output, document.getData().get("Phone Number").toString(),
-                                                                        document.getData().get("Location").toString(), document.getData().get("Description").toString()));
+                                                                TotalRating[0] /= count[0];
+                                                                output[0] = new DecimalFormat("0.0").format(TotalRating[0]);
                                                             }
+                                                            list.add(new Items(document.getId(), document.getData().get("Image Url").toString()
+                                                                    , document.getData().get("Product Name").toString(),
+                                                                    document.getData().get("Provider").toString(), document.getData().get("Price").toString(),
+                                                                    output[0], document.getData().get("Phone Number").toString(),
+                                                                    document.getData().get("Location").toString(), document.getData().get("Description").toString(),
+                                                                    Long.parseLong(document.getData().get("counter").toString())));
+                                                            Collections.sort(list, Collections.<Items>reverseOrder());
                                                             if (list.isEmpty()) {
                                                                 NoDataTextViewSeedsActivity.setVisibility(View.VISIBLE);
                                                                 SeedsRecyclerView.setVisibility(View.GONE);
@@ -161,6 +171,10 @@ public class SeedsFragment extends Fragment {
                                                             Clickable(true);
                                                             progressBarSeedsActivity.setVisibility(View.GONE);
                                                         } else {
+                                                            Clickable(true);
+                                                            progressBarSeedsActivity.setVisibility(View.GONE);
+                                                            SeedsRecyclerView.setVisibility(View.VISIBLE);
+                                                            NoDataTextViewSeedsActivity.setVisibility(View.GONE);
                                                             Toast.makeText(mainActivity, "حدث خطأ أثناء قرآءة التقييم", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }

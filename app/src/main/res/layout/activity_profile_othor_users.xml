@@ -8,8 +8,10 @@
     tools:context=".Activities.ProfileOthorUsersActivity">
 
     <ScrollView
+        android:id="@+id/ScrollView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -23,9 +25,10 @@
 
             <TextView
                 android:id="@+id/TitleProfileTextViewOther"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:text="@string/ProfilePage"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
@@ -48,13 +51,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextViewOther"
                 tools:text="(مستشار زراعي)" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ProfileImageViewOther"
                 android:layout_width="225dp"
                 android:layout_height="225dp"
                 android:layout_marginTop="50dp"
                 android:padding="5dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextViewOther"
                 app:layout_constraintStart_toStartOf="@+id/TitleProfileTextViewOther"
                 app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextViewOther"
@@ -64,12 +67,10 @@
                 android:id="@+id/NameTextViewProfileOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
                 android:layout_marginTop="30dp"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/TitleProfileTextViewOther"
                 app:layout_constraintTop_toBottomOf="@+id/ProfileImageViewOther"
                 tools:text="الإسم : طلال ريالات" />
 
@@ -77,36 +78,32 @@
                 android:id="@+id/LocationTextViewProfileOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="16dp"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfileOther"
+                app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextViewOther"
+                app:layout_constraintTop_toTopOf="@+id/NameTextViewProfileOther"
                 tools:text="الموقع : السلط" />
 
             <TextView
                 android:id="@+id/DateOfBirthTextViewProfileOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="16dp"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/ProfileImageViewOther"
-                app:layout_constraintTop_toBottomOf="@+id/ProfileImageViewOther"
+                app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextViewOther"
+                app:layout_constraintStart_toStartOf="@+id/LocationTextViewProfileOther"
+                app:layout_constraintTop_toBottomOf="@+id/LocationTextViewProfileOther"
                 tools:text="العمر : 24 سنة" />
 
             <TextView
                 android:id="@+id/PhoneNumberTextViewOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
                 android:layout_marginTop="16dp"
                 android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/LocationTextViewProfileOther"
+                app:layout_constraintStart_toStartOf="@+id/NameTextViewProfileOther"
+                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfileOther"
                 tools:text="الهاتف : 0798988517" />
 
             <RatingBar
@@ -114,38 +111,38 @@
                 style="?android:attr/ratingBarStyleIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="10dp"
                 android:numStars="1"
                 android:rating="1"
                 android:theme="@style/RatingBar"
-                app:layout_constraintBottom_toBottomOf="@+id/LocationTextViewProfileOther"
-                app:layout_constraintEnd_toEndOf="@+id/ProfileImageViewOther"
-                app:layout_constraintTop_toBottomOf="@+id/NameTextViewProfileOther" />
+                app:layout_constraintStart_toEndOf="@+id/RatingtextViewProfileOther"
+                app:layout_constraintTop_toBottomOf="@+id/DateOfBirthTextViewProfileOther" />
 
             <TextView
                 android:id="@+id/AboutWorkerTextViewProfileActivityOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:onClick="AboutWorkerTextViewProfileActivityOtherClicked"
                 android:text="@string/AboutWorker"
                 android:textColor="@android:color/holo_blue_bright"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/PhoneNumberTextViewOther"
-                app:layout_constraintEnd_toEndOf="@+id/ratingBar1ProfileOther"
-                app:layout_constraintStart_toStartOf="@+id/RatingtextViewProfileOther"
-                app:layout_constraintTop_toTopOf="@+id/PhoneNumberTextViewOther" />
+                app:layout_constraintStart_toStartOf="@+id/PhoneNumberTextViewOther"
+                app:layout_constraintTop_toBottomOf="@+id/PhoneNumberTextViewOther" />
 
             <RatingBar
                 android:id="@+id/ratingBar2ProfileOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginTop="60dp"
+                android:stepSize="1"
                 android:theme="@style/RatingBarDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/PhoneNumberTextViewOther" />
+                app:layout_constraintTop_toBottomOf="@+id/AboutWorkerTextViewProfileActivityOther" />
 
             <Button
                 android:id="@+id/ReviewButtonProfileActivityOther"
@@ -153,6 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/button_background"
+                android:onClick="ReviewButtonProfileActivityOtherClicked"
                 android:text="@string/Review"
                 android:textColor="@android:color/white"
                 android:visibility="visible"
@@ -164,40 +162,204 @@
                 android:id="@+id/RatingtextViewProfileOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
                 android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="@+id/ratingBar1ProfileOther"
-                app:layout_constraintEnd_toStartOf="@+id/ratingBar1ProfileOther"
+                app:layout_constraintStart_toStartOf="@+id/DateOfBirthTextViewProfileOther"
                 app:layout_constraintTop_toTopOf="@+id/ratingBar1ProfileOther"
                 tools:text="3.7" />
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ProfileListViewProfileActivityOther"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ReviewButtonProfileActivityOther" />
+                app:layout_constraintTop_toBottomOf="@+id/ReviewButtonProfileActivityOther">
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/ScrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="24dp"
+        android:background="@color/BlackTransparent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="ConstraintLayoutClicked">
+
+            <TextView
+                android:id="@+id/workerDetailsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/ProfileImageViewOther"
-                app:layout_constraintStart_toStartOf="@+id/ProfileImageViewOther"
-                tools:layout_editor_absoluteY="199dp" />
+                android:layout_marginTop="16dp"
+                android:text="@string/WorkerDetailsTitle"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/experienceTextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/OldExperience"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/workerDetailsTextView" />
+
+            <TextView
+                android:id="@+id/experienceTextView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:scrollbars="vertical"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/experienceTextView2"
+                app:layout_constraintTop_toBottomOf="@+id/experienceTextView2"
+                tools:text="الخبرات الخبرات الخبرات الخبرات الخبرات الخبرات الخبرات الخبرات الخبرات الخبرات الخبرات الخبرات الخبرات الخبرات الخبرات " />
+
+            <TextView
+                android:id="@+id/projectsTextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/OldProjects"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/experienceTextView2"
+                app:layout_constraintTop_toBottomOf="@+id/experienceTextView3" />
+
+            <TextView
+                android:id="@+id/projectsTextView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/projectsTextView2"
+                app:layout_constraintTop_toBottomOf="@+id/projectsTextView2"
+                tools:text="المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع المشاريع " />
+
+            <TextView
+                android:id="@+id/skillsTextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/BestSkills"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/projectsTextView2"
+                app:layout_constraintTop_toBottomOf="@+id/projectsTextView3" />
+
+            <TextView
+                android:id="@+id/skillsTextView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/skillsTextView2"
+                app:layout_constraintTop_toBottomOf="@+id/skillsTextView2"
+                tools:text="المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات المهارات " />
+
+            <TextView
+                android:id="@+id/otherTextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/TalkAboutYourSelf"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/skillsTextView2"
+                app:layout_constraintTop_toBottomOf="@+id/skillsTextView3" />
+
+            <TextView
+                android:id="@+id/otherTextView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginBottom="16dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/otherTextView2"
+                app:layout_constraintTop_toBottomOf="@+id/otherTextView2"
+                tools:text="تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل تفاصيل " />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
