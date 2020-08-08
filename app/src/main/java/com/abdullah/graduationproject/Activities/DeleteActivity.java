@@ -136,28 +136,67 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    String rating = ReadRating(document.getId());
-                                    list.add(new Items(document.getId(), document.getData().get("Image Url").toString()
-                                            , document.getData().get("Product Name").toString(),
-                                            document.getData().get("Provider").toString(), document.getData().get("Price").toString(),
-                                            rating, document.getData().get("Phone Number").toString(),
-                                            document.getData().get("Location").toString(), document.getData().get("Description").toString(),
-                                            Long.parseLong(document.getData().get("counter").toString())));
-                                }
-                                Collections.sort(list, Collections.<Items>reverseOrder());
-                                if (list.isEmpty()) {
-                                    NoDataTextViewDeleteActivity.setVisibility(View.VISIBLE);
-                                    DeleteRecycleView.setVisibility(View.GONE);
-                                } else {
-                                    NoDataTextViewDeleteActivity.setVisibility(View.GONE);
-                                    DeleteRecycleView.setVisibility(View.VISIBLE);
-                                }
-                                adapter = new DeleteItemsAdapter(list, DeleteActivity.this, DeleteActivity.this);
-                                DeleteRecycleView.setAdapter(adapter);
-                                adapter.notifyDataSetChanged();
                                 Clickable(true);
                                 progressBarDeleteActivity.setVisibility(View.GONE);
+                                DeleteRecycleView.setVisibility(View.GONE);
+                                NoDataTextViewDeleteActivity.setVisibility(View.VISIBLE);
+                                for (final QueryDocumentSnapshot document : task.getResult()) {
+                                    Clickable(false);
+                                    progressBarDeleteActivity.setVisibility(View.VISIBLE);
+                                    DeleteRecycleView.setVisibility(View.GONE);
+                                    NoDataTextViewDeleteActivity.setVisibility(View.GONE);
+                                    db.collection(getString(R.string.UsersCollection))
+                                            .document(MainActivity.SaveSharedPreference.getPhoneNumber(DeleteActivity.this))
+                                            .collection(getString(R.string.ItemsCollection)).document(document.getId())
+                                            .collection(getString(R.string.ReviewCollection))
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        final float[] TotalRating = {0};
+                                                        final float[] count = {0};
+                                                        final String[] output = {"0"};
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            TotalRating[0] += Float.parseFloat(document.getData().get("Review Rate").toString());
+                                                            count[0]++;
+                                                        }
+                                                        if (count[0] == 0) {
+                                                            TotalRating[0] = 0;
+                                                            output[0] = "0";
+                                                        } else {
+                                                            TotalRating[0] /= count[0];
+                                                            output[0] = new DecimalFormat("0.0").format(TotalRating[0]);
+                                                        }
+                                                        list.add(new Items(document.getId(), document.getData().get("Image Url").toString()
+                                                                , document.getData().get("Product Name").toString(),
+                                                                document.getData().get("Provider").toString(), document.getData().get("Price").toString(),
+                                                                output[0], document.getData().get("Phone Number").toString(),
+                                                                document.getData().get("Location").toString(), document.getData().get("Description").toString(),
+                                                                Long.parseLong(document.getData().get("counter").toString())));
+                                                        Collections.sort(list, Collections.<Items>reverseOrder());
+                                                        if (list.isEmpty()) {
+                                                            NoDataTextViewDeleteActivity.setVisibility(View.VISIBLE);
+                                                            DeleteRecycleView.setVisibility(View.GONE);
+                                                        } else {
+                                                            NoDataTextViewDeleteActivity.setVisibility(View.GONE);
+                                                            DeleteRecycleView.setVisibility(View.VISIBLE);
+                                                        }
+                                                        adapter = new DeleteItemsAdapter(list, DeleteActivity.this, DeleteActivity.this);
+                                                        DeleteRecycleView.setAdapter(adapter);
+                                                        adapter.notifyDataSetChanged();
+                                                        Clickable(true);
+                                                        progressBarDeleteActivity.setVisibility(View.GONE);
+                                                    } else {
+                                                        Clickable(true);
+                                                        progressBarDeleteActivity.setVisibility(View.GONE);
+                                                        DeleteRecycleView.setVisibility(View.VISIBLE);
+                                                        NoDataTextViewDeleteActivity.setVisibility(View.GONE);
+                                                        Toast.makeText(DeleteActivity.this, "حدث خطأ أثناء قرآءة التقييم", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                }
                             } else {
                                 Clickable(true);
                                 progressBarDeleteActivity.setVisibility(View.GONE);
@@ -168,34 +207,6 @@ public class DeleteActivity extends AppCompatActivity implements DeleteItemsAdap
                     });
         } else {
             Toast.makeText(this, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private String ReadRating(String id) {
-        db.collection(getString(R.string.UsersCollection))
-                .document(MainActivity.SaveSharedPreference.getPhoneNumber(DeleteActivity.this))
-                .collection(getString(R.string.ItemsCollection)).document(id)
-                .collection(getString(R.string.ReviewCollection))
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                TotalRating += Float.parseFloat(document.getData().get("Review Rate").toString());
-                                count++;
-                            }
-                        } else {
-                            Toast.makeText(DeleteActivity.this, "حدث خطأ أثناء قرآءة التقييم", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-        if (count == 0) {
-            return "0";
-        } else {
-            TotalRating /= count;
-            String output = new DecimalFormat("#.0").format(TotalRating);
-            return output;
         }
     }
 

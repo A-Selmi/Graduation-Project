@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Graduation Project</string>
+    <string name="app_name">مُزارعنا</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="AboutUs">من نحن !</string>
@@ -76,6 +76,7 @@
     <string name="NoData">لا يوجد بيانات</string>
     <string name="UsersCollection">Users</string>
     <string name="FavoriteCollection">Favorite</string>
+    <string name="NewsCollection">News</string>
     <string name="ItemsCollection">Items</string>
     <string name="ReviewCollection">Review</string>
     <string name="PostsCollection">Posts</string>

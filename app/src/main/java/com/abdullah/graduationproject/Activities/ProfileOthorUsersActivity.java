@@ -182,12 +182,22 @@ public class ProfileOthorUsersActivity extends AppCompatActivity implements Dele
     }
 
     public void ReviewButtonProfileActivityOtherClicked(View view) {
+        String Id;
+        if(Role.equals("3")) {
+            Id = consultants.getID();
+        }else {
+            Id = workers.getID();
+        }
         if (MainActivity.SaveSharedPreference.getLogIn(this).equals("true")) {
             if (ratingBar2ProfileOther.getRating() > 0) {
-                if (Connected()) {
-                    UploadToDataBase();
-                } else {
-                    Toast.makeText(this, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
+                if(!MainActivity.SaveSharedPreference.getPhoneNumber(this).equals(Id)) {
+                    if (Connected()) {
+                        UploadToDataBase();
+                    } else {
+                        Toast.makeText(this, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(this, "لا تستطيع تقييم نفسك", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(this, "يرجى التقييم", Toast.LENGTH_SHORT).show();

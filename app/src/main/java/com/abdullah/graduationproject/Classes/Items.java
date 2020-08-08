@@ -3,7 +3,7 @@ package com.abdullah.graduationproject.Classes;
 public class Items implements Comparable<Items> {
 
     String Id, Image, Name, Provider, Price,
-            Rating, PhoneNumber, Location, Description;
+            Rating, PhoneNumber, Location, Description, Category;
     Long Counter;
 
     public Items(String id, String image, String name, String provider, String price, String rating, String phoneNumber, String location, String description, Long counter) {
@@ -17,6 +17,20 @@ public class Items implements Comparable<Items> {
         Location = location;
         Description = description;
         Counter = counter;
+    }
+
+    public Items(String id, String image, String name, String provider, String price, String rating, String phoneNumber, String location, String description, Long counter, String category) {
+        Id = id;
+        Image = image;
+        Name = name;
+        Provider = provider;
+        Price = price;
+        Rating = rating;
+        PhoneNumber = phoneNumber;
+        Location = location;
+        Description = description;
+        Counter = counter;
+        Category = category;
     }
 
     public String getId() {
@@ -97,6 +111,14 @@ public class Items implements Comparable<Items> {
 
     public void setCounter(Long counter) {
         Counter = counter;
+    }
+
+    public String getCategory() {
+        return Category;
+    }
+
+    public void setCategory(String category) {
+        Category = category;
     }
 
     @Override

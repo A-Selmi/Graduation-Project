@@ -19,6 +19,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ProfileImageView"
+                android:layout_width="225dp"
+                android:layout_height="225dp"
+                android:layout_marginTop="50dp"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextView"
+                app:layout_constraintStart_toStartOf="@+id/TitleProfileTextView"
+                app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextView"
+                app:srcCompat="@drawable/profiledefault" />
+
             <TextView
                 android:id="@+id/TitleProfileTextView"
                 android:layout_width="300dp"
@@ -47,18 +59,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextView"
                 app:layout_constraintStart_toStartOf="@+id/TitleProfileTextView"
                 app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextView" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ProfileImageView"
-                android:layout_width="225dp"
-                android:layout_height="225dp"
-                android:layout_marginTop="50dp"
-                android:padding="5dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintEnd_toEndOf="@+id/TitleProfileTextView"
-                app:layout_constraintStart_toStartOf="@+id/TitleProfileTextView"
-                app:layout_constraintTop_toBottomOf="@+id/TitleProfileTextView"
-                app:srcCompat="@drawable/profiledefault" />
 
             <TextView
                 android:id="@+id/NameTextViewProfile"
@@ -163,12 +163,31 @@
 
             <ImageView
                 android:id="@+id/UploadPictureProfileActivity"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:onClick="UploadPictureProfileActivityClicked"
+                app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
+                app:layout_constraintTop_toTopOf="@+id/ProfileImageView"
+                app:srcCompat="@drawable/ic_camera" />
+
+            <ImageView
+                android:id="@+id/CancelPictureProfileActivity"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:onClick="CancelPictureProfileActivityClicked"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
                 app:layout_constraintEnd_toEndOf="@+id/ProfileImageView"
-                app:srcCompat="@drawable/ic_camera" />
+                app:srcCompat="@drawable/ic_cancel" />
+
+            <ImageView
+                android:id="@+id/DeletePictureProfileActivity"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:onClick="DeletePictureProfileActivityClicked"
+                app:layout_constraintStart_toStartOf="@+id/ProfileImageView"
+                app:layout_constraintTop_toTopOf="@+id/ProfileImageView"
+                app:srcCompat="@drawable/ic_delete_account" />
 
             <Button
                 android:id="@+id/DeletePostButton"
@@ -189,19 +208,20 @@
 
             <ImageView
                 android:id="@+id/EditProfileProfileActivity"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
                 android:onClick="EditProfileProfileActivityClicked"
                 app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
-                app:layout_constraintStart_toStartOf="@+id/NameTextViewProfile"
+                app:layout_constraintEnd_toStartOf="@+id/ProfileImageView"
                 app:srcCompat="@drawable/ic_edit" />
 
             <ImageView
                 android:id="@+id/UploadPictureImageView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:onClick="UploadPictureImageViewClicked"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/ProfileImageView"
                 app:layout_constraintStart_toStartOf="@+id/ProfileImageView"
                 app:srcCompat="@drawable/ic_check" />

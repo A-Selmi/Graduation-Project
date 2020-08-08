@@ -157,6 +157,7 @@ public class PhoneNumberActivity extends AppCompatActivity {
                     }
                 })
                 .create();
+        PhoneNumberDialog.setCanceledOnTouchOutside(false);
         PhoneNumberDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {

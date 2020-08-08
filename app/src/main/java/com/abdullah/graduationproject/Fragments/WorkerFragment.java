@@ -37,6 +37,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,8 +49,6 @@ public class WorkerFragment extends Fragment {
     WorkersAdapter adapter;
     FirebaseFirestore db;
     List<Workers> list;
-    float TotalRating = 0;
-    float count = 0;
     View view;
     MainActivity mainActivity;
 
@@ -136,25 +135,29 @@ public class WorkerFragment extends Fragment {
                                                     @Override
                                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                         if (task.isSuccessful()) {
+                                                            final float[] TotalRating = {0};
+                                                            final float[] count = {0};
+                                                            final String[] output = {"0"};
                                                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                TotalRating += Float.parseFloat(document.getData().get("Rating").toString());
-                                                                count++;
+                                                                TotalRating[0] += Float.parseFloat(document.getData().get("Rating").toString());
+                                                                count[0]++;
                                                             }
-                                                            if (count == 0) {
+                                                            if (count[0] == 0) {
                                                                 list.add(new Workers(document.getId(), document.getData().get("Age").toString(), document.getData().get("First Name").toString(),
                                                                         document.getData().get("Image Url").toString(), document.getData().get("Last Name").toString(),
                                                                         document.getData().get("Location").toString(), document.getData().get("Password").toString(),
                                                                         document.getData().get("Role").toString(), "0", document.getData().get("About").toString(),
                                                                         document.getData().get("PE").toString(), document.getData().get("PP").toString(), document.getData().get("PP").toString()));
                                                             } else {
-                                                                TotalRating /= count;
-                                                                String output = new DecimalFormat("#.0").format(TotalRating);
+                                                                TotalRating[0] /= count[0];
+                                                                output[0] = new DecimalFormat("#.0").format(TotalRating[0]);
                                                                 list.add(new Workers(document.getId(), document.getData().get("Age").toString(), document.getData().get("First Name").toString(),
                                                                         document.getData().get("Image Url").toString(), document.getData().get("Last Name").toString(),
                                                                         document.getData().get("Location").toString(), document.getData().get("Password").toString(),
-                                                                        document.getData().get("Role").toString(), output, document.getData().get("About").toString(),
+                                                                        document.getData().get("Role").toString(), output[0], document.getData().get("About").toString(),
                                                                         document.getData().get("PE").toString(), document.getData().get("PP").toString(), document.getData().get("PP").toString()));
                                                             }
+                                                            Collections.sort(list, Collections.<Workers>reverseOrder());
                                                             if (list.isEmpty()) {
                                                                 NoDataTextViewWorkerActivity.setVisibility(View.VISIBLE);
                                                                 WorkerRecyclerView.setVisibility(View.GONE);

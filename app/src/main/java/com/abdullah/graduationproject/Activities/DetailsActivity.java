@@ -190,7 +190,7 @@ public class DetailsActivity extends AppCompatActivity {
         if(MainActivity.SaveSharedPreference.getLogIn(this).equals("true")) {
             if (RatingBarDetails.getRating() > 0) {
                 if (Connected()) {
-                    UploadToFireBase();
+                    UploadToItemsCollection();
                 } else {
                     Toast.makeText(this, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
                 }
@@ -202,7 +202,7 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void UploadToFireBase() {
+    private void UploadToItemsCollection() {
         Clickable(false);
         DetailsActivityProgressBar.setVisibility(View.VISIBLE);
         final Map<String, Object> user = new HashMap<>();
@@ -218,11 +218,8 @@ public class DetailsActivity extends AppCompatActivity {
         } else {
             user.put("Review Text", ReviewEditText.getText().toString().trim());
         }
-        final Map<String, Object> user2 = new HashMap<>();
-        user2.put("Review Rate", String.valueOf(RatingBarDetails.getRating()));
 
-        db.collection(getString(R.string.UsersCollection)).document("+962" + PhoneNumberTextViewDetails.getText().toString().trim().substring(1))
-                .collection(getString(R.string.ItemsCollection)).document(IntentId)
+        db.collection(getString(R.string.ItemsCollection)).document(IntentId)
                 .collection(getString(R.string.ReviewCollection))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -240,34 +237,14 @@ public class DetailsActivity extends AppCompatActivity {
                             }else {
                                 user.put("counter", String.valueOf(counter + 1));
                             }
-                            db.collection(getString(R.string.UsersCollection)).document("+962" + PhoneNumberTextViewDetails.getText().toString().trim().substring(1))
-                                    .collection(getString(R.string.ItemsCollection)).document(IntentId)
-                                    .collection(getString(R.string.ReviewCollection)).document(MainActivity.SaveSharedPreference.getPhoneNumber(DetailsActivity.this))
-                                    .set(user2)
+                            db.collection(getString(R.string.ItemsCollection)).document(IntentId)
+                                    .collection(getString(R.string.ReviewCollection))
+                                    .document(MainActivity.SaveSharedPreference.getPhoneNumber(DetailsActivity.this))
+                                    .set(user)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            db.collection(getString(R.string.ItemsCollection)).document(IntentId)
-                                                    .collection(getString(R.string.ReviewCollection)).document(MainActivity.SaveSharedPreference.getPhoneNumber(DetailsActivity.this))
-                                                    .set(user)
-                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                        @Override
-                                                        public void onSuccess(Void aVoid) {
-                                                            Toast.makeText(DetailsActivity.this, "تم إضافة التقييم", Toast.LENGTH_SHORT).show();
-                                                            ReadReviews(IntentId);
-                                                            Clickable(true);
-                                                            DetailsActivityProgressBar.setVisibility(View.GONE);
-                                                            RatingBarDetails.setRating(0);
-                                                            ReviewEditText.setText("");
-                                                        }
-                                                    }).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(DetailsActivity.this, "حدث خطأ أثناء إضافة التقييم", Toast.LENGTH_SHORT).show();
-                                                    Clickable(true);
-                                                    DetailsActivityProgressBar.setVisibility(View.GONE);
-                                                }
-                                            });
+                                            UploadToFireBase();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -280,6 +257,34 @@ public class DetailsActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void UploadToFireBase() {
+        Map<String, Object> user = new HashMap<>();
+        user.put("Review Rate", String.valueOf(RatingBarDetails.getRating()));
+
+        db.collection(getString(R.string.UsersCollection)).document("+962" + PhoneNumberTextViewDetails.getText().toString().trim().substring(1))
+                .collection(getString(R.string.ItemsCollection)).document(IntentId)
+                .collection(getString(R.string.ReviewCollection)).document(MainActivity.SaveSharedPreference.getPhoneNumber(DetailsActivity.this))
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(DetailsActivity.this, "تم إضافة التقييم", Toast.LENGTH_SHORT).show();
+                        ReadReviews(IntentId);
+                        Clickable(true);
+                        DetailsActivityProgressBar.setVisibility(View.GONE);
+                        RatingBarDetails.setRating(0);
+                        ReviewEditText.setText("");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(DetailsActivity.this, "حدث خطأ أثناء إضافة التقييم", Toast.LENGTH_SHORT).show();
+                Clickable(true);
+                DetailsActivityProgressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
     public void Clickable(boolean b) {

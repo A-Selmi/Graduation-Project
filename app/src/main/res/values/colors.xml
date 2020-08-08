@@ -10,4 +10,5 @@
     <color name="Green">#395D33</color>
     <color name="Red">#DC143C</color>
     <color name="BlackTransparent">#66000000</color>
+    <color name="Black">#000000</color>
 </resources>

@@ -38,6 +38,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,8 +50,6 @@ public class AdviserFragment extends Fragment {
     ConsultantsAdapter adapter;
     FirebaseFirestore db;
     List<Consultants> list;
-    float TotalRating = 0;
-    float count = 0;
     View view;
     MainActivity mainActivity;
 
@@ -66,7 +65,7 @@ public class AdviserFragment extends Fragment {
         super.onResume();
         findView();
         setAppLocale("ar");
-        ReadWorkers();
+        ReadConsultants();
     }
 
     private void findView() {
@@ -107,14 +106,13 @@ public class AdviserFragment extends Fragment {
         return false;
     }
 
-    private void ReadWorkers() {
+    private void ReadConsultants() {
         list.clear();
         if (Connected()) {
             Clickable(false);
             progressBarAdviserActivity.setVisibility(View.VISIBLE);
             AdviserRecyclerView.setVisibility(View.GONE);
             db.collection(getString(R.string.UsersCollection))
-                    .orderBy("First Name", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -137,23 +135,27 @@ public class AdviserFragment extends Fragment {
                                                     @Override
                                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                         if (task.isSuccessful()) {
+                                                            final float[] TotalRating = {0};
+                                                            final float[] count = {0};
+                                                            final String[] output = {"0"};
                                                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                TotalRating += Float.parseFloat(document.getData().get("Rating").toString());
-                                                                count++;
+                                                                TotalRating[0] += Float.parseFloat(document.getData().get("Rating").toString());
+                                                                count[0]++;
                                                             }
-                                                            if (count == 0) {
+                                                            if (count[0] == 0) {
                                                                 list.add(new Consultants(document.getId(), document.getData().get("Age").toString(), document.getData().get("First Name").toString(),
                                                                         document.getData().get("Image Url").toString(), document.getData().get("Last Name").toString(),
                                                                         document.getData().get("Location").toString(), document.getData().get("Password").toString(),
                                                                         document.getData().get("Role").toString(), "0"));
                                                             } else {
-                                                                TotalRating /= count;
-                                                                String output = new DecimalFormat("#.0").format(TotalRating);
+                                                                TotalRating[0] /= count[0];
+                                                                output[0] = new DecimalFormat("#.0").format(TotalRating[0]);
                                                                 list.add(new Consultants(document.getId(), document.getData().get("Age").toString(), document.getData().get("First Name").toString(),
                                                                         document.getData().get("Image Url").toString(), document.getData().get("Last Name").toString(),
                                                                         document.getData().get("Location").toString(), document.getData().get("Password").toString(),
-                                                                        document.getData().get("Role").toString(), output));
+                                                                        document.getData().get("Role").toString(), output[0]));
                                                             }
+                                                            Collections.sort(list, Collections.<Consultants>reverseOrder());
                                                             if (list.isEmpty()) {
                                                                 NoDataTextViewAdviserActivity.setVisibility(View.VISIBLE);
                                                                 AdviserRecyclerView.setVisibility(View.GONE);

@@ -204,7 +204,8 @@ public class FavoriteFragment extends Fragment {
                                                                 document.getData().get("Provider").toString(), document.getData().get("Price").toString(),
                                                                 output[0], document.getData().get("Phone Number").toString(),
                                                                 document.getData().get("Location").toString(), document.getData().get("Description").toString(),
-                                                                Long.parseLong(document.getData().get("counter").toString())));
+                                                                Long.parseLong(document.getData().get("counter").toString()),
+                                                                document.getData().get("Category").toString()));
                                                         Collections.sort(list, Collections.<Items>reverseOrder());
                                                         if (list.isEmpty()) {
                                                             NoDataTextViewFavoriteActivity.setVisibility(View.VISIBLE);

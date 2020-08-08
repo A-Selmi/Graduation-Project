@@ -20,7 +20,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,8 +27,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.abdullah.graduationproject.Adapters.DeleteItemsAdapter;
-import com.abdullah.graduationproject.Classes.Items;
 import com.abdullah.graduationproject.Fragments.AdviserFragment;
 import com.abdullah.graduationproject.Fragments.FavoriteFragment;
 import com.abdullah.graduationproject.Fragments.FruitsAndVegetablesFragment;
@@ -41,11 +38,8 @@ import com.abdullah.graduationproject.Fragments.WorkerFragment;
 import com.abdullah.graduationproject.LogInActivities.LoginActivity;
 import com.abdullah.graduationproject.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -183,6 +177,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        if (!SaveSharedPreference.getFragmentCheck(this).equals("")) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
+            SaveSharedPreference.setFragmentCheck(this, "");
+        } else if (SaveSharedPreference.getFragmentCheck(this).equals("")) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            AlertDialog dialog = ExitDialog();
+            dialog.show();
         } else {
             super.onBackPressed();
         }
@@ -194,21 +198,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             switch (item.getItemId()) {
                 case R.id.nav_profile:
                     SaveSharedPreference.setFragment(this, "");
+                    SaveSharedPreference.setFragmentCheck(this, "");
                     startActivity(toProfileActivity);
                     break;
                 case R.id.nav_favorite:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new FavoriteFragment()).commit();
+                    SaveSharedPreference.setFragmentCheck(this, "1");
                     break;
             }
         } else {
             switch (item.getItemId()) {
                 case R.id.nav_profile:
                     SaveSharedPreference.setFragment(this, "");
+                    SaveSharedPreference.setFragmentCheck(this, "");
                     startActivity(toLoginActivity);
                     break;
                 case R.id.nav_favorite:
                     SaveSharedPreference.setFragment(this, "");
+                    SaveSharedPreference.setFragmentCheck(this, "");
                     startActivity(toLoginActivity);
                     break;
             }
@@ -216,38 +224,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.nav_home:
                 SaveSharedPreference.setFragment(this, "");
+                SaveSharedPreference.setFragmentCheck(this, "");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new HomeFragment()).commit();
                 break;
             case R.id.nav_water:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new WaterFragment()).commit();
+                SaveSharedPreference.setFragmentCheck(this, "2");
                 break;
             case R.id.nav_fruits_and_vegetables:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new FruitsAndVegetablesFragment()).commit();
+                SaveSharedPreference.setFragmentCheck(this, "3");
                 break;
             case R.id.nav_seeds:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new SeedsFragment()).commit();
+                SaveSharedPreference.setFragmentCheck(this, "4");
                 break;
             case R.id.nav_tools:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ToolsFragment()).commit();
+                SaveSharedPreference.setFragmentCheck(this, "5");
                 break;
             case R.id.nav_worker:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new WorkerFragment()).commit();
+                SaveSharedPreference.setFragmentCheck(this, "6");
                 break;
             case R.id.nav_Adviser:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new AdviserFragment()).commit();
+                SaveSharedPreference.setFragmentCheck(this, "7");
                 break;
             case R.id.nav_contact_us:
                 Toast.makeText(this, "Go to Contact Us web page", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_about_us:
                 SaveSharedPreference.setFragment(this, "");
+                SaveSharedPreference.setFragmentCheck(this, "");
                 Intent toAboutUsActivity = new Intent(this, AboutUsActivity.class);
                 startActivity(toAboutUsActivity);
                 break;
@@ -316,6 +332,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         static final String PREF_ITEMS_COUNTER = "ItemsCounter";
         static final String PREF_POSTS_COUNTER = "PostsCounter";
         static final String PREF_FRAGMENT = "Fragment";
+        static final String PREF_FRAGMENT_CHECK = "FragmentCheck";
 
         static SharedPreferences getSharedPreferences(Context ctx) {
             return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -520,6 +537,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public static String getFragment(Context ctx) {
             return getSharedPreferences(ctx).getString(PREF_FRAGMENT, "");
         }
+
+        public static void setFragmentCheck(Context ctx, String fragmentCheck) {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_FRAGMENT_CHECK, fragmentCheck);
+            editor.apply();
+        }
+
+        public static String getFragmentCheck(Context ctx) {
+            return getSharedPreferences(ctx).getString(PREF_FRAGMENT_CHECK, "");
+        }
     }
 
     private AlertDialog LogoutDialog() {
@@ -551,17 +578,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         return LogoutDialog;
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            /*TODO if the keyboard open (AND) close it (AND) close the search bar */
-            drawerLayout.closeDrawer(GravityCompat.START);
-            AlertDialog dialog = ExitDialog();
-            dialog.show();
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     private AlertDialog ExitDialog() {
@@ -674,6 +690,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             DeleteItemsPhoto();
         } else if (SaveSharedPreference.getRole(this).equals("3")) {
             DeleteCV();
+        } else if (SaveSharedPreference.getRole(this).equals("4")) {
+            DeleteWorkerRating();
         } else {
             DeleteUser();
         }
@@ -807,8 +825,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DeleteAdviserRating();
     }
 
-    private void DeleteAdviserRating()
-    {
+    private void DeleteAdviserRating() {
         db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
                 .collection(getString(R.string.RatingCollection))
                 .get()
@@ -840,6 +857,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
                                         .collection(getString(R.string.PostsCollection)).document(document.getId()).delete();
+                            }
+                            DeleteUser();
+                        } else {
+                            Toast.makeText(context, "حدث خطأ أثناء حذف الحساب", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void DeleteWorkerRating() {
+        db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(this))
+                .collection(getString(R.string.RatingCollection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(getString(R.string.UsersCollection)).document(SaveSharedPreference.getPhoneNumber(MainActivity.this))
+                                        .collection(getString(R.string.RatingCollection))
+                                        .document(document.getId()).delete();
                             }
                             DeleteUser();
                         } else {

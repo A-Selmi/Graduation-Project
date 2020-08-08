@@ -9,34 +9,35 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.content.ContentResolver;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.abdullah.graduationproject.Adapters.DeletePostsProfileAdapter;
-import com.abdullah.graduationproject.Classes.Items;
 import com.abdullah.graduationproject.Classes.Posts;
+import com.abdullah.graduationproject.LogInActivities.PhoneNumberActivity;
 import com.abdullah.graduationproject.LogInActivities.SignUpActivity;
+import com.abdullah.graduationproject.LogInActivities.VerificationActivity;
 import com.abdullah.graduationproject.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,6 +53,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,6 +79,9 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
     ProgressBar progressBarProfileActivity, progressBarPosts;
     DeletePostsProfileAdapter adapterPosts;
     List<Posts> posts;
+    float TotalRating = 0;
+    float count = 0;
+    ImageView CancelPictureProfileActivity, DeletePictureProfileActivityClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +93,9 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
     public void onResume() {
         super.onResume();
         findview();
+        Clickable(false);
         setAppLocale("ar");
         CheckState();
-        Clickable(true);
     }
 
     @Override
@@ -117,6 +123,7 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
             Picasso.get().load(mImageUri.toString()).into(ProfileImageView);
+            CancelPictureProfileActivity.setVisibility(View.VISIBLE);
             UploadPictureImageView.setVisibility(View.VISIBLE);
         }
     }
@@ -153,7 +160,9 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
                                             Toast.makeText(ProfileActivity.this, "تم تحميل الصورة", Toast.LENGTH_SHORT).show();
                                             Clickable(true);
                                             progressBarProfileActivity.setVisibility(View.GONE);
+                                            CancelPictureProfileActivity.setVisibility(View.GONE);
                                             UploadPictureImageView.setVisibility(View.GONE);
+                                            CheckPicture();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -161,6 +170,7 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
                                     Toast.makeText(ProfileActivity.this, "حدث خطأ, يرجى المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
                                     Clickable(true);
                                     progressBarProfileActivity.setVisibility(View.GONE);
+                                    CancelPictureProfileActivity.setVisibility(View.GONE);
                                     UploadPictureImageView.setVisibility(View.GONE);
                                 }
                             });
@@ -168,6 +178,7 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
                             Toast.makeText(ProfileActivity.this, "لم يتم تحميل الصورة", Toast.LENGTH_SHORT).show();
                             Clickable(true);
                             progressBarProfileActivity.setVisibility(View.GONE);
+                            CancelPictureProfileActivity.setVisibility(View.GONE);
                             UploadPictureImageView.setVisibility(View.GONE);
                         }
                     }
@@ -175,6 +186,7 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
             } else {
                 Clickable(true);
                 progressBarProfileActivity.setVisibility(View.GONE);
+                CancelPictureProfileActivity.setVisibility(View.GONE);
                 UploadPictureImageView.setVisibility(View.GONE);
                 Toast.makeText(this, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
             }
@@ -207,6 +219,7 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
             LocationTextViewProfile.setText("الموقع :" + MainActivity.SaveSharedPreference.getLocation(this));
             PhoneNumberTextView.setText("الهاتف :0" + MainActivity.SaveSharedPreference.getPhoneNumber(this).substring(4));
             DateOfBirthTextViewProfile.setText("العمر :" + MainActivity.SaveSharedPreference.getAge(this));
+            Clickable(true);
         } else if (MainActivity.SaveSharedPreference.getRole(this).equals("2")) {
             NameTextViewProfile.setText("الإسم :" + MainActivity.SaveSharedPreference.getFirstName(this) + " " +
                     MainActivity.SaveSharedPreference.getLastName(this));
@@ -215,6 +228,7 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
             DateOfBirthTextViewProfile.setText("العمر :" + MainActivity.SaveSharedPreference.getAge(this));
             AddPostButton.setText(R.string.AddItem);
             DeletePostButton.setText(R.string.DeleteItem);
+            Clickable(true);
         } else if (MainActivity.SaveSharedPreference.getRole(this).equals("3")) {
             NameTextViewProfile.setText("الإسم :" + MainActivity.SaveSharedPreference.getFirstName(this) + " " +
                     MainActivity.SaveSharedPreference.getLastName(this));
@@ -224,17 +238,48 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
             AddPostButton.setText(R.string.AddPost);
             DeletePostButton.setText(R.string.DeletePost);
             SetRecyclerView();
-            //TODO Read Reviews And add them to the list and calculate the reviews and add them to the text view
-            RatingtextViewProfile.setText("4.7");
+            ReadRating();
         } else {
             NameTextViewProfile.setText("الإسم :" + MainActivity.SaveSharedPreference.getFirstName(this) + " " +
                     MainActivity.SaveSharedPreference.getLastName(this));
             LocationTextViewProfile.setText("الموقع :" + MainActivity.SaveSharedPreference.getLocation(this));
             PhoneNumberTextView.setText("الهاتف :0" + MainActivity.SaveSharedPreference.getPhoneNumber(this).substring(4));
             DateOfBirthTextViewProfile.setText("العمر :" + MainActivity.SaveSharedPreference.getAge(this));
-            //TODO Calculate the reviews and add them to the text view
-            RatingtextViewProfile.setText("4.7");
+            ReadRating();
         }
+    }
+
+    private void ReadRating() {
+        Clickable(false);
+        progressBarProfileActivity.setVisibility(View.VISIBLE);
+        db.collection("Users").document(MainActivity.SaveSharedPreference.getPhoneNumber(this))
+                .collection("Rating")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            RatingtextViewProfile.setText("0");
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                TotalRating += Float.parseFloat(document.getData().get("Rating").toString());
+                                count++;
+                            }
+                            if (count == 0) {
+                                RatingtextViewProfile.setText("0");
+                            } else {
+                                TotalRating /= count;
+                                String output = new DecimalFormat("#.0").format(TotalRating);
+                                RatingtextViewProfile.setText(output);
+                            }
+                            Clickable(true);
+                            progressBarProfileActivity.setVisibility(View.GONE);
+                        } else {
+                            Clickable(true);
+                            progressBarProfileActivity.setVisibility(View.GONE);
+                            Toast.makeText(ProfileActivity.this, "حدث خطأ أثناء قرآءة التقييم", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void SetRecyclerView() {
@@ -346,6 +391,8 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
         progressBarProfileActivity = findViewById(R.id.progressBarProfileActivity);
         progressBarPosts = findViewById(R.id.progressBarPosts);
         posts = new ArrayList<>();
+        CancelPictureProfileActivity = findViewById(R.id.CancelPictureProfileActivity);
+        DeletePictureProfileActivityClicked = findViewById(R.id.DeletePictureProfileActivity);
     }
 
     public void setAppLocale(String localCode) {
@@ -423,5 +470,76 @@ public class ProfileActivity extends AppCompatActivity implements DeletePostsPro
     @Override
     public void onPostClick(int position) {
 
+    }
+
+    public void DeletePictureProfileActivityClicked(View view) {
+        AlertDialog dialog = DeletePictureDialog();
+        dialog.show();
+    }
+
+    public void CancelPictureProfileActivityClicked(View view) {
+        CheckPicture();
+        CancelPictureProfileActivity.setVisibility(View.GONE);
+        UploadPictureImageView.setVisibility(View.GONE);
+    }
+
+    private AlertDialog DeletePictureDialog() {
+        final AlertDialog DeletePictureDialog = new AlertDialog.Builder(this)
+                .setTitle("حذف الصورة")
+                .setMessage("هل تريد حذف الصورة ؟")
+                .setIcon(R.drawable.ic_delete_account)
+                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                        DeleteProfilePicture();
+                    }
+                })
+                .setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        DeletePictureDialog.setCanceledOnTouchOutside(false);
+        DeletePictureDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                DeletePictureDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.Red));
+                DeletePictureDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.Black));
+            }
+        });
+        return DeletePictureDialog;
+    }
+
+    private void DeleteProfilePicture() {
+        progressBarProfileActivity.setVisibility(View.VISIBLE);
+        db.collection(getString(R.string.UsersCollection))
+                .document(MainActivity.SaveSharedPreference.getPhoneNumber(ProfileActivity.this))
+                .update("Image Url", "")
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        if (!MainActivity.SaveSharedPreference.getImage(ProfileActivity.this).equals("")) {
+                            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                            StorageReference photoRef = storageRef.child("uploads").child(MainActivity.SaveSharedPreference.getPhoneNumber(ProfileActivity.this));
+                            photoRef.delete();
+                            MainActivity.SaveSharedPreference.setImage(ProfileActivity.this, "");
+                        }
+                        Picasso.get().load(R.drawable.profiledefault).into(ProfileImageView);
+                        progressBarProfileActivity.setVisibility(View.GONE);
+                        CancelPictureProfileActivity.setVisibility(View.GONE);
+                        UploadPictureImageView.setVisibility(View.GONE);
+                        Toast.makeText(ProfileActivity.this, "تم حذف الصورة", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProfileActivity.this, "حدث خطأ, يرجى المحاولة مرة أخرى", Toast.LENGTH_SHORT).show();
+                Clickable(true);
+                progressBarProfileActivity.setVisibility(View.GONE);
+                CancelPictureProfileActivity.setVisibility(View.GONE);
+                UploadPictureImageView.setVisibility(View.GONE);
+            }
+        });
     }
 }

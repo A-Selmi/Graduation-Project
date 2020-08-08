@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -236,8 +238,8 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     public void ResendVerificationCodeClicked(View view) {
-        resendVerificationCode(phoneNumber, resendingToken);
-        Toast.makeText(context, "جاري إعادة إرسال الرمز", Toast.LENGTH_SHORT).show();
+        AlertDialog dialog = ResendDialog();
+        dialog.show();
     }
 
     public void UploadThePDFFile() {
@@ -297,5 +299,37 @@ public class VerificationActivity extends AppCompatActivity {
                 progressDialog.setProgress(currentProgress);
             }
         });
+    }
+
+    private AlertDialog ResendDialog() {
+        final AlertDialog ResendDialog = new AlertDialog.Builder(this)
+                .setTitle("إعادة إرسال الرمز")
+                .setMessage("هل تريد إعادة إرسال الرمز ؟")
+                .setIcon(R.drawable.ic_recend)
+                .setPositiveButton("نعم", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                        if (Connected()) {
+                            resendVerificationCode(phoneNumber, resendingToken);
+                            Toast.makeText(context, "جاري إعادة إرسال الرمز", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, R.string.InternetConnectionMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton("لا", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        ResendDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                ResendDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+                ResendDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.Black));
+            }
+        });
+        return ResendDialog;
     }
 }
