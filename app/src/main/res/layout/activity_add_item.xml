@@ -109,7 +109,7 @@
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/PriceEditText"
-                android:inputType="number"
+                android:inputType="numberDecimal|numberSigned"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/ItemPriceTextViewAddItem"

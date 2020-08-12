@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/ItemImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="125dp"
+        android:layout_height="130dp"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +44,7 @@
         android:layout_marginBottom="8dp"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ItemTextView"
         app:layout_constraintTop_toBottomOf="@+id/ItemTextView"
         tools:text="10" />
 
@@ -59,7 +59,7 @@
         android:rating="1"
         android:theme="@style/RatingBar"
         app:layout_constraintBottom_toBottomOf="@+id/RatingTextViewStore"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ItemTextView"
         app:layout_constraintTop_toTopOf="@+id/RatingTextViewStore" />
 
     <TextView

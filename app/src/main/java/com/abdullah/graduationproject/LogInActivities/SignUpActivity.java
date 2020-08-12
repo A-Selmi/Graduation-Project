@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
     ProgressBar progressBarSignUpActivity;
     FirebaseFirestore db;
     Map<String, Object> user;
-    TextView RoleTextView;
+    TextView RoleTextView, SignInTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
             RoleTextView.setVisibility(View.GONE);
             setData();
         } else {
+            SignInTextView.setText(R.string.SignUp);
             NextButton.setVisibility(View.VISIBLE);
             SaveButtonSignUp.setVisibility(View.GONE);
             CancelButtonSignUp.setVisibility(View.GONE);
@@ -77,6 +78,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void setData() {
+        SignInTextView.setText("تعديل");
         FirstNameEditText.setText(MainActivity.SaveSharedPreference.getFirstName(this));
         LastNameEditText.setText(MainActivity.SaveSharedPreference.getLastName(this));
         AgeEditText.setText(MainActivity.SaveSharedPreference.getAge(this));
@@ -171,6 +173,7 @@ public class SignUpActivity extends AppCompatActivity {
         SaveButtonSignUp = findViewById(R.id.SaveButtonSignUp);
         CancelButtonSignUp = findViewById(R.id.CancelButtonSignUp);
         progressBarSignUpActivity = findViewById(R.id.progressBarSignUpActivity);
+        SignInTextView = findViewById(R.id.SignInTextView);
     }
 
     public void NextButtonButtonClicked(View view) {

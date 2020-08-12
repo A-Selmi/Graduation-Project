@@ -23,14 +23,19 @@
 
             <TextView
                 android:id="@+id/TitleTextViewDetails"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:gravity="center"
                 android:textColor="@color/Green"
                 android:textSize="24sp"
-                app:layout_constraintEnd_toStartOf="@+id/ItemImageViewDetails"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/ItemImageViewDetails"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/Seeds" />
 
@@ -54,12 +59,12 @@
                 android:id="@+id/ItemNameTextViewDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/ItemImageViewDetails"
+                app:layout_constraintStart_toStartOf="@+id/TitleTextViewDetails"
                 app:layout_constraintTop_toBottomOf="@+id/ItemImageViewDetails"
                 tools:text="Seeds" />
 
@@ -89,16 +94,13 @@
                 android:id="@+id/DiscriptionTextViewDetails"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:gravity="start"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/LocationTextViewDetailsActivity"
                 app:layout_constraintTop_toBottomOf="@+id/LocationTextViewDetailsActivity"
                 tools:text="التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل التفاصيل " />
 
@@ -177,11 +179,11 @@
                 android:id="@+id/PriceTextViewDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginRight="9dp"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/ItemImageViewDetails"
+                app:layout_constraintEnd_toEndOf="@+id/TitleTextViewDetails"
                 app:layout_constraintTop_toTopOf="@+id/ItemNameTextViewDetails"
                 tools:text="15$" />
 
