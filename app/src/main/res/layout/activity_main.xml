@@ -5,7 +5,7 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".Activities.MainActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -17,15 +17,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/background"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="@drawable/background">
-
-            <SearchView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:queryHint="Search..." />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -37,14 +32,15 @@
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:background="@drawable/background"
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@drawable/background"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_menu"
+        app:itemIconTint="@color/my_desired_colour"
         app:itemTextColor="@android:color/white"
-        app:itemIconTint="@color/my_desired_colour"/>
+        app:menu="@menu/drawer_menu" />
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

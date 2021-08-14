@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/worker_and_adviser_constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/button_background"
+    android:padding="10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/WorkerAndAdviserImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/image" />
+
+    <TextView
+        android:id="@+id/WorkerAndAdviserNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/WorkerAndAdviserImageView"
+        app:layout_constraintTop_toTopOf="@+id/WorkerAndAdviserImageView"
+        tools:text="Talal" />
+
+    <TextView
+        android:id="@+id/LocationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toEndOf="@+id/WorkerAndAdviserImageView"
+        app:layout_constraintTop_toBottomOf="@+id/WorkerAndAdviserNameTextView"
+        tools:text="As-Salt" />
+
+    <RatingBar
+        android:id="@+id/ratingBarWorker"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:clickable="false"
+        android:numStars="1"
+        android:rating="1"
+        android:theme="@style/RatingBar"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@+id/WorkerAndAdviserImageView"
+        app:layout_constraintTop_toBottomOf="@+id/LocationTextView" />
+
+    <TextView
+        android:id="@+id/RatingTextViewWorker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingBarWorker"
+        app:layout_constraintStart_toEndOf="@+id/ratingBarWorker"
+        app:layout_constraintTop_toTopOf="@+id/ratingBarWorker"
+        tools:text="4.2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

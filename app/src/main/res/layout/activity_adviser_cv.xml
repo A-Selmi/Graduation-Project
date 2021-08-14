@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/image"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    tools:context=".LogInActivities.AdviserCvActivity">
+
+    <ScrollView
+        android:id="@+id/CVScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/CVTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/CV"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/UploadTextView"
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="200dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/UploadButton"
+                app:layout_constraintTop_toBottomOf="@+id/CVTextView"
+                tools:text="Adviser.txt" />
+
+            <Button
+                android:id="@+id/UploadButton"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@android:color/white"
+                android:onClick="UploadButtonClicked"
+                android:text="@string/UploadFile"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UploadTextView"
+                app:layout_constraintEnd_toStartOf="@+id/UploadTextView"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/UploadTextView" />
+
+            <Button
+                android:id="@+id/UploadDoneButton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="75dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/background"
+                android:onClick="UploadDoneButtonClicked"
+                android:text="@string/Next"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UploadTextView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/WorkerDetailsScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/WorkerDetailsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/WorkerDetailsTitle"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/ExperienceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/OldExperience"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/WorkerDetailsTextView" />
+
+            <EditText
+                android:id="@+id/ExperienceEditText"
+                android:layout_width="225dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/WriteHere"
+                android:inputType="textMultiLine|textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ExperienceTextView" />
+
+            <TextView
+                android:id="@+id/ProjectsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/OldProjects"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ExperienceEditText" />
+
+            <EditText
+                android:id="@+id/ProjectsEditText"
+                android:layout_width="225dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/WriteHere"
+                android:inputType="textMultiLine|textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ProjectsTextView" />
+
+            <TextView
+                android:id="@+id/SkillsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/BestSkills"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ProjectsEditText" />
+
+            <EditText
+                android:id="@+id/SkillsEditText"
+                android:layout_width="225dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/WriteHere"
+                android:inputType="textMultiLine|textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/SkillsTextView" />
+
+            <TextView
+                android:id="@+id/OtherTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/TalkAboutYourSelf"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/SkillsEditText" />
+
+            <EditText
+                android:id="@+id/OtherEditText"
+                android:layout_width="225dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/WriteHere"
+                android:inputType="textMultiLine|textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/OtherTextView" />
+
+            <Button
+                android:id="@+id/WorkerDetailsButton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/button_background"
+                android:onClick="WorkerDetailsButtonClicked"
+                android:text="التالي"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/OtherEditText" />
+
+            <Button
+                android:id="@+id/SaveButtonWorkerDetails"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/button_background"
+                android:onClick="SaveButtonWorkerDetailsClicked"
+                android:text="@string/Save"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/CancelWorkerDetails"
+                app:layout_constraintEnd_toStartOf="@+id/CancelWorkerDetails"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/CancelWorkerDetails" />
+
+            <Button
+                android:id="@+id/CancelWorkerDetails"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="75dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/delete_button_background"
+                android:onClick="CancelWorkerDetailsClicked"
+                android:text="@string/Cancle"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/SaveButtonWorkerDetails"
+                app:layout_constraintTop_toBottomOf="@+id/OtherEditText" />
+
+            <ProgressBar
+                android:id="@+id/progressBarWorkerAdviserCVActivity"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

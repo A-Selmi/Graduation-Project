@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/store_constraint_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/button_background">
+
+    <ImageView
+        android:id="@+id/ItemImageView"
+        android:layout_width="125dp"
+        android:layout_height="130dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/image" />
+
+    <TextView
+        android:id="@+id/ItemTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ItemImageView"
+        tools:text="Water" />
+
+    <TextView
+        android:id="@+id/PriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/ItemTextView"
+        app:layout_constraintTop_toBottomOf="@+id/ItemTextView"
+        tools:text="10" />
+
+    <ImageView
+        android:id="@+id/FavoriteImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/ItemImageView"
+        app:layout_constraintTop_toBottomOf="@+id/ItemTextView"
+        app:srcCompat="@drawable/ic_full_favorite" />
+
+    <ImageView
+        android:id="@+id/NotFavoriteImageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/ItemTextView"
+        app:layout_constraintTop_toBottomOf="@+id/ItemTextView"
+        app:srcCompat="@drawable/ic_empty_favorite" />
+
+    <RatingBar
+        android:id="@+id/ratingBarWorker"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:numStars="1"
+        android:rating="1"
+        android:theme="@style/RatingBar"
+        app:layout_constraintBottom_toBottomOf="@+id/RatingTextViewStore"
+        app:layout_constraintEnd_toEndOf="@+id/ItemTextView"
+        app:layout_constraintStart_toEndOf="@+id/RatingTextViewStore"
+        app:layout_constraintTop_toTopOf="@+id/RatingTextViewStore" />
+
+    <TextView
+        android:id="@+id/RatingTextViewStore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ratingBarWorker"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/ItemTextView"
+        app:layout_constraintTop_toBottomOf="@+id/PriceTextView"
+        app:layout_constraintVertical_bias="0.48000002"
+        tools:text="3.6" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

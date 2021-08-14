@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    tools:context=".Activities.AddItemActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/AddItemTextVIewAdItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/AddItem"
+                android:textColor="@color/Green"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ItemPictureImageViewAddItem"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:scaleType="centerInside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/AddItemTextVIewAdItem"
+                app:srcCompat="@drawable/add_photo" />
+
+            <ImageView
+                android:id="@+id/UploadImageViewAddItem"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:onClick="UploadImageViewAddItemClicked"
+                app:layout_constraintBottom_toBottomOf="@+id/ItemPictureImageViewAddItem"
+                app:layout_constraintEnd_toEndOf="@+id/ItemPictureImageViewAddItem"
+                app:srcCompat="@drawable/ic_camera" />
+
+            <TextView
+                android:id="@+id/ItemNameTextViewAddItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/ItemName"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/ItemPictureImageViewAddItem"
+                app:layout_constraintTop_toBottomOf="@+id/ItemPictureImageViewAddItem" />
+
+            <EditText
+                android:id="@+id/ItemNameEditTextAddItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/rounded_background_white"
+                android:ems="10"
+                android:hint="@string/AddItemEditText"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/ItemNameTextViewAddItem"
+                app:layout_constraintStart_toEndOf="@+id/ItemNameTextViewAddItem"
+                app:layout_constraintTop_toTopOf="@+id/ItemNameTextViewAddItem"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/ItemPriceTextViewAddItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/Price"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/ItemNameTextViewAddItem"
+                app:layout_constraintTop_toBottomOf="@+id/ItemNameTextViewAddItem" />
+
+            <EditText
+                android:id="@+id/ItemPriceEditTextAddItem"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_background_white"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="@string/PriceEditText"
+                android:inputType="numberDecimal|numberSigned"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/ItemPriceTextViewAddItem"
+                app:layout_constraintStart_toStartOf="@+id/ItemNameEditTextAddItem"
+                app:layout_constraintTop_toTopOf="@+id/ItemPriceTextViewAddItem" />
+
+            <TextView
+                android:id="@+id/ItemDescriptionTextViewAddItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/Description"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/ItemPriceTextViewAddItem"
+                app:layout_constraintTop_toBottomOf="@+id/ItemPriceTextViewAddItem" />
+
+            <EditText
+                android:id="@+id/ItemDiscriptionEditTextAddItem"
+                android:layout_width="300dp"
+                android:layout_height="175dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background_white"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/DiscriptionEditText"
+                android:inputType="textMultiLine|textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="@+id/ItemDescriptionTextViewAddItem"
+                app:layout_constraintTop_toBottomOf="@+id/ItemDescriptionTextViewAddItem" />
+
+            <Button
+                android:id="@+id/AddItemButtonAddItem"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/button_background"
+                android:onClick="AddItemButtonAddItemClicked"
+                android:text="@string/AddItem"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ItemDiscriptionEditTextAddItem" />
+
+            <ProgressBar
+                android:id="@+id/progressBarAddItemActivity"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

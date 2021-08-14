@@ -5,6 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/UserProfilePictureImageView"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="8dp"
+        android:onClick="UserProfilePictureImageViewClicked"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="@+id/loginNavHeaderTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/profiledefault" />
+
     <TextView
         android:id="@+id/loginNavHeaderTextView"
         android:layout_width="wrap_content"
@@ -13,32 +24,25 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="تسجيل الدخول"
-        android:textColor="@android:color/white"
+        android:onClick="loginNavHeaderTextViewClicked"
+        android:text="@string/LogIn"
+        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/UserProfilePictureImageView" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/UserNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:text="Talal"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-         android:visibility="gone"/>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/loginNavHeaderTextView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/profiledefault" />
+        android:onClick="UserProfilePictureImageViewClicked"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/UserProfilePictureImageView"
+        app:layout_constraintStart_toEndOf="@+id/UserProfilePictureImageView"
+        app:layout_constraintTop_toTopOf="@+id/UserProfilePictureImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,106 @@
 <resources>
-    <string name="app_name">Graduation Project</string>
+    <string name="app_name">مُزارعنا</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="AboutUs">من نحن !</string>
+    <string name="AddItem">إضافة منتج</string>
+    <string name="ItemName">إسم المنتج :</string>
+    <string name="AddItemEditText">إسم المنتج</string>
+    <string name="Price">السعر :</string>
+    <string name="PriceEditText">السعر</string>
+    <string name="Description">التفاصيل :</string>
+    <string name="DiscriptionEditText">التفاصيل</string>
+    <string name="AddPost">إضافة منشور</string>
+    <string name="Title">العنوان</string>
+    <string name="WriteHere">إكتب هنا...</string>
+    <string name="AddComment">إضافة تعليق</string>
+    <string name="CV">السيرة الذاتية</string>
+    <string name="UploadFile">تحميل ملف</string>
+    <string name="Upload">تحميل</string>
+    <string name="WorkerDetailsTitle">تفاصيل العامل</string>
+    <string name="OldExperience">خبرات سابقة</string>
+    <string name="OldProjects">مشاريع سابقة</string>
+    <string name="BestSkills">أبرز مهاراتك</string>
+    <string name="TalkAboutYourSelf">تحدث عن نفسك</string>
+    <string name="Category">الفئة</string>
+    <string name="Water">المياه</string>
+    <string name="Seeds">البذور</string>
+    <string name="FAndV">الفواكة و الخضراوات</string>
+    <string name="Tools">الأدوات و الأشتال</string>
+    <string name="DeletePost">حذف منشور</string>
+    <string name="YourOpenion">رأيك :</string>
+    <string name="LogIn">تسجيل الدخول</string>
+    <string name="UserName">إسم المستخدم</string>
+    <string name="Password">كلمة المرور</string>
+    <string name="ForgetPassword">هل نسيت كلمة السر ؟</string>
+    <string name="OR">أو</string>
+    <string name="SignUp">إنشاء الحساب</string>
+    <string name="News">الأخبار</string>
+    <string name="FirstName">الإسم الأول</string>
+    <string name="LastName">الإسم الأخير</string>
+    <string name="Location">الموقع</string>
+    <string name="Age">العمر</string>
+    <string name="Month">الشهر</string>
+    <string name="Year">السنة</string>
+    <string name="CheckPassword">التحقق من كلمة المرور</string>
+    <string name="PhoneNumber">رقم الهاتف</string>
+    <string name="Save">حفظ</string>
+    <string name="Cancle">إلغاء</string>
+    <string name="AppNameText">#We_Are_the_Cuppers</string>
+    <string name="HomePage">الرئيسية</string>
+    <string name="ProfilePage">الملف الشخصي</string>
+    <string name="Favorite">المفضلة</string>
+    <string name="Adviser">المستشارين</string>
+    <string name="ContactUs">تواصل معنا</string>
+    <string name="AboutUsDrawer">من نحن</string>
+    <string name="Advisers">المستشارين الزراعيين</string>
+    <string name="LastNews">آخر الأخبار</string>
+    <string name="Items">المنتجات</string>
+    <string name="Workers">المزارعين</string>
+    <string name="AboutWorker">عن الموظف</string>
+    <string name="Review">تقييم</string>
+    <string name="RoleTextView">الدور</string>
+    <string name="FailToSignUpMessage">حدث خلل خلال إنشاء الحساب, يرجى المحاولة مرة أخرى</string>
+    <string name="InternetConnectionMessage">يرجى التحقق من الإتصال بالإنترنت</string>
+    <string name="Next">التالي</string>
+    <string name="PhoneNumberVerificationButtonText">تأكيد رقم الهاتف</string>
+    <string name="VerificationTextView">أدخل رمز التحقق</string>
+    <string name="VerificationEditTextText">رمز التحقق</string>
+    <string name="SendTheCode">أرسل الرمز</string>
+    <string name="OurFarmer">مُزارعنا</string>
+    <string name="AreaCodeText">962+</string>
+    <string name="ResendVerificationCode">إعادة إرسال رمز التحقق ؟</string>
+    <string name="DeleteItem">حذف منتج</string>
+    <string name="DeleteAccount">حذف الحساب</string>
+    <string name="Edit">تعديل</string>
+    <string name="NoData">لا يوجد بيانات</string>
+    <string name="UsersCollection">Users</string>
+    <string name="FavoriteCollection">Favorite</string>
+    <string name="NewsCollection">News</string>
+    <string name="ItemsCollection">Items</string>
+    <string name="ReviewCollection">Review</string>
+    <string name="PostsCollection">Posts</string>
+    <string name="RatingCollection">Rating</string>
+    <string name="CVCollection">CVs</string>
+    <string name="UploadsCollection">uploads</string>
+    <string-array name="role_array">
+        <item>مستخدم</item>
+        <item>صاحب عمل</item>
+        <item>مزارع عامل</item>
+        <item>مهندس زراعي</item>
+    </string-array>
+    <string-array name="location_array">
+        <item>عمان</item>
+        <item>السلط</item>
+        <item>إربد</item>
+        <item>جرش</item>
+        <item>عجلون</item>
+        <item>الزرقاء</item>
+        <item>المفرق</item>
+        <item>مأدبا</item>
+        <item>الكرك</item>
+        <item>الطفيلة</item>
+        <item>معان</item>
+        <item>العقبة</item>
+    </string-array>
 </resources>

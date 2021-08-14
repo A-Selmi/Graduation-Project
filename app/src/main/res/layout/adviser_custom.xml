@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/best_adviser_constraint_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/button_background"
+    android:padding="15dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/AdviserImageViewAdviser"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/image" />
+
+    <TextView
+        android:id="@+id/AdviserNameTextViewAdviser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/duskYellow"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/AdviserImageViewAdviser"
+        app:layout_constraintStart_toStartOf="@+id/AdviserImageViewAdviser"
+        app:layout_constraintTop_toBottomOf="@+id/AdviserImageViewAdviser"
+        tools:text="Abdullah" />
+
+    <RatingBar
+        android:id="@+id/RatingBarWorker2"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:numStars="1"
+        android:rating="1"
+        android:theme="@style/RatingBar"
+        app:layout_constraintEnd_toEndOf="@+id/AdviserNameTextViewAdviser"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/RatingTextViewStoreAdviser"
+        app:layout_constraintTop_toBottomOf="@+id/AdviserNameTextViewAdviser" />
+
+    <TextView
+        android:id="@+id/RatingTextViewStoreAdviser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/RatingBarWorker2"
+        app:layout_constraintEnd_toStartOf="@+id/RatingBarWorker2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/AdviserNameTextViewAdviser"
+        app:layout_constraintTop_toTopOf="@+id/RatingBarWorker2"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        tools:text="3.6" />
+
+    <RatingBar
+        android:id="@+id/ratingBarForBestAdviser"
+        style="?android:attr/ratingBarStyleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="1"
+        android:rating="1"
+        android:theme="@style/RatingBar"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/AdviserImageViewAdviser"
+        app:layout_constraintTop_toTopOf="@+id/AdviserImageViewAdviser" />
+</androidx.constraintlayout.widget.ConstraintLayout>

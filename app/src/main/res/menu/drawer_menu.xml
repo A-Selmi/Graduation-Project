@@ -7,35 +7,51 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
-            android:title="الرئيسية"/>
+            android:title="@string/HomePage" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_profile"
-            android:title="الملف الشخصي" />
+            android:title="@string/ProfilePage" />
         <item
             android:id="@+id/nav_favorite"
             android:icon="@drawable/ic_favorite"
-            android:title="المفضلة" />
+            android:title="@string/Favorite" />
         <item
             android:id="@+id/nav_water"
             android:icon="@drawable/ic_water"
-            android:title="المياه" />
+            android:title="@string/Water" />
         <item
             android:id="@+id/nav_fruits_and_vegetables"
-            android:icon="@drawable/ic_fruits_and_vegetables"
-            android:title="الفواكة و الخضراوات" />
+            android:icon="@drawable/ic_f_and_v"
+            android:title="@string/FAndV" />
         <item
             android:id="@+id/nav_seeds"
             android:icon="@drawable/ic_seeds"
-            android:title="البذور" />
+            android:title="@string/Seeds" />
         <item
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_tools"
-            android:title="المواد" />
+            android:title="@string/Tools" />
         <item
             android:id="@+id/nav_worker"
             android:icon="@drawable/ic_worker"
-            android:title="إطلب موظف" />
+            android:title="@string/Workers" />
+        <item
+            android:id="@+id/nav_Adviser"
+            android:icon="@drawable/ic_profile_adviser"
+            android:title="@string/Adviser" />
+        <item
+            android:id="@+id/nav_contact_us"
+            android:icon="@drawable/ic_contact_us"
+            android:title="@string/ContactUs" />
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_about_us"
+            android:title="@string/AboutUsDrawer" />
+        <item
+            android:id="@+id/nav_delete_account"
+            android:icon="@drawable/ic_delete_account"
+            android:title="@string/DeleteAccount" />
 
     </group>
 

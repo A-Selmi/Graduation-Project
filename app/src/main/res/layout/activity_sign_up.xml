@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/image"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    tools:context=".LogInActivities.SignUpActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/SignInTextView"
+                android:layout_width="215dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/SignUp"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/FirstNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/FirstName"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/SignInTextView"
+                app:layout_constraintTop_toBottomOf="@+id/SignInTextView" />
+
+            <EditText
+                android:id="@+id/FirstNameEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/FirstName"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/FirstNameTextView"
+                app:layout_constraintTop_toBottomOf="@+id/FirstNameTextView" />
+
+            <TextView
+                android:id="@+id/LastNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:shadowColor="@android:color/white"
+                android:text="@string/LastName"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/FirstNameTextView"
+                app:layout_constraintTop_toBottomOf="@+id/FirstNameEditText" />
+
+            <EditText
+                android:id="@+id/LastNameEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/LastName"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/LastNameTextView"
+                app:layout_constraintTop_toBottomOf="@+id/LastNameTextView" />
+
+            <TextView
+                android:id="@+id/LocationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/Location"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/LastNameTextView"
+                app:layout_constraintTop_toBottomOf="@+id/LastNameEditText" />
+
+            <Spinner
+                android:id="@+id/LocationSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:entries="@array/location_array"
+                android:spinnerMode="dialog"
+                app:layout_constraintBottom_toBottomOf="@+id/LocationTextView"
+                app:layout_constraintStart_toEndOf="@+id/LocationTextView"
+                app:layout_constraintTop_toTopOf="@+id/LocationTextView"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/DateOfBirthTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/Age"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/LocationTextView"
+                app:layout_constraintTop_toBottomOf="@+id/LocationTextView" />
+
+            <EditText
+                android:id="@+id/AgeEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/Age"
+                android:inputType="number"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/DateOfBirthTextView"
+                app:layout_constraintTop_toBottomOf="@+id/DateOfBirthTextView" />
+
+            <TextView
+                android:id="@+id/PasswordTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/Password"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/DateOfBirthTextView"
+                app:layout_constraintTop_toBottomOf="@+id/AgeEditText" />
+
+            <EditText
+                android:id="@+id/PasswordEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/Password"
+                android:inputType="textPassword"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/PasswordTextView"
+                app:layout_constraintTop_toBottomOf="@+id/PasswordTextView" />
+
+            <TextView
+                android:id="@+id/DoubleCheckPasswordTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/CheckPassword"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/PasswordTextView"
+                app:layout_constraintTop_toBottomOf="@+id/PasswordEditText" />
+
+            <EditText
+                android:id="@+id/DoubleCheckPasswordEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_background"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/Password"
+                android:inputType="textPassword"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/DoubleCheckPasswordTextView"
+                app:layout_constraintTop_toBottomOf="@id/DoubleCheckPasswordTextView" />
+
+            <TextView
+                android:id="@+id/RoleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/RoleTextView"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="@+id/DoubleCheckPasswordTextView"
+                app:layout_constraintTop_toBottomOf="@+id/DoubleCheckPasswordEditText" />
+
+            <Spinner
+                android:id="@+id/RoleSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:entries="@array/role_array"
+                android:spinnerMode="dropdown"
+                app:layout_constraintBottom_toBottomOf="@+id/RoleTextView"
+                app:layout_constraintStart_toEndOf="@+id/RoleTextView"
+                app:layout_constraintTop_toTopOf="@+id/RoleTextView"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/NextButton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/button_background"
+                android:onClick="NextButtonButtonClicked"
+                android:text="@string/Next"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/RoleSpinner" />
+
+            <Button
+                android:id="@+id/SaveButtonSignUp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/button_background"
+                android:onClick="SaveButtonSignUpClicked"
+                android:text="@string/Save"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/CancelButtonSignUp"
+                app:layout_constraintEnd_toStartOf="@+id/CancelButtonSignUp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/CancelButtonSignUp" />
+
+            <Button
+                android:id="@+id/CancelButtonSignUp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="75dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/delete_button_background"
+                android:onClick="CancelButtonSignUpClicked"
+                android:text="@string/Cancle"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/SaveButtonSignUp"
+                app:layout_constraintTop_toBottomOf="@+id/DoubleCheckPasswordEditText" />
+
+            <ProgressBar
+                android:id="@+id/progressBarSignUpActivity"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
